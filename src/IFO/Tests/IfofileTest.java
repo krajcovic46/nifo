@@ -1,5 +1,6 @@
-package IFO;
+package IFO.Tests;
 
+import IFO.Ifofile;
 import org.junit.Test;
 
 import java.util.Arrays;

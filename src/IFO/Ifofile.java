@@ -47,23 +47,23 @@ public class Ifofile {
         this.length = workingFile.length();
     }
 
-    void setDescription(String desc) {
+    public void setDescription(String desc) {
         this.description = desc;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return this.description;
     }
 
-    HashSet<String> getCategories() {
+    public HashSet<String> getCategories() {
         return new HashSet<>(this.tags.keySet());
     }
 
-    HashSet<String> removeCategory(String category) {
+    public HashSet<String> removeCategory(String category) {
         return this.tags.remove(category);
     }
 
-    boolean addCategory(String category) {
+    public boolean addCategory(String category) {
         if (!this.tags.containsKey(category)) {
             this.tags.put(category, new HashSet<String>());
             return true;
@@ -71,7 +71,7 @@ public class Ifofile {
         return false;
     }
 
-    boolean changeCategoryName(String oldCategoryName, String newCategoryName) {
+    public boolean changeCategoryName(String oldCategoryName, String newCategoryName) {
         if (this.tags.containsKey(oldCategoryName)) {
             HashSet<String> values = removeCategory(oldCategoryName);
             this.tags.put(newCategoryName, values);
@@ -80,33 +80,33 @@ public class Ifofile {
         return false;
     }
 
-    boolean addTags(String category, HashSet<String> tags) {
+    public boolean addTags(String category, HashSet<String> tags) {
         if (!this.tags.containsKey(category))
             addCategory(category);
         return this.tags.get(category).addAll(tags);
     }
 
-    boolean addTag(String category, String tag) {
+    public boolean addTag(String category, String tag) {
         if (!this.tags.containsKey(category))
             addCategory(category);
         return this.tags.get(category).add(tag);
     }
 
-    void removeTag(String category, String tag) {
+    public void removeTag(String category, String tag) {
         if (this.tags.containsKey(category))
             this.tags.get(category).remove(tag);
     }
 
-    boolean changeTagName(String category, String oldTagName, String newTagName) {
+    public boolean changeTagName(String category, String oldTagName, String newTagName) {
         removeTag(category, oldTagName);
         return addTag(category, newTagName);
     }
 
-    HashSet<String> getTagsFromCategory(String category) {
+    public HashSet<String> getTagsFromCategory(String category) {
         return this.tags.get(category);
     }
 
-    HashSet<String> getAllTags() {
+    public HashSet<String> getAllTags() {
         HashSet<String> returnValues = new HashSet<>();
         Iterator it = this.tags.values().iterator();
         while (it.hasNext())
@@ -114,15 +114,15 @@ public class Ifofile {
         return returnValues;
     }
 
-    Integer getPopularity() {
+    public Integer getPopularity() {
         return this.popularity;
     }
 
-    void incrementPopularity() {
+    public void incrementPopularity() {
         this.popularity++;
     }
 
-    void zeroPopularity() {
+    public void zeroPopularity() {
         this.popularity = Integer.valueOf(0);
     }
 
@@ -130,26 +130,26 @@ public class Ifofile {
         return this.name + String.valueOf(this.tags.entrySet());
     }
 
-    boolean exists() {
+    public boolean exists() {
         File fileToCheck = new File(path);
         return fileToCheck.exists();
     }
 
 
     //unsafe methods, use with caution -- pouzivanim hrozi prepisanie dat
-    void setRawTags(TreeMap<String, HashSet<String>> newTags) {
+    public void setRawTags(TreeMap<String, HashSet<String>> newTags) {
         this.tags = newTags;
     }
 
-    TreeMap<String, HashSet<String>> getRawTags() {
+    public TreeMap<String, HashSet<String>> getRawTags() {
         return this.tags;
     }
 
-    void setRawPopularity(Integer popularity) {
+    public void setRawPopularity(Integer popularity) {
         this.popularity = popularity;
     }
 
-    void setNewRawCustomAttributes(TreeMap<String, HashSet<String>> newTags, String description, Integer popularity) {
+    public void setNewRawCustomAttributes(TreeMap<String, HashSet<String>> newTags, String description, Integer popularity) {
         setRawTags(newTags);
         setDescription(description);
         setRawPopularity(popularity);

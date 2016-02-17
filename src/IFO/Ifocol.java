@@ -19,15 +19,15 @@ public class Ifocol {
         filesInside = new HashSet<>(setToCopy);
     }*/
 
-    boolean add(Integer key) {
+    public boolean add(Integer key) {
         return filesInside.add(key);
     }
 
-    boolean remove(Integer key) {
+    public boolean remove(Integer key) {
         return filesInside.remove(key);
     }
 
-    HashSet<Integer> getFilesInside () {
+    public HashSet<Integer> getFilesInside () {
         return filesInside;
     }
 }
