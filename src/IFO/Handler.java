@@ -4,43 +4,61 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+import IFO.Extensions.FileExtensions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class Temp {
+public class Handler {
 
-    HashMap<Integer, Ifofile> files = new HashMap<>();
+    HashMap<Integer, Ifofile> files;
+    /*TODO - change path*/
     String path = "C:\\Users\\Stanlezz\\Desktop\\asd";
     Integer lastID = 0;
-    HashMap<String, Ifocol> collections = new HashMap<>();
+    HashMap<String, Ifocol> collections;
 
+<<<<<<< HEAD:src/IFO/Temp.java
     String devString = "";
 
     //dummy metoda - naplni pole zatial dummy datami
     public static void fill (String path, boolean searchRecursively) {
+=======
+    void fillInternalStructures(String path, boolean searchRecursively) {
+>>>>>>> the-great-refactor:src/IFO/Handler.java
         File[] directory = new File(path).listFiles();
         if (directory != null)
             for (File f : directory)
-                if (f.isFile())
+                if (f.isFile()) {
                     files.put(++lastID, new Ifofile(f.getAbsolutePath()));
-                else
-                    if (searchRecursively) fill(f.getAbsolutePath(), true);
-        /*Ifocol col = new Ifocol("Dokumenty");
-        col.add(1);
-        collections.put("Dokumenty", col);*/
+                    String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
+                    String where = "Miscellaneous";
+                    for (String category : FileExtensions.EXTENSIONS_MAP.keySet())
+                        if (FileExtensions.EXTENSIONS_MAP.get(category).contains(extension.toLowerCase()))
+                            where = category;
+                    addFilesToCollection(where, new Integer[]{lastID});
+                } else
+                    if (searchRecursively)
+                        fillInternalStructures(f.getAbsolutePath(), true);
     }
 
+<<<<<<< HEAD:src/IFO/Temp.java
     //serializuje pole - vytvori z neho json string
     public static String serialize () {
+=======
+    String serialize () {
+>>>>>>> the-great-refactor:src/IFO/Handler.java
         Gson gson = new Gson();
-        //String jsonString = gson.toJson(files);
-        //System.out.println(jsonString);
         return gson.toJson(files) + System.lineSeparator() + gson.toJson(collections);
     }
 
+<<<<<<< HEAD:src/IFO/Temp.java
     //deserializuje - vytvori z jsonu objekty do pola
     public static void deserialize () throws IOException  {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
+=======
+    void deserialize () throws IOException  {
+        BufferedReader bufferedReader = new BufferedReader(
+                new FileReader(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
+>>>>>>> the-great-refactor:src/IFO/Handler.java
         String filesToBe, collectionsToBe;
         filesToBe = bufferedReader.readLine();
         collectionsToBe = bufferedReader.readLine();
@@ -50,6 +68,7 @@ public class Temp {
         collections = gson.fromJson(collectionsToBe, new TypeToken<HashMap<String, Ifocol>>(){}.getType());
     }
 
+<<<<<<< HEAD:src/IFO/Temp.java
     public static void export() throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
         bufferedWriter.write(this.serialize());
@@ -68,6 +87,16 @@ public class Temp {
     }
 
     public static HashSet<Ifofile> checkFilesExistence() {
+=======
+    void export() throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(
+                new FileWriter(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
+        bufferedWriter.write(serialize());
+        bufferedWriter.close();
+    }
+
+    HashSet<Ifofile> checkFilesExistence() {
+>>>>>>> the-great-refactor:src/IFO/Handler.java
         HashSet<Ifofile> filesWhichDontExist = new HashSet<>();
         Thread checker = new Thread() {
             public void run() {
