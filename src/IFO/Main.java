@@ -80,6 +80,11 @@ public class Main extends Application {
         } else if (result.get() == importJSON) {
             try {
                 handler.deserialize(Utility.fileChooser("Point to the DB file", primaryStage));
+                /*TODO - treba skontrolovat ci vsetky fajly naozaj existuju
+                * handler.checkFilesExistence();
+                * zabalit do nejakej metodky ktora potom aj vyznaci ktore subory nenaslo
+                * pouzit popup z Utility
+                * */
             } catch (Exception e) {
                 try {
                     handler.fillInternalStructures(
