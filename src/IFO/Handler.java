@@ -16,14 +16,7 @@ public class Handler {
     Integer lastID = 0;
     HashMap<String, Ifocol> collections;
 
-<<<<<<< HEAD:src/IFO/Temp.java
-    String devString = "";
-
-    //dummy metoda - naplni pole zatial dummy datami
-    public static void fill (String path, boolean searchRecursively) {
-=======
     void fillInternalStructures(String path, boolean searchRecursively) {
->>>>>>> the-great-refactor:src/IFO/Handler.java
         File[] directory = new File(path).listFiles();
         if (directory != null)
             for (File f : directory)
@@ -40,25 +33,14 @@ public class Handler {
                         fillInternalStructures(f.getAbsolutePath(), true);
     }
 
-<<<<<<< HEAD:src/IFO/Temp.java
-    //serializuje pole - vytvori z neho json string
-    public static String serialize () {
-=======
     String serialize () {
->>>>>>> the-great-refactor:src/IFO/Handler.java
         Gson gson = new Gson();
         return gson.toJson(files) + System.lineSeparator() + gson.toJson(collections);
     }
 
-<<<<<<< HEAD:src/IFO/Temp.java
-    //deserializuje - vytvori z jsonu objekty do pola
-    public static void deserialize () throws IOException  {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
-=======
     void deserialize () throws IOException  {
         BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
->>>>>>> the-great-refactor:src/IFO/Handler.java
         String filesToBe, collectionsToBe;
         filesToBe = bufferedReader.readLine();
         collectionsToBe = bufferedReader.readLine();
@@ -68,26 +50,6 @@ public class Handler {
         collections = gson.fromJson(collectionsToBe, new TypeToken<HashMap<String, Ifocol>>(){}.getType());
     }
 
-<<<<<<< HEAD:src/IFO/Temp.java
-    public static void export() throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
-        bufferedWriter.write(this.serialize());
-        bufferedWriter.close();
-    }
-
-    void go() throws IOException {
-        fill(this.path, true);
-        //System.out.println(files);
-        export();
-        files = null;
-        //System.out.println(files);
-        deserialize();
-        //System.out.println(files);
-        checkFilesExistence();
-    }
-
-    public static HashSet<Ifofile> checkFilesExistence() {
-=======
     void export() throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(
                 new FileWriter(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
@@ -96,7 +58,6 @@ public class Handler {
     }
 
     HashSet<Ifofile> checkFilesExistence() {
->>>>>>> the-great-refactor:src/IFO/Handler.java
         HashSet<Ifofile> filesWhichDontExist = new HashSet<>();
         Thread checker = new Thread() {
             public void run() {
@@ -109,7 +70,7 @@ public class Handler {
         return filesWhichDontExist;
     }
 
-    public static boolean copyFile (Integer key, String toPath, boolean preserveCustomAttributes) {
+    boolean copyFile (Integer key, String toPath, boolean preserveCustomAttributes) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);
         Path to = Paths.get(toPath);
@@ -129,7 +90,7 @@ public class Handler {
         return true;
     }
 
-    public static boolean moveFile (Integer key, String toPath) {
+    boolean moveFile (Integer key, String toPath) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);
         Path to = Paths.get(toPath);
@@ -147,7 +108,7 @@ public class Handler {
         return true;
     }
 
-    public static boolean addFilesToCollection(String colName, Integer[] keys) {
+    boolean addFilesToCollection(String colName, Integer[] keys) {
         Ifocol col = collections.get(colName);
         if (col == null) {
             col = new Ifocol(colName);
@@ -158,7 +119,7 @@ public class Handler {
         return true;
     }
 
-    public static boolean removeFilesFromCollection(String colName, Integer[] keys) {
+    boolean removeFilesFromCollection(String colName, Integer[] keys) {
         Ifocol col = collections.get(colName);
         if (col == null)
             return false;
@@ -167,7 +128,7 @@ public class Handler {
         return true;
     }
 
-    public static boolean moveFilesFromCollectionToCollection(String fromCol, String toCol, Integer[] keys) {
+    boolean moveFilesFromCollectionToCollection(String fromCol, String toCol, Integer[] keys) {
         Ifocol fcol = collections.get(fromCol);
         Ifocol tcol = collections.get(toCol);
         if (fcol == null || tcol == null)
@@ -179,7 +140,7 @@ public class Handler {
         return true;
     }
 
-    public static boolean moveFilesInCollectionOnDisk(String colName, String toPath) {
+    boolean moveFilesInCollectionOnDisk(String colName, String toPath) {
         Ifocol col = collections.get(colName);
         if (col == null)
             return false;
@@ -188,7 +149,7 @@ public class Handler {
         return true;
     }
 
-    public static boolean copyFilesInCollectionOnDisk(String colName, String toPath) {
+    boolean copyFilesInCollectionOnDisk(String colName, String toPath) {
         Ifocol col = collections.get(colName);
         if (col == null)
             return false;
@@ -197,7 +158,7 @@ public class Handler {
         return true;
     }
 
-    public static boolean removeFilesInCollectionOnDisk(String colName) {
+    boolean removeFilesInCollectionOnDisk(String colName) {
         Ifocol col = collections.get(colName);
         if (col != null) {
             for (Integer k : col.getFilesInside())
@@ -207,7 +168,7 @@ public class Handler {
         return false;
     }
 
-    public static boolean removeFile(Integer key) {
+    boolean removeFile(Integer key) {
         Ifofile file = files.get(key);
         Path path = Paths.get(file.absolutePath);
         try {
@@ -218,7 +179,7 @@ public class Handler {
         return true;
     }
 
-    public static HashSet<Integer> fullTextSearch(String what) {
+    HashSet<Integer> fullTextSearch(String what) {
         HashSet<Integer> candidates = new HashSet<>();
         for (int i = 0; i < files.size(); i++) {
             Ifofile workFile = files.get(i);
@@ -230,7 +191,7 @@ public class Handler {
         return candidates;
     }
 
-    public static private boolean tagsContainSearchedWord(Ifofile file, String what) {
+    private boolean tagsContainSearchedWord(Ifofile file, String what) {
         for (String s : file.getAllTags()) {
             if (s.contains(what))
                 return true;
