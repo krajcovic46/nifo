@@ -46,6 +46,7 @@ public class Main extends Application {
     }
 
     void startTheJob() {
+        /*TODO - needs changing, cant have main control methods in Temp.java (duh)*/
         t = new Temp();
         try {
             t.go();
