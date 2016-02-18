@@ -45,15 +45,17 @@ public class Main extends Application {
     void startTheJob() {
         handler = new Handler();
         try {
-            handler.go();
+            handler.deserialize();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+        if (handler.files == null)
+            handler.fillInternalStructures(handler.path, true);
     }
 
     void populateCollectionsListView() {
-        collectionsData = FXCollections.observableArrayList(handler.collections.values());
+        collectionsData = FXCollections.observableArrayList(handler.collections.values()).sorted();
 
         ListView<Ifocol> colView = ((FXMLController) mainController).collectionsView;
         colView.setItems(collectionsData);

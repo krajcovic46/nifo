@@ -10,11 +10,11 @@ import com.google.gson.reflect.TypeToken;
 
 public class Handler {
 
-    Map<Integer, Ifofile> files = new HashMap<>();
+    HashMap<Integer, Ifofile> files;
     /*TODO - change path*/
     String path = "C:\\Users\\Stanlezz\\Desktop\\asd";
     Integer lastID = 0;
-    Map<String, Ifocol> collections = new HashMap<>();
+    HashMap<String, Ifocol> collections;
 
     void fillInternalStructures(String path, boolean searchRecursively) {
         File[] directory = new File(path).listFiles();
@@ -55,17 +55,6 @@ public class Handler {
                 new FileWriter(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
         bufferedWriter.write(serialize());
         bufferedWriter.close();
-    }
-
-    void go() throws IOException {
-        fillInternalStructures(this.path, true);
-        //System.out.println(files);
-        export();
-        files = null;
-        //System.out.println(files);
-        deserialize();
-        //System.out.println(files);
-        checkFilesExistence();
     }
 
     HashSet<Ifofile> checkFilesExistence() {
