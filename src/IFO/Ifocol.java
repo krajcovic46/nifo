@@ -30,4 +30,8 @@ public class Ifocol {
     public HashSet<Integer> getFilesInside () {
         return filesInside;
     }
+
+    public String toString() {
+        return name;
+    }
 }

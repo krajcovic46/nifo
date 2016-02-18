@@ -74,7 +74,6 @@ public class Temp {
                 for (Ifofile f : files.values())
                     if (!f.exists())
                         filesWhichDontExist.add(f);
-                System.out.println(filesWhichDontExist);
             }
         };
         checker.start();
