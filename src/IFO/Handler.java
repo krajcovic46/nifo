@@ -4,43 +4,43 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+import IFO.Extensions.FileExtensions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class Temp {
+public class Handler {
 
-    HashMap<Integer, Ifofile> files = new HashMap<>();
+    Map<Integer, Ifofile> files = new HashMap<>();
+    /*TODO - change path*/
     String path = "C:\\Users\\Stanlezz\\Desktop\\asd";
     Integer lastID = 0;
-    HashMap<String, Ifocol> collections = new HashMap<>();
+    Map<String, Ifocol> collections = new HashMap<>();
 
-    String devString = "";
-
-    //dummy metoda - naplni pole zatial dummy datami
-    void fill (String path, boolean searchRecursively) {
+    void fillInternalStructures(String path, boolean searchRecursively) {
         File[] directory = new File(path).listFiles();
         if (directory != null)
             for (File f : directory)
-                if (f.isFile())
+                if (f.isFile()) {
                     files.put(++lastID, new Ifofile(f.getAbsolutePath()));
-                else
-                    if (searchRecursively) fill(f.getAbsolutePath(), true);
-        /*Ifocol col = new Ifocol("Dokumenty");
-        col.add(1);
-        collections.put("Dokumenty", col);*/
+                    String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
+                    String where = "Miscellaneous";
+                    for (String category : FileExtensions.EXTENSIONS_MAP.keySet())
+                        if (FileExtensions.EXTENSIONS_MAP.get(category).contains(extension.toLowerCase()))
+                            where = category;
+                    addFilesToCollection(where, new Integer[]{lastID});
+                } else
+                    if (searchRecursively)
+                        fillInternalStructures(f.getAbsolutePath(), true);
     }
 
-    //serializuje pole - vytvori z neho json string
     String serialize () {
         Gson gson = new Gson();
-        //String jsonString = gson.toJson(files);
-        //System.out.println(jsonString);
         return gson.toJson(files) + System.lineSeparator() + gson.toJson(collections);
     }
 
-    //deserializuje - vytvori z jsonu objekty do pola
     void deserialize () throws IOException  {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
+        BufferedReader bufferedReader = new BufferedReader(
+                new FileReader(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
         String filesToBe, collectionsToBe;
         filesToBe = bufferedReader.readLine();
         collectionsToBe = bufferedReader.readLine();
@@ -51,13 +51,14 @@ public class Temp {
     }
 
     void export() throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
-        bufferedWriter.write(this.serialize());
+        BufferedWriter bufferedWriter = new BufferedWriter(
+                new FileWriter(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
+        bufferedWriter.write(serialize());
         bufferedWriter.close();
     }
 
     void go() throws IOException {
-        fill(this.path, true);
+        fillInternalStructures(this.path, true);
         //System.out.println(files);
         export();
         files = null;
