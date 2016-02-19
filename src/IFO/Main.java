@@ -1,7 +1,6 @@
 package IFO;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -11,10 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -53,8 +50,9 @@ public class Main extends Application {
 
     void startTheJob() {
         handler = new Handler();
+        String pathToDB = System.getProperty("user.dir")+"\\dbexport.ifo";
         try {
-            handler.deserialize("");
+            handler.deserialize(pathToDB);
         }
         catch (IOException e) {
             createBeginningAlert();
@@ -96,7 +94,6 @@ public class Main extends Application {
             }
         }
         else System.exit(0);
-
         populateCollectionsListView();
     }
 
