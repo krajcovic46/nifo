@@ -11,8 +11,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Import" />
-                <MenuItem mnemonicParsing="false" text="Export" />
+              <MenuItem fx:id="dbImport" mnemonicParsing="false" text="Import" />
+                <MenuItem fx:id="dbExport" mnemonicParsing="false" text="Export" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">

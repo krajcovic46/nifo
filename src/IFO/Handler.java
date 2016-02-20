@@ -50,9 +50,9 @@ public class Handler {
         collections = gson.fromJson(collectionsToBe, new TypeToken<HashMap<String, Ifocol>>(){}.getType());
     }
 
-    void export() throws IOException {
+    void export(String path) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(
-                new FileWriter(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
+                new FileWriter(new File(path)));
         bufferedWriter.write(serialize());
         bufferedWriter.close();
     }
