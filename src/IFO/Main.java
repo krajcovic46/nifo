@@ -13,6 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Optional;
 
 public class Main extends Application {
@@ -22,6 +23,7 @@ public class Main extends Application {
     Stage primaryStage;
     Object mainController;
     Handler handler;
+    HashSet<Ifofile> nonExistentFiles;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -57,6 +59,7 @@ public class Main extends Application {
         catch (IOException e) {
             createBeginningAlert();
         }
+        populateCollectionsListView();
     }
 
     void createBeginningAlert() {
@@ -83,19 +86,16 @@ public class Main extends Application {
                 * zabalit do nejakej metodky ktora potom aj vyznaci ktore subory nenaslo
                 * pouzit popup z Utility
                 * */
+                nonExistentFiles = handler.checkFilesExistence();
+
             } catch (Exception e) {
-                try {
-                    handler.fillInternalStructures(
-                            Utility.directoryChooser(
-                                    "Import of the DB failed, point to a directory", primaryStage), true);
-                } catch (Exception d) {
-                    createBeginningAlert();
-                }
+                createBeginningAlert();
             }
         }
         else System.exit(0);
-        populateCollectionsListView();
     }
+
+
 
     void populateCollectionsListView() {
         collectionsData = FXCollections.observableArrayList(handler.collections.values()).sorted();
@@ -107,7 +107,7 @@ public class Main extends Application {
                 (observable, oldValue, newValue) -> showFilesInCollections(newValue));
     }
 
-    void showFilesInCollections(Ifocol col) {
+    private void showFilesInCollections(Ifocol col) {
         filesData = FXCollections.observableArrayList();
         for (Integer id : col.getFilesInside())
             filesData.add(handler.files.get(id));
