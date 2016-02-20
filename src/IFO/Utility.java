@@ -3,10 +3,7 @@ package IFO;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 import java.io.File;
 
@@ -39,5 +36,14 @@ public class Utility {
         label.setOnMouseReleased(e -> popup.hide());
         popup.getContent().add(label);
         return popup;
+    }
+
+    public static void showPopup(String message, Stage primaryStage) {
+        final Popup popup = createPopup(message);
+        popup.setOnShown(e -> {
+            popup.setX(primaryStage.getX() + primaryStage.getWidth()/2 - popup.getWidth()/2);
+            popup.setY(primaryStage.getY() + primaryStage.getHeight()/2 - popup.getHeight()/2);
+        });
+        popup.show(primaryStage);
     }
 }

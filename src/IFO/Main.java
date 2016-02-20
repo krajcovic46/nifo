@@ -6,11 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -82,11 +80,11 @@ public class Main extends Application {
             try {
                 handler.deserialize(Utility.fileChooser("Point to the DB file", primaryStage));
                 /*TODO - treba skontrolovat ci vsetky fajly naozaj existuju
-                * handler.checkFilesExistence();
-                * zabalit do nejakej metodky ktora potom aj vyznaci ktore subory nenaslo
-                * pouzit popup z Utility
+                * zistit, ci toto funguje
                 * */
                 nonExistentFiles = handler.checkFilesExistence();
+                Utility.showPopup("Couldn't find " +
+                        String.valueOf(nonExistentFiles.size() + " files"), primaryStage);
 
             } catch (Exception e) {
                 createBeginningAlert();
@@ -113,6 +111,14 @@ public class Main extends Application {
             filesData.add(handler.files.get(id));
         ListView<Ifofile> filView = ((FXMLController) mainController).filesView;
         filView.setItems(filesData);
+    }
+
+    private boolean obsahuje(String s) {
+        for (Ifofile f : nonExistentFiles) {
+            if (f.name.equals(s))
+                return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {

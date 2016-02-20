@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Main.java" afterPath="$PROJECT_DIR$/src/IFO/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Utility.java" afterPath="$PROJECT_DIR$/src/IFO/Utility.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,10 +67,12 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/IFO/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3401109">
-              <caret line="88" column="65" selection-start-line="88" selection-start-column="65" selection-end-line="88" selection-end-column="65" />
+            <state vertical-scroll-proportion="0.46580407">
+              <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4242#4243#0" expanded="true" />
+                <element signature="e#4270#4271#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -102,7 +104,7 @@
         <entry file="file://$PROJECT_DIR$/src/IFO/Utility.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
+              <caret line="42" column="31" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -200,8 +202,8 @@
         <option value="$PROJECT_DIR$/src/IFO/Temp.java" />
         <option value="$PROJECT_DIR$/src/IFO/Extensions/FileExtensions.java" />
         <option value="$PROJECT_DIR$/src/IFO/Handler.java" />
-        <option value="$PROJECT_DIR$/src/IFO/Utility.java" />
         <option value="$PROJECT_DIR$/src/IFO/GUI.fxml" />
+        <option value="$PROJECT_DIR$/src/IFO/Utility.java" />
         <option value="$PROJECT_DIR$/src/IFO/Main.java" />
       </list>
     </option>
@@ -926,7 +928,7 @@
       <workItem from="1455900463900" duration="337000" />
       <workItem from="1455900840390" duration="6085000" />
       <workItem from="1455966688616" duration="170000" />
-      <workItem from="1456002602323" duration="2397000" />
+      <workItem from="1456002602323" duration="4367000" />
     </task>
     <servers />
   </component>
@@ -963,7 +965,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="127182000" />
+    <option name="totallyTimeSpent" value="129152000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
@@ -1068,6 +1070,8 @@
           <caret line="85" column="40" selection-start-line="85" selection-start-column="40" selection-end-line="85" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1146,6 +1150,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1214,6 +1220,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1274,6 +1282,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1294,6 +1304,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1314,6 +1326,8 @@
           <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1353,6 +1367,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1374,6 +1390,8 @@
           <caret line="5" column="62" selection-start-line="5" selection-start-column="62" selection-end-line="5" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1395,6 +1413,8 @@
           <caret line="5" column="62" selection-start-line="5" selection-start-column="62" selection-end-line="5" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1405,6 +1425,8 @@
           <caret line="5" column="62" selection-start-line="5" selection-start-column="62" selection-end-line="5" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1415,6 +1437,8 @@
           <caret line="5" column="62" selection-start-line="5" selection-start-column="62" selection-end-line="5" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1425,6 +1449,8 @@
           <caret line="5" column="62" selection-start-line="5" selection-start-column="62" selection-end-line="5" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1435,6 +1461,8 @@
           <caret line="6" column="5" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1496,14 +1524,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Extensions/FileExtensions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="69" selection-start-line="6" selection-start-column="69" selection-end-line="6" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IFO/GUI.fxml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1513,6 +1533,24 @@
       </provider>
       <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IFO/Utility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="31" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IFO/Extensions/FileExtensions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="69" selection-start-line="6" selection-start-column="69" selection-end-line="6" selection-end-column="69" />
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/IFO/Handler.java">
@@ -1525,22 +1563,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Utility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IFO/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3401109">
-          <caret line="88" column="65" selection-start-line="88" selection-start-column="65" selection-end-line="88" selection-end-column="65" />
+        <state vertical-scroll-proportion="0.46580407">
+          <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4242#4243#0" expanded="true" />
+            <element signature="e#4270#4271#0" expanded="true" />
           </folding>
         </state>
       </provider>
