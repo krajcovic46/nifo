@@ -19,12 +19,13 @@ public class Main extends Application {
     ObservableList<Ifofile> filesData;
     Stage primaryStage;
     MainMenuController mainController;
-    Handler handler = new Handler();
+    Handler handler;
     HashSet<Ifofile> nonExistentFiles;
     String pathToDB = System.getProperty("user.dir")+"\\dbexport.ifo";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        handler = new Handler();
         initializeRoot(primaryStage);
         startTheJob();
 
@@ -39,6 +40,7 @@ public class Main extends Application {
 
             mainController = loader.getController();
             mainController.setPrimaryStage(this.primaryStage);
+            mainController.passHandler(handler);
             mainController.setupTheMenu(handler, pathToDB);
 
             Scene scene = new Scene(root);
@@ -57,7 +59,7 @@ public class Main extends Application {
         catch (IOException e) {
             Utility.createBeginningAlert(handler, primaryStage, nonExistentFiles);
         }
-        mainController.populateCollectionsListView(handler);
+        mainController.populateCollectionsListView();
     }
 
     public static void main(String[] args) {

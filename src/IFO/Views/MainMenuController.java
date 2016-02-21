@@ -1,9 +1,6 @@
 package IFO.Views;
 
-import IFO.Handler;
-import IFO.Ifocol;
-import IFO.Ifofile;
-import IFO.Main;
+import IFO.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -27,22 +24,39 @@ public class MainMenuController {
     @FXML
     private ListView<Ifofile> filesView;
     @FXML
-    private MenuItem dbExport;
+    private MenuItem importFiles;
     @FXML
     private MenuItem dbImport;
+    @FXML
+    private MenuItem dbExport;
     @FXML
     private TextField filterField;
     @FXML
     private Label stateLabel;
 
     private Stage primaryStage;
+    private Handler handler;
 
     public void setPrimaryStage(Stage stage) {
         primaryStage = stage;
         stateLabel.setText("Welcome to \"Inteligentný organizátor súborov\".");
     }
 
+    public void passHandler(Handler handler) {
+        this.handler = handler;
+    }
+
     public void setupTheMenu(Handler handler, String pathToDB) {
+        importFiles.setOnAction(t -> {
+            try {
+                handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
+                addDataToView();
+                handler.export(pathToDB);
+            } catch (Exception e) {
+                stateLabel.setText("Could not add files, please try again.");
+            }
+        });
+
         dbImport.setOnAction(t -> {
             try {
                 handler.deserialize(pathToDB);
@@ -56,28 +70,28 @@ public class MainMenuController {
         dbExport.setOnAction(t -> {
             try {
                 handler.export(pathToDB);
-                stateLabel.setText("Export successful.");
+                stateLabel.setText("Export/Save successful.");
             } catch (IOException e) {
-                stateLabel.setText("Export unsucessful, please try again.");
+                stateLabel.setText("Export/Save unsucessful, please try again.");
                 e.printStackTrace();
             }
         });
     }
 
-    public void populateCollectionsListView(Handler handler) {
-        ObservableList<Ifocol> collectionsData =
-                FXCollections.observableArrayList(handler.collections.values()).sorted();
-
-        collectionsView.setItems(collectionsData);
+    public void populateCollectionsListView() {
+        addDataToView();
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showFilesInCollections(handler, newValue));
+                (observable, oldValue, newValue) -> {
+                    if (newValue != null)
+                        showFilesInCollections(newValue);
+                });
     }
 
-    public void showFilesInCollections(Handler handler, Ifocol col) {
+    public void showFilesInCollections(Ifocol col) {
         ObservableList<Ifofile> filesData = FXCollections.observableArrayList();
         for (Integer id : col.getFilesInside())
-            filesData.add(handler.files.get(id));
+            filesData.add(handler.getFiles().get(id));
 
         FilteredList<Ifofile> filteredData = new FilteredList<>(filesData, p -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -98,6 +112,13 @@ public class MainMenuController {
                 }
             }
         });
+    }
+
+    private void addDataToView() {
+        ObservableList<Ifocol> collectionsData =
+                FXCollections.observableArrayList(handler.collections.values()).sorted();
+
+        collectionsView.setItems(collectionsData);
     }
 
     private void initializeFileDialogController(Ifofile file) throws Exception {

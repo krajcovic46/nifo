@@ -48,6 +48,7 @@ public class Utility {
             try {
                 handler.fillInternalStructures(Utility.directoryChooser("Point to a directory", primaryStage), true);
             } catch (Exception e) {
+                e.printStackTrace();
                 createBeginningAlert(handler, primaryStage, nonExistentFiles);
             }
         } else if (result.get() == importJSON) {
@@ -60,6 +61,7 @@ public class Utility {
 
 
             } catch (Exception e) {
+                e.printStackTrace();
                 createBeginningAlert(handler, primaryStage, nonExistentFiles);
             }
         }

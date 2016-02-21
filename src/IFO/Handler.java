@@ -10,12 +10,16 @@ import com.google.gson.reflect.TypeToken;
 
 public class Handler {
 
-    public HashMap<Integer, Ifofile> files = new HashMap<>();
+    private HashMap<Integer, Ifofile> files = new HashMap<>();
 
     Integer lastID = 0;
     public HashMap<String, Ifocol> collections = new HashMap<>();
 
-    void fillInternalStructures(String path, boolean searchRecursively) {
+    public HashMap<Integer, Ifofile> getFiles() {
+        return this.files;
+    }
+
+    public void fillInternalStructures(String path, boolean searchRecursively) {
         File[] directory = new File(path).listFiles();
         if (directory != null)
             for (File f : directory)
@@ -32,17 +36,19 @@ public class Handler {
                         fillInternalStructures(f.getAbsolutePath(), true);
     }
 
-    String serialize () {
+    private String serialize() {
         Gson gson = new Gson();
-        return gson.toJson(files) + System.lineSeparator() + gson.toJson(collections);
+        return gson.toJson(files) + System.lineSeparator() + gson.toJson(collections) +
+                System.lineSeparator() + lastID;
     }
 
-    public void deserialize (String path) throws IOException  {
+    public void deserialize(String path) throws IOException  {
         BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(new File(path)));
         String filesToBe, collectionsToBe;
         filesToBe = bufferedReader.readLine();
         collectionsToBe = bufferedReader.readLine();
+        lastID = Integer.valueOf(bufferedReader.readLine());
         bufferedReader.close();
         Gson gson = new Gson();
         files = gson.fromJson(filesToBe, new TypeToken<HashMap<Integer, Ifofile>>(){}.getType());
