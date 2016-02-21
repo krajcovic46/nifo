@@ -2,7 +2,9 @@ package IFO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.*;
 
 import java.io.File;
@@ -127,5 +129,11 @@ public class Utility {
             filesData.add(handler.files.get(id));
         ListView<Ifofile> filView = ((FXMLController) mainController).filesView;
         filView.setItems(filesData);
+        filView.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                Ifofile currentItemSelected = filView.getSelectionModel()
+                        .getSelectedItem();
+            }
+        });
     }
 }

@@ -1,21 +1,14 @@
 package IFO;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Optional;
 
 public class Main extends Application {
 
@@ -23,7 +16,7 @@ public class Main extends Application {
     ObservableList<Ifofile> filesData;
     Stage primaryStage;
     Object mainController;
-    Handler handler;
+    Handler handler = new Handler();
     HashSet<Ifofile> nonExistentFiles;
     String pathToDB = System.getProperty("user.dir")+"\\dbexport.ifo";
 
@@ -56,7 +49,6 @@ public class Main extends Application {
     }
 
     private void startTheJob() {
-        handler = new Handler();
         try {
             handler.deserialize(pathToDB);
         }
