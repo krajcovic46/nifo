@@ -24,7 +24,7 @@ public class Handler {
         if (directory != null)
             for (File f : directory)
                 if (f.isFile()) {
-                    files.put(++lastID, new Ifofile(f.getAbsolutePath()));
+                    files.put(++lastID, new Ifofile(f.getAbsolutePath(), lastID));
                     String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
                     String where = "Miscellaneous";
                     for (String category : FileExtensions.EXTENSIONS_MAP.keySet())
@@ -86,7 +86,7 @@ public class Handler {
             e.printStackTrace();
             return false;
         }
-        Ifofile newFile = new Ifofile(toPath);
+        Ifofile newFile = new Ifofile(toPath, key);
         if (preserveCustomAttributes) {
             newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
                     workingFile.getDescription(), workingFile.getPopularity());
@@ -106,18 +106,22 @@ public class Handler {
             e.printStackTrace();
             return false;
         }
-        Ifofile newFile = new Ifofile(toPath);
+        Ifofile newFile = new Ifofile(toPath, key);
         newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
                 workingFile.getDescription(), workingFile.getPopularity());
         files.put(key, newFile);
         return true;
     }
 
-    public void createAnEmptyCollection(String colName) {
-        collections.put(colName, new Ifocol(colName));
+    public boolean createAnEmptyCollection(String colName) {
+        if (!collections.containsKey(colName)) {
+            collections.put(colName, new Ifocol(colName));
+            return true;
+        }
+        return false;
     }
 
-    boolean addFilesToCollection(String colName, Integer[] keys) {
+    public boolean addFilesToCollection(String colName, Integer[] keys) {
         Ifocol col = collections.get(colName);
         if (col == null) {
             col = new Ifocol(colName);

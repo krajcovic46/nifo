@@ -35,10 +35,13 @@ public class MainMenuController {
     private Label stateLabel;
     @FXML
     private Button addEmptyCol;
+    @FXML
+    private Button addColFromSelection;
 
     private Stage primaryStage;
     private Handler handler;
-    private String newCollectionName;
+    private Integer[] selectedFiles;
+
 
     public void setPrimaryStage(Stage stage) {
         primaryStage = stage;
@@ -55,15 +58,29 @@ public class MainMenuController {
     }
 
     private void createToolbarButtons() {
-        Image buttImg = new Image(getClass().getResourceAsStream("Images/ficon.png"));
-        addEmptyCol.setGraphic(new ImageView(buttImg));
+        Image emptyColImg = new Image(getClass().getResourceAsStream("Images/newempcol.png"));
+        addEmptyCol.setGraphic(new ImageView(emptyColImg));
         addEmptyCol.setOnAction(t -> {
             try {
-                handler.createAnEmptyCollection(Utility.textInput("Enter name for new collection", "New Collection"));
-                addDataToView();
-                stateLabel.setText("Collection has been added.");
-            } catch (NoSuchElementException ignored) {
-            }
+                String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
+                if (handler.createAnEmptyCollection(newCollectionName)) {
+                    addDataToView();
+                    stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
+                } else
+                    stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
+            } catch (NoSuchElementException ignored) {}
+        });
+        Image selectionColImg = new Image(getClass().getResourceAsStream("Images/newselcol.png"));
+        addColFromSelection.setGraphic(new ImageView(selectionColImg));
+        addColFromSelection.setOnAction(t -> {
+            try {
+                String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
+                if (handler.addFilesToCollection(newCollectionName, selectedFiles)) {
+                    addDataToView();
+                    stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
+                } else
+                    stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
+            } catch (NoSuchElementException ignored) {}
         });
     }
 
@@ -126,8 +143,7 @@ public class MainMenuController {
 
         filesView.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
-                Ifofile currentItemSelected = filesView.getSelectionModel()
-                        .getSelectedItem();
+                Ifofile currentItemSelected = filesView.getSelectionModel().getSelectedItem();
                 try {
                     initializeFileDialogController(currentItemSelected);
                 } catch (Exception d) {
@@ -135,10 +151,19 @@ public class MainMenuController {
                 }
             }
         });
+
+        filesView.getSelectionModel().selectedItemProperty().addListener(t -> {
+            ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
+//            System.out.println(selectedItems);
+            /*TODO - shift-click stale nefunguje ffs*/
+            selectedFiles = new Integer[selectedItems.size()];
+            for (int i = 0; i < selectedItems.size(); i++) {
+                selectedFiles[i] = selectedItems.get(i).getId();
+            }
+        });
     }
 
     private void addDataToView() {
-        System.out.println(handler.collections.values());
         ObservableList<Ifocol> collectionsData =
                 FXCollections.observableArrayList(handler.collections.values()).sorted();
 

@@ -5,6 +5,8 @@ import java.util.*;
 
 public class Ifofile {
 
+
+    private Integer id;
     private String description = "";
     //TreeMap<Category, tags> - keys su kategorie (napr krajina, ludia...)
     private TreeMap<String, HashSet<String>> tags = new TreeMap<>();
@@ -28,7 +30,9 @@ public class Ifofile {
     Date lastModified;
     long length;
 
-    public Ifofile (String path) {
+    public Ifofile (String path, Integer id) {
+        this.id = id;
+
         File workingFile = new File(path);
         this.absoluteFile = workingFile.getAbsoluteFile();
         this.parentFile = workingFile.getParentFile();
@@ -45,6 +49,10 @@ public class Ifofile {
         this.isHidden = workingFile.isHidden();
         this.lastModified = new Date(workingFile.lastModified());
         this.length = workingFile.length();
+    }
+
+    public Integer getId() {
+        return this.id;
     }
 
     public void setDescription(String desc) {

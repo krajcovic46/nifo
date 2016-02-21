@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class IfofileTest {
 
-    Ifofile file = new Ifofile("C:\\Users\\Stanlezz\\Desktop\\asd");
+    Ifofile file;// = new Ifofile("C:\\Users\\Stanlezz\\Desktop\\asd");
 
     @Test
     public void descriptionTest () {
