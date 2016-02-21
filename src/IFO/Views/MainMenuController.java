@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
@@ -31,20 +32,23 @@ public class MainMenuController {
     private MenuItem dbImport;
     @FXML
     private TextField filterField;
+    @FXML
+    private Label stateLabel;
 
     private Stage primaryStage;
 
     public void setPrimaryStage(Stage stage) {
         primaryStage = stage;
+        stateLabel.setText("Welcome to \"Inteligentný organizátor súborov\".");
     }
 
     public void setupTheMenu(Handler handler, String pathToDB) {
         dbImport.setOnAction(t -> {
             try {
                 handler.deserialize(pathToDB);
+                stateLabel.setText("Import successful.");
             } catch (IOException e) {
-                /*TODO - treba ozmanit pouzivatelovi ak sa nepodaril import - nejaky popup?
-                * DOLU DAME STAVOVY RIADOK, TO BUDE TOP*/
+                stateLabel.setText("Import unsuccessful, please try again.");
                 e.printStackTrace();
             }
         });
@@ -52,9 +56,9 @@ public class MainMenuController {
         dbExport.setOnAction(t -> {
             try {
                 handler.export(pathToDB);
+                stateLabel.setText("Export successful.");
             } catch (IOException e) {
-                /*TODO - treba ozmanit pouzivatelovi ak sa nepodaril export - nejaky popup?
-                * DOLU DAME STAVOVY RIADOK, TO BUDE TOP*/
+                stateLabel.setText("Export unsucessful, please try again.");
                 e.printStackTrace();
             }
         });
