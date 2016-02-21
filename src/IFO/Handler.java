@@ -10,18 +10,21 @@ import com.google.gson.reflect.TypeToken;
 
 public class Handler {
 
-    HashMap<Integer, Ifofile> files = new HashMap<>();
-    /*TODO - change path*/
-    String path = "C:\\Users\\Stanlezz\\Desktop\\asd";
-    Integer lastID = 0;
-    HashMap<String, Ifocol> collections = new HashMap<>();
+    private HashMap<Integer, Ifofile> files = new HashMap<>();
 
-    void fillInternalStructures(String path, boolean searchRecursively) {
+    Integer lastID = 0;
+    public HashMap<String, Ifocol> collections = new HashMap<>();
+
+    public HashMap<Integer, Ifofile> getFiles() {
+        return this.files;
+    }
+
+    public void fillInternalStructures(String path, boolean searchRecursively) {
         File[] directory = new File(path).listFiles();
         if (directory != null)
             for (File f : directory)
                 if (f.isFile()) {
-                    files.put(++lastID, new Ifofile(f.getAbsolutePath()));
+                    files.put(++lastID, new Ifofile(f.getAbsolutePath(), lastID));
                     String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
                     String where = "Miscellaneous";
                     for (String category : FileExtensions.EXTENSIONS_MAP.keySet())
@@ -33,26 +36,28 @@ public class Handler {
                         fillInternalStructures(f.getAbsolutePath(), true);
     }
 
-    String serialize () {
+    private String serialize() {
         Gson gson = new Gson();
-        return gson.toJson(files) + System.lineSeparator() + gson.toJson(collections);
+        return gson.toJson(files) + System.lineSeparator() + gson.toJson(collections) +
+                System.lineSeparator() + lastID;
     }
 
-    void deserialize (String path) throws IOException  {
+    public void deserialize(String path) throws IOException  {
         BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(new File(path)));
         String filesToBe, collectionsToBe;
         filesToBe = bufferedReader.readLine();
         collectionsToBe = bufferedReader.readLine();
+        lastID = Integer.valueOf(bufferedReader.readLine());
         bufferedReader.close();
         Gson gson = new Gson();
         files = gson.fromJson(filesToBe, new TypeToken<HashMap<Integer, Ifofile>>(){}.getType());
         collections = gson.fromJson(collectionsToBe, new TypeToken<HashMap<String, Ifocol>>(){}.getType());
     }
 
-    void export() throws IOException {
+    public void export(String path) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(
-                new FileWriter(new File("C:\\Users\\Stanlezz\\Desktop\\stranka bakalarka\\dbexport.txt")));
+                new FileWriter(new File(path)));
         bufferedWriter.write(serialize());
         bufferedWriter.close();
     }
@@ -70,7 +75,7 @@ public class Handler {
         return filesWhichDontExist;
     }
 
-    boolean copyFile (Integer key, String toPath, boolean preserveCustomAttributes) {
+    boolean copyFile(Integer key, String toPath, boolean preserveCustomAttributes) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);
         Path to = Paths.get(toPath);
@@ -81,7 +86,7 @@ public class Handler {
             e.printStackTrace();
             return false;
         }
-        Ifofile newFile = new Ifofile(toPath);
+        Ifofile newFile = new Ifofile(toPath, key);
         if (preserveCustomAttributes) {
             newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
                     workingFile.getDescription(), workingFile.getPopularity());
@@ -90,7 +95,7 @@ public class Handler {
         return true;
     }
 
-    boolean moveFile (Integer key, String toPath) {
+    boolean moveFile(Integer key, String toPath) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);
         Path to = Paths.get(toPath);
@@ -101,14 +106,22 @@ public class Handler {
             e.printStackTrace();
             return false;
         }
-        Ifofile newFile = new Ifofile(toPath);
+        Ifofile newFile = new Ifofile(toPath, key);
         newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
                 workingFile.getDescription(), workingFile.getPopularity());
         files.put(key, newFile);
         return true;
     }
 
-    boolean addFilesToCollection(String colName, Integer[] keys) {
+    public boolean createAnEmptyCollection(String colName) {
+        if (!collections.containsKey(colName)) {
+            collections.put(colName, new Ifocol(colName));
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addFilesToCollection(String colName, Integer[] keys) {
         Ifocol col = collections.get(colName);
         if (col == null) {
             col = new Ifocol(colName);
