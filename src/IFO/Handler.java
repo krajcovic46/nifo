@@ -10,11 +10,10 @@ import com.google.gson.reflect.TypeToken;
 
 public class Handler {
 
-    HashMap<Integer, Ifofile> files = new HashMap<>();
-    /*TODO - change path*/
-    String path = "C:\\Users\\Stanlezz\\Desktop\\asd";
+    public HashMap<Integer, Ifofile> files = new HashMap<>();
+
     Integer lastID = 0;
-    HashMap<String, Ifocol> collections = new HashMap<>();
+    public HashMap<String, Ifocol> collections = new HashMap<>();
 
     void fillInternalStructures(String path, boolean searchRecursively) {
         File[] directory = new File(path).listFiles();
@@ -38,7 +37,7 @@ public class Handler {
         return gson.toJson(files) + System.lineSeparator() + gson.toJson(collections);
     }
 
-    void deserialize (String path) throws IOException  {
+    public void deserialize (String path) throws IOException  {
         BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(new File(path)));
         String filesToBe, collectionsToBe;
@@ -50,7 +49,7 @@ public class Handler {
         collections = gson.fromJson(collectionsToBe, new TypeToken<HashMap<String, Ifocol>>(){}.getType());
     }
 
-    void export(String path) throws IOException {
+    public void export(String path) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(
                 new FileWriter(new File(path)));
         bufferedWriter.write(serialize());

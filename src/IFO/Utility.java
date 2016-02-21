@@ -1,7 +1,11 @@
 package IFO;
 
+import IFO.Views.FileDialogController;
+import IFO.Views.MainMenuController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.stage.*;
 
@@ -30,50 +34,6 @@ public class Utility {
         return selectedFile.getAbsolutePath();
     }
 
-    public static Popup createPopup(String message) {
-        final Popup popup = new Popup();
-        popup.setAutoFix(true);
-        popup.setAutoHide(true);
-        popup.setHideOnEscape(true);
-        Label label = new Label(message);
-        label.setOnMouseReleased(e -> popup.hide());
-        popup.getContent().add(label);
-        return popup;
-    }
-
-    public static void showPopup(String message, Stage primaryStage) {
-        final Popup popup = createPopup(message);
-        popup.setOnShown(e -> {
-            popup.setX(primaryStage.getX() + primaryStage.getWidth()/2 - popup.getWidth()/2);
-            popup.setY(primaryStage.getY() + primaryStage.getHeight()/2 - popup.getHeight()/2);
-        });
-        popup.show(primaryStage);
-    }
-
-    public static void setupTheMenu(Object mainController, Handler handler, String pathToDB) {
-        MenuItem dbImport = ((MainMenuController) mainController).dbImport;
-        dbImport.setOnAction(t -> {
-            try {
-                handler.deserialize(pathToDB);
-            } catch (IOException e) {
-                /*TODO - treba ozmanit pouzivatelovi ak sa nepodaril import - nejaky popup?
-                * DOLU DAME STAVOVY RIADOK, TO BUDE TOP*/
-                e.printStackTrace();
-            }
-        });
-
-        MenuItem dbExport = ((MainMenuController) mainController).dbExport;
-        dbExport.setOnAction(t -> {
-            try {
-                handler.export(pathToDB);
-            } catch (IOException e) {
-                /*TODO - treba ozmanit pouzivatelovi ak sa nepodaril export - nejaky popup?
-                * DOLU DAME STAVOVY RIADOK, TO BUDE TOP*/
-                e.printStackTrace();
-            }
-        });
-    }
-
     public static void createBeginningAlert(Handler handler, Stage primaryStage, Set<Ifofile> nonExistentFiles) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("No files");
@@ -97,8 +57,7 @@ public class Utility {
                 * zistit, ci toto funguje
                 * */
                 nonExistentFiles = handler.checkFilesExistence();
-                Utility.showPopup("Couldn't find " +
-                        String.valueOf(nonExistentFiles.size() + " files"), primaryStage);
+
 
             } catch (Exception e) {
                 createBeginningAlert(handler, primaryStage, nonExistentFiles);
@@ -107,31 +66,5 @@ public class Utility {
         else System.exit(0);
     }
 
-    public static void populateCollectionsListView(Handler handler, Object mainController,
-                                                   ObservableList<Ifocol> collectionsData,
-                                                   ObservableList<Ifofile> filesData) {
-        collectionsData = FXCollections.observableArrayList(handler.collections.values()).sorted();
 
-        ListView<Ifocol> colView = ((MainMenuController) mainController).collectionsView;
-        colView.setItems(collectionsData);
-
-        colView.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showFilesInCollections(handler,
-                        mainController, filesData, newValue));
-    }
-
-    public static void showFilesInCollections(Handler handler, Object mainController,
-                                              ObservableList<Ifofile> filesData, Ifocol col) {
-        filesData = FXCollections.observableArrayList();
-        for (Integer id : col.getFilesInside())
-            filesData.add(handler.files.get(id));
-        ListView<Ifofile> filView = ((MainMenuController) mainController).filesView;
-        filView.setItems(filesData);
-        filView.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
-                Ifofile currentItemSelected = filView.getSelectionModel()
-                        .getSelectedItem();
-            }
-        });
-    }
 }

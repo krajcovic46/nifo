@@ -51,6 +51,18 @@ public class Ifofile {
         this.description = desc;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public String getPath() {
+        return this.path;
+    }
+
+    public String getParent() {
+        return this.parent;
+    }
+
     public String getDescription() {
         return this.description;
     }
