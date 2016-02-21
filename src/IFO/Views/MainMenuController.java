@@ -8,14 +8,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 public class MainMenuController {
 
@@ -33,9 +33,12 @@ public class MainMenuController {
     private TextField filterField;
     @FXML
     private Label stateLabel;
+    @FXML
+    private Button addEmptyCol;
 
     private Stage primaryStage;
     private Handler handler;
+    private String newCollectionName;
 
     public void setPrimaryStage(Stage stage) {
         primaryStage = stage;
@@ -46,7 +49,25 @@ public class MainMenuController {
         this.handler = handler;
     }
 
-    public void setupTheMenu(Handler handler, String pathToDB) {
+    public void init(String pathToDB) {
+        setupTheMenu(pathToDB);
+        createToolbarButtons();
+    }
+
+    private void createToolbarButtons() {
+        Image buttImg = new Image(getClass().getResourceAsStream("Images/ficon.png"));
+        addEmptyCol.setGraphic(new ImageView(buttImg));
+        addEmptyCol.setOnAction(t -> {
+            try {
+                handler.createAnEmptyCollection(Utility.textInput("Enter name for new collection", "New Collection"));
+                addDataToView();
+                stateLabel.setText("Collection has been added.");
+            } catch (NoSuchElementException ignored) {
+            }
+        });
+    }
+
+    private void setupTheMenu(String pathToDB) {
         importFiles.setOnAction(t -> {
             try {
                 handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
@@ -79,6 +100,7 @@ public class MainMenuController {
     }
 
     public void populateCollectionsListView() {
+
         addDataToView();
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(
@@ -95,10 +117,11 @@ public class MainMenuController {
 
         FilteredList<Ifofile> filteredData = new FilteredList<>(filesData, p -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(file -> {
-                return newValue == null || newValue.isEmpty() || file.getName().toLowerCase().contains(newValue.toLowerCase());
-            });
+            // kind of magic - vracia to true ak to splna podmienky medzi ORmi
+            filteredData.setPredicate(file -> newValue == null ||
+                    newValue.isEmpty() || file.getName().toLowerCase().contains(newValue.toLowerCase()));
         });
+        filesView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         filesView.setItems(filteredData);
 
         filesView.setOnMouseClicked(e -> {
@@ -115,6 +138,7 @@ public class MainMenuController {
     }
 
     private void addDataToView() {
+        System.out.println(handler.collections.values());
         ObservableList<Ifocol> collectionsData =
                 FXCollections.observableArrayList(handler.collections.values()).sorted();
 

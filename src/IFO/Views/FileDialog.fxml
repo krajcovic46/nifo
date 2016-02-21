@@ -5,12 +5,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IFO.Views.FileDialogController">
+<AnchorPane prefHeight="220.0" prefWidth="493.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IFO.Views.FileDialogController">
    <children>
       <GridPane fx:id="gridPaneCUNT" alignment="CENTER" prefHeight="200.0" prefWidth="380.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="95.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="285.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="96.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.0" minWidth="10.0" prefWidth="357.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -26,11 +26,11 @@
             <Label text="Folder" GridPane.rowIndex="2" />
             <Label text="Description" GridPane.rowIndex="3" />
             <Label text="Tags" GridPane.rowIndex="4" />
-            <Label fx:id="nameInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" />
-            <Label fx:id="pathInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="folderInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="descInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="tagsInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="nameInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" />
+            <Label fx:id="pathInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="folderInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="descInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="tagsInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>

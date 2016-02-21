@@ -41,7 +41,7 @@ public class Main extends Application {
             mainController = loader.getController();
             mainController.setPrimaryStage(this.primaryStage);
             mainController.passHandler(handler);
-            mainController.setupTheMenu(handler, pathToDB);
+            mainController.init(pathToDB);
 
             Scene scene = new Scene(root);
             primaryStage.setTitle("Inteligentný organizátor súborov");

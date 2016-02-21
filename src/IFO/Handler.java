@@ -75,7 +75,7 @@ public class Handler {
         return filesWhichDontExist;
     }
 
-    boolean copyFile (Integer key, String toPath, boolean preserveCustomAttributes) {
+    boolean copyFile(Integer key, String toPath, boolean preserveCustomAttributes) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);
         Path to = Paths.get(toPath);
@@ -95,7 +95,7 @@ public class Handler {
         return true;
     }
 
-    boolean moveFile (Integer key, String toPath) {
+    boolean moveFile(Integer key, String toPath) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);
         Path to = Paths.get(toPath);
@@ -111,6 +111,10 @@ public class Handler {
                 workingFile.getDescription(), workingFile.getPopularity());
         files.put(key, newFile);
         return true;
+    }
+
+    public void createAnEmptyCollection(String colName) {
+        collections.put(colName, new Ifocol(colName));
     }
 
     boolean addFilesToCollection(String colName, Integer[] keys) {

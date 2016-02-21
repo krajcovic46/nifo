@@ -6,7 +6,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IFO.Views.MainMenuController">
    <top>
-      <MenuBar prefHeight="30.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <MenuBar prefHeight="12.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -45,7 +45,7 @@
                               <ListView fx:id="filesView" prefHeight="263.0" prefWidth="271.0" BorderPane.alignment="CENTER" />
                            </center>
                            <top>
-                              <TextField fx:id="filterField" BorderPane.alignment="CENTER" />
+                              <TextField fx:id="filterField" promptText="Filter files" BorderPane.alignment="CENTER" />
                            </top>
                         </BorderPane>
                      </children>
@@ -56,7 +56,7 @@
          <top>
             <ToolBar prefHeight="0.0" prefWidth="800.0" BorderPane.alignment="CENTER">
               <items>
-                <Button mnemonicParsing="false" text="Button" />
+                <Button fx:id="addEmptyCol" mnemonicParsing="false" />
               </items>
             </ToolBar>
          </top>

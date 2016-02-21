@@ -1,16 +1,9 @@
 package IFO;
 
-import IFO.Views.FileDialogController;
-import IFO.Views.MainMenuController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.stage.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -23,6 +16,18 @@ public class Utility {
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(primaryStage);
         return selectedDirectory.getAbsolutePath();
+    }
+
+    public static String textInput(String title, String what) {
+        TextInputDialog dialog = new TextInputDialog(what);
+        dialog.setTitle(title);
+        dialog.setHeaderText("Please enter new name");
+        dialog.setContentText("Name:");
+
+        Optional<String> result = dialog.showAndWait();
+        //result.ifPresent(name -> System.out.println("Your name: " + name));
+
+        return result.get();
     }
 
     public static String fileChooser(String title, Stage primaryStage) {
@@ -58,8 +63,6 @@ public class Utility {
                 * presunieme sa do status baru dolu
                 * */
                 nonExistentFiles = handler.checkFilesExistence();
-
-
             } catch (Exception e) {
                 e.printStackTrace();
                 createBeginningAlert(handler, primaryStage, nonExistentFiles);

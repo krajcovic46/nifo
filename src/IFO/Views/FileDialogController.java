@@ -19,23 +19,16 @@ import java.util.ResourceBundle;
 public class FileDialogController implements Initializable {
     @FXML
     private Label nameInfo;
-
     @FXML
     private Label pathInfo;
-
     @FXML
     private Label folderInfo;
-
     @FXML
     private Label descInfo;
-
     @FXML
     private Label tagsInfo;
-
     @FXML
     private GridPane gridPaneCUNT;
-
-    private Stage stage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
