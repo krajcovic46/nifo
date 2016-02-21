@@ -2,9 +2,7 @@ package IFO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.*;
 
 import java.io.File;
@@ -53,7 +51,7 @@ public class Utility {
     }
 
     public static void setupTheMenu(Object mainController, Handler handler, String pathToDB) {
-        MenuItem dbImport = ((FXMLController) mainController).dbImport;
+        MenuItem dbImport = ((MainMenuController) mainController).dbImport;
         dbImport.setOnAction(t -> {
             try {
                 handler.deserialize(pathToDB);
@@ -64,7 +62,7 @@ public class Utility {
             }
         });
 
-        MenuItem dbExport = ((FXMLController) mainController).dbExport;
+        MenuItem dbExport = ((MainMenuController) mainController).dbExport;
         dbExport.setOnAction(t -> {
             try {
                 handler.export(pathToDB);
@@ -114,7 +112,7 @@ public class Utility {
                                                    ObservableList<Ifofile> filesData) {
         collectionsData = FXCollections.observableArrayList(handler.collections.values()).sorted();
 
-        ListView<Ifocol> colView = ((FXMLController) mainController).collectionsView;
+        ListView<Ifocol> colView = ((MainMenuController) mainController).collectionsView;
         colView.setItems(collectionsData);
 
         colView.getSelectionModel().selectedItemProperty().addListener(
@@ -127,7 +125,7 @@ public class Utility {
         filesData = FXCollections.observableArrayList();
         for (Integer id : col.getFilesInside())
             filesData.add(handler.files.get(id));
-        ListView<Ifofile> filView = ((FXMLController) mainController).filesView;
+        ListView<Ifofile> filView = ((MainMenuController) mainController).filesView;
         filView.setItems(filesData);
         filView.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
