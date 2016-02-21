@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Organizer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Organizer_jar</output-path>
+    <root id="archive" name="Organizer.jar">
+      <element id="module-output" name="Organizer" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/gson-2.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/lib/junit-4.12.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/lib/hamcrest-core-1.3.jar" path-in-jar="/" />
+      <element id="file-copy" path="$USER_HOME$/Downloads/gson-2.6.1.jar" />
+      <element id="file-copy" path="$APPLICATION_HOME_DIR$/lib/junit-4.12.jar" />
+      <element id="file-copy" path="$APPLICATION_HOME_DIR$/lib/hamcrest-core-1.3.jar" />
+    </root>
+  </artifact>
+</component>
