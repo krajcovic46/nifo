@@ -43,7 +43,7 @@
                               <ListView fx:id="filesView" prefHeight="263.0" prefWidth="271.0" BorderPane.alignment="CENTER" />
                            </center>
                            <top>
-                              <TextField BorderPane.alignment="CENTER" />
+                              <TextField fx:id="filterField" BorderPane.alignment="CENTER" />
                            </top>
                         </BorderPane>
                      </children>
