@@ -1,42 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IFO.Views.FileDialogController">
    <children>
-      <Pane>
+      <GridPane fx:id="gridPaneCUNT" alignment="CENTER" prefHeight="200.0" prefWidth="380.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="95.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="285.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Name" />
-                  <Label text="Path" GridPane.rowIndex="1" />
-                  <Label text="Folder" GridPane.rowIndex="2" />
-                  <Label text="Description" GridPane.rowIndex="3" />
-                  <Label fx:id="nameInfo" text="Label" GridPane.columnIndex="1" />
-                  <Label fx:id="pathInfo" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="folderInfo" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="descInfo" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Button fx:id="cancelButton" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label text="Tags" GridPane.rowIndex="4" />
-                  <Label fx:id="tagsInfo" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-               </children>
-            </GridPane>
+            <Label text="Name" GridPane.columnSpan="2" />
+            <Label text="Path" GridPane.rowIndex="1" />
+            <Label text="Folder" GridPane.rowIndex="2" />
+            <Label text="Description" GridPane.rowIndex="3" />
+            <Label text="Tags" GridPane.rowIndex="4" />
+            <Label fx:id="nameInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" />
+            <Label fx:id="pathInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="folderInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="descInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="tagsInfo" prefHeight="17.0" prefWidth="390.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
-      </Pane>
+      </GridPane>
    </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </AnchorPane>

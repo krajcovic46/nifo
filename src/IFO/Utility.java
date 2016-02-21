@@ -54,7 +54,7 @@ public class Utility {
             try {
                 handler.deserialize(Utility.fileChooser("Point to the DB file", primaryStage));
                 /*TODO - treba skontrolovat ci vsetky fajly naozaj existuju
-                * zistit, ci toto funguje
+                * presunieme sa do status baru dolu
                 * */
                 nonExistentFiles = handler.checkFilesExistence();
 

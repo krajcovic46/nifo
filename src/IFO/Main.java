@@ -7,10 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sun.plugin.javascript.navig.Anchor;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -40,33 +38,16 @@ public class Main extends Application {
             Parent root  = loader.load();
 
             mainController = loader.getController();
-
-            Scene scene = new Scene(root);
-            primaryStage.setTitle("Intelingentý organizátor súborov");
-
+            mainController.setPrimaryStage(this.primaryStage);
             mainController.setupTheMenu(handler, pathToDB);
 
+            Scene scene = new Scene(root);
+            primaryStage.setTitle("Inteligentný organizátor súborov");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception d) {
             d.printStackTrace();
         }
-    }
-
-    private void initializeFileDialogController() throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("Views/FileDialog.fxml"));
-        Parent page = loader.load();
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Show Info");
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        dialogStage.initOwner(primaryStage);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-
-        FileDialogController fdController = loader.getController();
-        fdController.setStage(dialogStage);
-
     }
 
     private void startTheJob() {
@@ -76,7 +57,7 @@ public class Main extends Application {
         catch (IOException e) {
             Utility.createBeginningAlert(handler, primaryStage, nonExistentFiles);
         }
-        mainController.populateCollectionsListView(handler, collectionsData, filesData);
+        mainController.populateCollectionsListView(handler);
     }
 
     public static void main(String[] args) {

@@ -3,27 +3,39 @@ package IFO.Views;
 import IFO.Handler;
 import IFO.Ifocol;
 import IFO.Ifofile;
+import IFO.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class MainMenuController {
 
     @FXML
-    public ListView<Ifocol> collectionsView;
+    private ListView<Ifocol> collectionsView;
 
     @FXML
-    public ListView<Ifofile> filesView;
+    private ListView<Ifofile> filesView;
 
     @FXML
-    public MenuItem dbExport;
+    private MenuItem dbExport;
 
     @FXML
-    public MenuItem dbImport;
+    private MenuItem dbImport;
+
+    private Stage primaryStage;
+
+    public void setPrimaryStage(Stage stage) {
+        primaryStage = stage;
+    }
 
     public void setupTheMenu(Handler handler, String pathToDB) {
         dbImport.setOnAction(t -> {
@@ -47,18 +59,18 @@ public class MainMenuController {
         });
     }
 
-    public void populateCollectionsListView(Handler handler, ObservableList<Ifocol> collectionsData,
-                                                   ObservableList<Ifofile> filesData) {
-        collectionsData = FXCollections.observableArrayList(handler.collections.values()).sorted();
+    public void populateCollectionsListView(Handler handler) {
+        ObservableList<Ifocol> collectionsData =
+                FXCollections.observableArrayList(handler.collections.values()).sorted();
 
         collectionsView.setItems(collectionsData);
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showFilesInCollections(handler,filesData, newValue));
+                (observable, oldValue, newValue) -> showFilesInCollections(handler, newValue));
     }
 
-    public void showFilesInCollections(Handler handler,ObservableList<Ifofile> filesData, Ifocol col) {
-        filesData = FXCollections.observableArrayList();
+    public void showFilesInCollections(Handler handler, Ifocol col) {
+        ObservableList<Ifofile> filesData = FXCollections.observableArrayList();
         for (Integer id : col.getFilesInside())
             filesData.add(handler.files.get(id));
         filesView.setItems(filesData);
@@ -66,8 +78,29 @@ public class MainMenuController {
             if (e.getClickCount() == 2) {
                 Ifofile currentItemSelected = filesView.getSelectionModel()
                         .getSelectedItem();
-
+                try {
+                    initializeFileDialogController(currentItemSelected);
+                } catch (Exception d) {
+                    d.printStackTrace();
+                }
             }
         });
+    }
+
+    private void initializeFileDialogController(Ifofile file) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("Views/FileDialog.fxml"));
+        Parent page = loader.load();
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Show Info");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        FileDialogController fdController = loader.getController();
+        fdController.showInfo(file);
+
+        dialogStage.showAndWait();
     }
 }

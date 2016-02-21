@@ -139,7 +139,7 @@ public class Ifofile {
     }
 
     public String toString() {
-        return this.name + String.valueOf(this.tags.entrySet());
+        return this.name;
     }
 
     public boolean exists() {
