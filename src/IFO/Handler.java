@@ -27,9 +27,9 @@ public class Handler {
                     files.put(++lastID, new Ifofile(f.getAbsolutePath(), lastID));
                     String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
                     String where = "Miscellaneous";
-                    for (String category : FileExtensions.EXTENSIONS_MAP.keySet())
-                        if (FileExtensions.EXTENSIONS_MAP.get(category).contains(extension.toLowerCase()))
-                            where = category;
+                    try {
+                        where = FileExtensions.EXTENSIONS_MAP.get(extension);
+                    } catch (Exception ignored) {}
                     addFilesToCollection(where, new Integer[]{lastID});
                 } else
                     if (searchRecursively)
