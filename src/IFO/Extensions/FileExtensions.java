@@ -6,7 +6,7 @@ import java.util.*;
 public class FileExtensions {
     public static final Map<String, String> EXTENSIONS_MAP;
     static {
-        Map<String, ArrayList<String>> aMap = new HashMap<>();
+        Map<String, String> aMap = new HashMap<>();
         aMap.put("zip", "Archives");
         aMap.put("7z", "Archives");
         aMap.put("rar", "Archives");
