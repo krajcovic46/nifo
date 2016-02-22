@@ -104,6 +104,8 @@ public class MainMenuController {
             else
                 handler.deleteACollection(selectedCollection.name);
             addDataToView();
+            deleteCol.setDisable(true);
+            renameCol.setDisable(true);
         });
         deleteCol.setTooltip(new Tooltip("Delete a collection."));
         deleteCol.setDisable(true);
@@ -111,8 +113,12 @@ public class MainMenuController {
         Image renameColImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
         renameCol.setGraphic(new ImageView(renameColImg));
         renameCol.setOnAction(event -> {
-            handler.renameACollection(selectedCollection.name, Utility.textInput("Rename a colleciton", "New Name"));
+            try {
+                handler.renameACollection(selectedCollection.name, Utility.textInput("Rename a colleciton", "New Name"));
+            } catch (Exception ignored) {}
             addDataToView();
+            deleteCol.setDisable(true);
+            renameCol.setDisable(true);
         });
         renameCol.setTooltip(new Tooltip("Rename a collection."));
         renameCol.setDisable(true);
@@ -207,6 +213,7 @@ public class MainMenuController {
     private void addDataToView() {
         /*TODO - optimalize this -> called too many times, sorted and copied each time, could be
         * catastrophic in bigger DBs*/
+
         ObservableList<Ifocol> collectionsData =
                 FXCollections.observableArrayList(handler.collections.values()).sorted();
 

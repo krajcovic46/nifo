@@ -15,8 +15,6 @@ import java.util.HashSet;
 
 public class Main extends Application {
 
-    ObservableList<Ifocol> collectionsData;
-    ObservableList<Ifofile> filesData;
     Stage primaryStage;
     MainMenuController mainController;
     Handler handler;
