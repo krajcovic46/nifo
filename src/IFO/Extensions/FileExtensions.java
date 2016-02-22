@@ -4,7 +4,7 @@ package IFO.Extensions;
 import java.util.*;
 
 public class FileExtensions {
-    public static final Map<String, ArrayList<String>> EXTENSIONS_MAP;
+    public static final Map<String, String> EXTENSIONS_MAP;
     static {
         Map<String, ArrayList<String>> aMap = new HashMap<>();
         aMap.put("zip", "Archives");
