@@ -121,6 +121,18 @@ public class Handler {
         return false;
     }
 
+    public boolean deleteACollection(String colName) {
+        if (collections.containsKey(colName))
+            collections.remove(colName);
+        return true;
+    }
+
+    public boolean renameACollection(String oldColName, String newColName) {
+        Ifocol oldCol = collections.remove(oldColName);
+        collections.put(newColName, oldCol);
+        return true;
+    }
+
     public boolean addFilesToCollection(String colName, Integer[] keys) {
         Ifocol col = collections.get(colName);
         if (col == null) {

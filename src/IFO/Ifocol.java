@@ -34,4 +34,8 @@ public class Ifocol {
     public String toString() {
         return name;
     }
+
+    public boolean isEmpty() {
+        return filesInside.isEmpty();
+    }
 }

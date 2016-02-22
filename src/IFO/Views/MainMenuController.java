@@ -4,6 +4,8 @@ import IFO.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
@@ -37,10 +40,15 @@ public class MainMenuController {
     private Button addEmptyCol;
     @FXML
     private Button addColFromSelection;
+    @FXML
+    private Button deleteCol;
+    @FXML
+    private Button renameCol;
 
     private Stage primaryStage;
     private Handler handler;
     private Integer[] selectedFiles;
+    private Ifocol selectedCollection;
 
 
     public void setPrimaryStage(Stage stage) {
@@ -70,6 +78,8 @@ public class MainMenuController {
                     stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
             } catch (NoSuchElementException ignored) {}
         });
+        addEmptyCol.setTooltip(new Tooltip("Create an empty collection."));
+
         Image selectionColImg = new Image(getClass().getResourceAsStream("Images/newselcol.png"));
         addColFromSelection.setGraphic(new ImageView(selectionColImg));
         addColFromSelection.setOnAction(t -> {
@@ -82,6 +92,31 @@ public class MainMenuController {
                     stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
             } catch (NoSuchElementException ignored) {}
         });
+        addColFromSelection.setTooltip(new Tooltip("Create a collection from selected files."));
+
+        Image deleteColImg = new Image(getClass().getResourceAsStream("Images/deletecol.png"));
+        deleteCol.setGraphic(new ImageView(deleteColImg));
+        deleteCol.setOnAction(event -> {
+            if (!selectedCollection.isEmpty()) {
+                if (Utility.deletionWarning("Warning"))
+                    handler.deleteACollection(selectedCollection.name);
+            }
+            else
+                handler.deleteACollection(selectedCollection.name);
+            addDataToView();
+        });
+        deleteCol.setTooltip(new Tooltip("Delete a collection."));
+        deleteCol.setDisable(true);
+
+        Image renameColImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
+        renameCol.setGraphic(new ImageView(renameColImg));
+        renameCol.setOnAction(event -> {
+            handler.renameACollection(selectedCollection.name, Utility.textInput("Rename a colleciton", "New Name"));
+            addDataToView();
+        });
+        renameCol.setTooltip(new Tooltip("Rename a collection."));
+        renameCol.setDisable(true);
+
     }
 
     private void setupTheMenu(String pathToDB) {
@@ -119,6 +154,12 @@ public class MainMenuController {
     public void populateCollectionsListView() {
 
         addDataToView();
+
+        collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
+            selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
+            deleteCol.setDisable(false);
+            renameCol.setDisable(false);
+        });
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -164,6 +205,8 @@ public class MainMenuController {
     }
 
     private void addDataToView() {
+        /*TODO - optimalize this -> called too many times, sorted and copied each time, could be
+        * catastrophic in bigger DBs*/
         ObservableList<Ifocol> collectionsData =
                 FXCollections.observableArrayList(handler.collections.values()).sorted();
 

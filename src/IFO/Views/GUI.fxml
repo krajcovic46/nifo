@@ -58,6 +58,10 @@
               <items>
                 <Button fx:id="addEmptyCol" mnemonicParsing="false" />
                 <Button fx:id="addColFromSelection" mnemonicParsing="false" />
+                <Button fx:id="deleteCol" mnemonicParsing="false" />
+                <Button fx:id="renameCol" mnemonicParsing="false" />
+                  <Label text="|" />
+                  <Button mnemonicParsing="false" text="Button" />
               </items>
             </ToolBar>
          </top>

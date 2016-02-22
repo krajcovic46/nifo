@@ -26,7 +26,6 @@ public class Utility {
 
         Optional<String> result = dialog.showAndWait();
         //result.ifPresent(name -> System.out.println("Your name: " + name));
-
         return result.get();
     }
 
@@ -37,6 +36,16 @@ public class Utility {
                 new FileChooser.ExtensionFilter("All Files", "*.*"));
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         return selectedFile.getAbsolutePath();
+    }
+
+    public static boolean deletionWarning(String title) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText("You are trying to delete a collection which is not empty.");
+        alert.setContentText("Are you sure?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return (result.get() == ButtonType.OK);
     }
 
     public static void createBeginningAlert(Handler handler, Stage primaryStage, Set<Ifofile> nonExistentFiles) {
