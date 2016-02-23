@@ -47,6 +47,10 @@ public class MainMenuController {
     private Button deleteCol;
     @FXML
     private Button renameCol;
+    @FXML
+    private Button addTagsToFile;
+    @FXML
+    private Button moveFileToCollection;
 
     private Stage primaryStage;
     private Handler handler;
@@ -96,19 +100,20 @@ public class MainMenuController {
             } catch (NoSuchElementException ignored) {}
         });
         addColFromSelection.setTooltip(new Tooltip("Create a collection from selected files."));
+        addColFromSelection.setDisable(true);
 
         Image deleteColImg = new Image(getClass().getResourceAsStream("Images/deletecol.png"));
         deleteCol.setGraphic(new ImageView(deleteColImg));
         deleteCol.setOnAction(event -> {
             if (!selectedCollection.isEmpty()) {
-                if (Utility.deletionWarning("Warning"))
+                if (Utility.deletionWarning("Warning")) {
                     handler.deleteACollection(selectedCollection.name);
+                    filesView.setItems(null);
+                }
             }
             else
                 handler.deleteACollection(selectedCollection.name);
             addDataToView();
-            /*deleteCol.setDisable(true);
-            renameCol.setDisable(true);*/
         });
         deleteCol.setTooltip(new Tooltip("Delete a collection."));
         deleteCol.setDisable(true);
@@ -123,14 +128,18 @@ public class MainMenuController {
                 else
                     stateLabel.setText("A collection with the same name already exists.");
             } catch (Exception ignored) {}
-            /*deleteCol.setDisable(true);
-            renameCol.setDisable(true);*/
+            addDataToView();
         });
         renameCol.setTooltip(new Tooltip("Rename a collection."));
         renameCol.setDisable(true);
-        /*TODO - add button handling cause this is one big pile of shit
-        * solution moze byt ze nebudes nikdy blokovat buttony, len to bude hlasit
-        * hlasky ked pouzivatel klikne na button a nic sa nemoze stat*/
+
+        Image addTagsToFileImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
+        addTagsToFile.setGraphic(new ImageView(addTagsToFileImg));
+        addTagsToFile.setOnAction(event -> {
+            /*TODO - fixne sa ked sa fixne button handling na kolekcie*/
+            stateLabel.setText("Toto dorobit.");
+        });
+        addTagsToFile.setTooltip(new Tooltip("Add tags to the selected file."));
     }
 
     private void setupTheMenu(String pathToDB) {
@@ -172,9 +181,14 @@ public class MainMenuController {
         collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
             System.out.println("selected: " + collectionsView.getSelectionModel().getSelectedItem());
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
-            if (selectedCollection != null) {
-                deleteCol.setDisable(false);
-                renameCol.setDisable(false);
+
+            boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
+            deleteCol.setDisable(!isSelectedButNotAll);
+            renameCol.setDisable(!isSelectedButNotAll);
+            if (isSelectedButNotAll) {
+                boolean isEmpty = selectedCollection.getFilesInside() == null ||
+                        selectedCollection.getFilesInside().size() == 0 || selectedFiles == null;
+                addColFromSelection.setDisable(isEmpty);
             }
         });
 
@@ -217,6 +231,7 @@ public class MainMenuController {
             selectedFiles = new Integer[selectedItems.size()];
             for (int i = 0; i < selectedItems.size(); i++)
                 selectedFiles[i] = selectedItems.get(i).getId();
+            addColFromSelection.setDisable(false);
         });
     }
 

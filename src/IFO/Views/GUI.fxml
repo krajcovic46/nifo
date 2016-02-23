@@ -60,8 +60,11 @@
                 <Button fx:id="addColFromSelection" mnemonicParsing="false" />
                 <Button fx:id="deleteCol" mnemonicParsing="false" />
                 <Button fx:id="renameCol" mnemonicParsing="false" />
+
                   <Label text="|" />
-                  <Button mnemonicParsing="false" text="Button" />
+
+                <Button fx:id="addTagsToFile" mnemonicParsing="false" />
+                <Button fx:id="moveFileToCollection" mnemonicParsing="false" />
               </items>
             </ToolBar>
          </top>

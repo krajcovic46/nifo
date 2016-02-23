@@ -29,6 +29,7 @@ public class Handler {
                     String col = FileExtensions.EXTENSIONS_MAP.get(extension);
                     if (col == null) col = "Miscellaneous";
                     addFilesToCollection(col, new Integer[]{lastID});
+                    addFilesToCollection("All", new Integer[]{lastID});
                 } else
                     if (searchRecursively)
                         fillInternalStructures(f.getAbsolutePath(), true);
