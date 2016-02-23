@@ -123,8 +123,6 @@ public class MainMenuController {
                 else
                     stateLabel.setText("A collection with the same name already exists.");
             } catch (Exception ignored) {}
-            System.out.println("teraz");
-            addDataToView();
             /*deleteCol.setDisable(true);
             renameCol.setDisable(true);*/
         });
