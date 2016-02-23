@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,7 +19,9 @@ import javafx.stage.Stage;
 
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URL;
 import java.util.NoSuchElementException;
+import java.util.ResourceBundle;
 
 public class MainMenuController {
 
@@ -104,8 +107,8 @@ public class MainMenuController {
             else
                 handler.deleteACollection(selectedCollection.name);
             addDataToView();
-            deleteCol.setDisable(true);
-            renameCol.setDisable(true);
+            /*deleteCol.setDisable(true);
+            renameCol.setDisable(true);*/
         });
         deleteCol.setTooltip(new Tooltip("Delete a collection."));
         deleteCol.setDisable(true);
@@ -114,15 +117,22 @@ public class MainMenuController {
         renameCol.setGraphic(new ImageView(renameColImg));
         renameCol.setOnAction(event -> {
             try {
-                handler.renameACollection(selectedCollection.name, Utility.textInput("Rename a colleciton", "New Name"));
+                if (handler.renameACollection(selectedCollection.name,
+                        Utility.textInput("Rename a collection", "New Name")))
+                    stateLabel.setText("Collection successfuly renamed.");
+                else
+                    stateLabel.setText("A collection with the same name already exists.");
             } catch (Exception ignored) {}
+            System.out.println("teraz");
             addDataToView();
-            deleteCol.setDisable(true);
-            renameCol.setDisable(true);
+            /*deleteCol.setDisable(true);
+            renameCol.setDisable(true);*/
         });
         renameCol.setTooltip(new Tooltip("Rename a collection."));
         renameCol.setDisable(true);
-
+        /*TODO - add button handling cause this is one big pile of shit
+        * solution moze byt ze nebudes nikdy blokovat buttony, len to bude hlasit
+        * hlasky ked pouzivatel klikne na button a nic sa nemoze stat*/
     }
 
     private void setupTheMenu(String pathToDB) {
@@ -162,9 +172,12 @@ public class MainMenuController {
         addDataToView();
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
+            System.out.println("selected: " + collectionsView.getSelectionModel().getSelectedItem());
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
-            deleteCol.setDisable(false);
-            renameCol.setDisable(false);
+            if (selectedCollection != null) {
+                deleteCol.setDisable(false);
+                renameCol.setDisable(false);
+            }
         });
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(
@@ -204,9 +217,8 @@ public class MainMenuController {
 //            System.out.println(selectedItems);
             /*TODO - shift-click stale nefunguje ffs*/
             selectedFiles = new Integer[selectedItems.size()];
-            for (int i = 0; i < selectedItems.size(); i++) {
+            for (int i = 0; i < selectedItems.size(); i++)
                 selectedFiles[i] = selectedItems.get(i).getId();
-            }
         });
     }
 

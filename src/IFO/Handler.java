@@ -128,7 +128,10 @@ public class Handler {
     }
 
     public boolean renameACollection(String oldColName, String newColName) {
+        if (collections.containsKey(newColName))
+            return false;
         Ifocol oldCol = collections.remove(oldColName);
+        oldCol.name = newColName;
         collections.put(newColName, oldCol);
         return true;
     }

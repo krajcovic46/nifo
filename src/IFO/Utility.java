@@ -26,7 +26,8 @@ public class Utility {
 
         Optional<String> result = dialog.showAndWait();
         //result.ifPresent(name -> System.out.println("Your name: " + name));
-        return result.get();
+        System.out.println(" result.get: " + result.get() +" what: " + what);
+        return (result.isPresent()) ? result.get() : what;
     }
 
     public static String fileChooser(String title, Stage primaryStage) {
