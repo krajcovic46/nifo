@@ -26,11 +26,9 @@ public class Handler {
                 if (f.isFile()) {
                     files.put(++lastID, new Ifofile(f.getAbsolutePath(), lastID));
                     String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
-                    String where = "Miscellaneous";
-                    try {
-                        where = FileExtensions.EXTENSIONS_MAP.get(extension);
-                    } catch (Exception ignored) {}
-                    addFilesToCollection(where, new Integer[]{lastID});
+                    String col = FileExtensions.EXTENSIONS_MAP.get(extension);
+                    if (col == null) col = "Miscellaneous";
+                    addFilesToCollection(col, new Integer[]{lastID});
                 } else
                     if (searchRecursively)
                         fillInternalStructures(f.getAbsolutePath(), true);
