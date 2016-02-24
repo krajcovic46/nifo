@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
@@ -40,6 +41,8 @@ public class MainMenuController {
     @FXML
     private Label stateLabel;
     @FXML
+    private Button refreshButton;
+    @FXML
     private Button addEmptyCol;
     @FXML
     private Button addColFromSelection;
@@ -57,7 +60,6 @@ public class MainMenuController {
     private Integer[] selectedFiles;
     private Ifocol selectedCollection;
 
-
     public void setPrimaryStage(Stage stage) {
         primaryStage = stage;
         stateLabel.setText("Welcome to \"Inteligentný organizátor súborov\".");
@@ -73,6 +75,11 @@ public class MainMenuController {
     }
 
     private void createToolbarButtons() {
+        Image refreshButtImg = new Image(getClass().getResourceAsStream(""));
+        refreshButton.setGraphic(new ImageView(refreshButtImg));
+        refreshButton.setOnAction(t -> addDataToView());
+        refreshButton.setTooltip(new Tooltip("Refresh"));
+
         Image emptyColImg = new Image(getClass().getResourceAsStream("Images/newempcol.png"));
         addEmptyCol.setGraphic(new ImageView(emptyColImg));
         addEmptyCol.setOnAction(t -> {
@@ -179,9 +186,10 @@ public class MainMenuController {
         addDataToView();
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
-            System.out.println("selected: " + collectionsView.getSelectionModel().getSelectedItem());
+            //System.out.println("selected: " + collectionsView.getSelectionModel().getSelectedItem());
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
 
+            System.out.println(Arrays.toString(selectedFiles));
             boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
             deleteCol.setDisable(!isSelectedButNotAll);
             renameCol.setDisable(!isSelectedButNotAll);
@@ -226,11 +234,12 @@ public class MainMenuController {
 
         filesView.getSelectionModel().selectedItemProperty().addListener(t -> {
             ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
-//            System.out.println(selectedItems);
             /*TODO - shift-click stale nefunguje ffs*/
             selectedFiles = new Integer[selectedItems.size()];
             for (int i = 0; i < selectedItems.size(); i++)
+                /*TODO - sem dat asi inu datovu strukturu pretoze je to retardovane*/
                 selectedFiles[i] = selectedItems.get(i).getId();
+            System.out.println(Arrays.toString(selectedFiles));
             addColFromSelection.setDisable(false);
         });
     }
@@ -242,6 +251,7 @@ public class MainMenuController {
         ObservableList<Ifocol> collectionsData =
                 FXCollections.observableArrayList(handler.collections.values()).sorted();
 
+        collectionsView.setItems(null);
         collectionsView.setItems(collectionsData);
     }
 
