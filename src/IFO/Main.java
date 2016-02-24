@@ -60,6 +60,12 @@ public class Main extends Application {
         mainController.populateCollectionsListView();
     }
 
+    @Override
+    public void stop() throws Exception {
+        System.out.println("stopping");
+        super.stop();
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
-public class MainMenuController {
+public class MainMenuController implements Initializable {
 
     @FXML
     private ListView<Ifocol> collectionsView;
@@ -74,10 +74,15 @@ public class MainMenuController {
         createToolbarButtons();
     }
 
+    private void refresh() {
+        UpdateableListViewSkin.cast(collectionsView.getSkin()).refresh();
+        UpdateableListViewSkin.cast(filesView.getSkin()).refresh();
+    }
+
     private void createToolbarButtons() {
         Image refreshButtImg = new Image(getClass().getResourceAsStream(""));
         refreshButton.setGraphic(new ImageView(refreshButtImg));
-        refreshButton.setOnAction(t -> addDataToView());
+        refreshButton.setOnAction(t -> refresh());
         refreshButton.setTooltip(new Tooltip("Refresh"));
 
         Image emptyColImg = new Image(getClass().getResourceAsStream("Images/newempcol.png"));
@@ -86,7 +91,7 @@ public class MainMenuController {
             try {
                 String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
                 if (handler.createAnEmptyCollection(newCollectionName)) {
-                    addDataToView();
+                    refresh();
                     stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
                 } else
                     stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
@@ -100,7 +105,7 @@ public class MainMenuController {
             try {
                 String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
                 if (handler.addFilesToCollection(newCollectionName, selectedFiles)) {
-                    addDataToView();
+                    refresh();
                     stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
                 } else
                     stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
@@ -120,7 +125,7 @@ public class MainMenuController {
             }
             else
                 handler.deleteACollection(selectedCollection.name);
-            addDataToView();
+            refresh();
         });
         deleteCol.setTooltip(new Tooltip("Delete a collection."));
         deleteCol.setDisable(true);
@@ -135,7 +140,7 @@ public class MainMenuController {
                 else
                     stateLabel.setText("A collection with the same name already exists.");
             } catch (Exception ignored) {}
-            addDataToView();
+            refresh();
         });
         renameCol.setTooltip(new Tooltip("Rename a collection."));
         renameCol.setDisable(true);
@@ -153,7 +158,7 @@ public class MainMenuController {
         importFiles.setOnAction(t -> {
             try {
                 handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
-                addDataToView();
+                refresh();
                 handler.export(pathToDB);
             } catch (Exception e) {
                 stateLabel.setText("Could not add files, please try again.");
@@ -182,8 +187,9 @@ public class MainMenuController {
     }
 
     public void populateCollectionsListView() {
-
-        addDataToView();
+        ObservableList<Ifocol> collectionsData =
+                FXCollections.observableArrayList(handler.collections.values()).sorted();
+        collectionsView.setItems(collectionsData);
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
             //System.out.println("selected: " + collectionsView.getSelectionModel().getSelectedItem());
@@ -244,17 +250,6 @@ public class MainMenuController {
         });
     }
 
-    private void addDataToView() {
-        /*TODO - optimalize this -> called too many times, sorted and copied each time, could be
-        * catastrophic in bigger DBs*/
-
-        ObservableList<Ifocol> collectionsData =
-                FXCollections.observableArrayList(handler.collections.values()).sorted();
-
-        collectionsView.setItems(null);
-        collectionsView.setItems(collectionsData);
-    }
-
     private void initializeFileDialogController(Ifofile file) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("Views/FileDialog.fxml"));
@@ -270,5 +265,13 @@ public class MainMenuController {
         fdController.showInfo(file);
 
         dialogStage.showAndWait();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        UpdateableListViewSkin<Ifocol> colSkin = new UpdateableListViewSkin<Ifocol>(this.collectionsView);
+        UpdateableListViewSkin<Ifofile> filSkin = new UpdateableListViewSkin<Ifofile>(this.filesView);
+        collectionsView.setSkin(colSkin);
+        filesView.setSkin(filSkin);
     }
 }
