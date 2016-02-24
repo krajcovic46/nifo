@@ -76,7 +76,11 @@ public class MainMenuController implements Initializable {
         createToolbarButtons();
     }
 
-    private void refresh() {
+    public void refresh(ActionEvent event) {
+        _refresh();
+    }
+
+    private void _refresh() {
         UpdateableListViewSkin.cast(collectionsView.getSkin()).refresh();
         UpdateableListViewSkin.cast(filesView.getSkin()).refresh();
     }
@@ -84,7 +88,6 @@ public class MainMenuController implements Initializable {
     private void createToolbarButtons() {
         Image refreshButtImg = new Image(getClass().getResourceAsStream(""));
         refreshButton.setGraphic(new ImageView(refreshButtImg));
-        refreshButton.setOnAction(t -> refresh());
         refreshButton.setTooltip(new Tooltip("Refresh"));
 
         Image emptyColImg = new Image(getClass().getResourceAsStream("Images/newempcol.png"));
@@ -93,7 +96,7 @@ public class MainMenuController implements Initializable {
             try {
                 String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
                 if (handler.createAnEmptyCollection(newCollectionName)) {
-                    refresh();
+                    _refresh();
                     stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
                 } else
                     stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
@@ -107,7 +110,7 @@ public class MainMenuController implements Initializable {
             try {
                 String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
                 if (handler.addFilesToCollection(newCollectionName, selectedFiles)) {
-                    refresh();
+                    _refresh();
                     stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
                 } else
                     stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
@@ -127,7 +130,7 @@ public class MainMenuController implements Initializable {
             }
             else
                 handler.deleteACollection(selectedCollection.name);
-            refresh();
+            _refresh();
         });
         deleteCol.setTooltip(new Tooltip("Delete a collection."));
         deleteCol.setDisable(true);
@@ -142,7 +145,7 @@ public class MainMenuController implements Initializable {
                 else
                     stateLabel.setText("A collection with the same name already exists.");
             } catch (Exception ignored) {}
-            refresh();
+            _refresh();
         });
         renameCol.setTooltip(new Tooltip("Rename a collection."));
         renameCol.setDisable(true);
@@ -269,10 +272,11 @@ public class MainMenuController implements Initializable {
         filesView.setSkin(filSkin);
     }
 
+    @FXML
     public void setAddFiles(ActionEvent actionEvent) {
         try {
             handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
-            refresh();
+            _refresh();
             handler.export(pathToDB);
         } catch (Exception e) {
             stateLabel.setText("Could not add files, please try again.");
