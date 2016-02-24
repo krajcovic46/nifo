@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -31,7 +29,7 @@ public class MainMenuController implements Initializable {
     @FXML
     private ListView<Ifofile> filesView;
     @FXML
-    private MenuItem importFiles;
+    private MenuItem addFiles;
     @FXML
     private MenuItem dbImport;
     @FXML
@@ -42,6 +40,8 @@ public class MainMenuController implements Initializable {
     private Label stateLabel;
     @FXML
     private Button refreshButton;
+    @FXML
+    private Button addFilesButton;
     @FXML
     private Button addEmptyCol;
     @FXML
@@ -55,6 +55,7 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button moveFileToCollection;
 
+    private String pathToDB;
     private Stage primaryStage;
     private Handler handler;
     private Integer[] selectedFiles;
@@ -70,6 +71,7 @@ public class MainMenuController implements Initializable {
     }
 
     public void init(String pathToDB) {
+        this.pathToDB = pathToDB;
         setupTheMenu(pathToDB);
         createToolbarButtons();
     }
@@ -155,15 +157,7 @@ public class MainMenuController implements Initializable {
     }
 
     private void setupTheMenu(String pathToDB) {
-        importFiles.setOnAction(t -> {
-            try {
-                handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
-                refresh();
-                handler.export(pathToDB);
-            } catch (Exception e) {
-                stateLabel.setText("Could not add files, please try again.");
-            }
-        });
+        //addFiles.setOnAction(setAddFiles(pathToDB));
 
         dbImport.setOnAction(t -> {
             try {
@@ -269,9 +263,19 @@ public class MainMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        UpdateableListViewSkin<Ifocol> colSkin = new UpdateableListViewSkin<Ifocol>(this.collectionsView);
-        UpdateableListViewSkin<Ifofile> filSkin = new UpdateableListViewSkin<Ifofile>(this.filesView);
+        UpdateableListViewSkin<Ifocol> colSkin = new UpdateableListViewSkin<>(collectionsView);
+        UpdateableListViewSkin<Ifofile> filSkin = new UpdateableListViewSkin<>(filesView);
         collectionsView.setSkin(colSkin);
         filesView.setSkin(filSkin);
+    }
+
+    public void setAddFiles(ActionEvent actionEvent) {
+        try {
+            handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
+            refresh();
+            handler.export(pathToDB);
+        } catch (Exception e) {
+            stateLabel.setText("Could not add files, please try again.");
+        }
     }
 }

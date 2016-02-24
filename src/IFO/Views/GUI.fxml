@@ -10,7 +10,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                <MenuItem fx:id="importFiles" mnemonicParsing="false" text="Add files" />
+                <MenuItem fx:id="addFiles" mnemonicParsing="false" text="Add files" />
               <MenuItem fx:id="dbImport" mnemonicParsing="false" text="Import new..." />
               <MenuItem fx:id="dbExport" mnemonicParsing="false" text="Export/Save" />
             </items>
@@ -57,6 +57,8 @@
             <ToolBar prefHeight="0.0" prefWidth="800.0" BorderPane.alignment="CENTER">
               <items>
                 <Button fx:id="refreshButton" mnemonicParsing="false" />
+                  <Label text="|" />
+                <Button fx:id="addFilesButton" onAction="#setAddFiles" mnemonicParsing="false" />
                 <Label text="|" />
                 <Button fx:id="addEmptyCol" mnemonicParsing="false" />
                 <Button fx:id="addColFromSelection" mnemonicParsing="false" />
