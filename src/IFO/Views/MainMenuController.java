@@ -72,12 +72,7 @@ public class MainMenuController implements Initializable {
 
     public void init(String pathToDB) {
         this.pathToDB = pathToDB;
-        setupTheMenu(pathToDB);
-        createToolbarButtons();
-    }
-
-    public void refresh(ActionEvent event) {
-        _refresh();
+        customizeToolbarButtons();
     }
 
     private void _refresh() {
@@ -85,102 +80,57 @@ public class MainMenuController implements Initializable {
         UpdateableListViewSkin.cast(filesView.getSkin()).refresh();
     }
 
-    private void createToolbarButtons() {
+    private void customizeToolbarButtons() {
+        customizeRefreshButton();
+
+        customizeAddEmptyColButton();
+
+        customizeAddColFromSelectionButton();
+
+        customizeDeleteColButton();
+
+        customizeRenameColButton();
+
+        customizeAddTagsToFileButton();
+    }
+
+    private void customizeRefreshButton() {
         Image refreshButtImg = new Image(getClass().getResourceAsStream(""));
         refreshButton.setGraphic(new ImageView(refreshButtImg));
         refreshButton.setTooltip(new Tooltip("Refresh"));
-
-        Image emptyColImg = new Image(getClass().getResourceAsStream("Images/newempcol.png"));
-        addEmptyCol.setGraphic(new ImageView(emptyColImg));
-        addEmptyCol.setOnAction(t -> {
-            try {
-                String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
-                if (handler.createAnEmptyCollection(newCollectionName)) {
-                    _refresh();
-                    stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
-                } else
-                    stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
-            } catch (NoSuchElementException ignored) {}
-        });
-        addEmptyCol.setTooltip(new Tooltip("Create an empty collection."));
-
-        Image selectionColImg = new Image(getClass().getResourceAsStream("Images/newselcol.png"));
-        addColFromSelection.setGraphic(new ImageView(selectionColImg));
-        addColFromSelection.setOnAction(t -> {
-            try {
-                String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
-                if (handler.addFilesToCollection(newCollectionName, selectedFiles)) {
-                    _refresh();
-                    stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
-                } else
-                    stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
-            } catch (NoSuchElementException ignored) {}
-        });
-        addColFromSelection.setTooltip(new Tooltip("Create a collection from selected files."));
-        addColFromSelection.setDisable(true);
-
-        Image deleteColImg = new Image(getClass().getResourceAsStream("Images/deletecol.png"));
-        deleteCol.setGraphic(new ImageView(deleteColImg));
-        deleteCol.setOnAction(event -> {
-            if (!selectedCollection.isEmpty()) {
-                if (Utility.deletionWarning("Warning")) {
-                    handler.deleteACollection(selectedCollection.name);
-                    filesView.setItems(null);
-                }
-            }
-            else
-                handler.deleteACollection(selectedCollection.name);
-            _refresh();
-        });
-        deleteCol.setTooltip(new Tooltip("Delete a collection."));
-        deleteCol.setDisable(true);
-
-        Image renameColImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
-        renameCol.setGraphic(new ImageView(renameColImg));
-        renameCol.setOnAction(event -> {
-            try {
-                if (handler.renameACollection(selectedCollection.name,
-                        Utility.textInput("Rename a collection", "New Name")))
-                    stateLabel.setText("Collection successfuly renamed.");
-                else
-                    stateLabel.setText("A collection with the same name already exists.");
-            } catch (Exception ignored) {}
-            _refresh();
-        });
-        renameCol.setTooltip(new Tooltip("Rename a collection."));
-        renameCol.setDisable(true);
-
-        Image addTagsToFileImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
-        addTagsToFile.setGraphic(new ImageView(addTagsToFileImg));
-        addTagsToFile.setOnAction(event -> {
-            /*TODO - fixne sa ked sa fixne button handling na kolekcie*/
-            stateLabel.setText("Toto dorobit.");
-        });
-        addTagsToFile.setTooltip(new Tooltip("Add tags to the selected file."));
     }
 
-    private void setupTheMenu(String pathToDB) {
-        //addFiles.setOnAction(setAddFiles(pathToDB));
+    private void customizeAddEmptyColButton() {
+        Image emptyColImg = new Image(getClass().getResourceAsStream("Images/newempcol.png"));
+        addEmptyCol.setGraphic(new ImageView(emptyColImg));
+        addEmptyCol.setTooltip(new Tooltip("Create an empty collection."));
+    }
 
-        dbImport.setOnAction(t -> {
-            try {
-                handler.deserialize(pathToDB);
-                stateLabel.setText("Import successful.");
-            } catch (IOException e) {
-                stateLabel.setText("Import unsuccessful, please try again.");
-                e.printStackTrace();
-            }
-        });
+    private void customizeAddColFromSelectionButton(){
+        Image selectionColImg = new Image(getClass().getResourceAsStream("Images/newselcol.png"));
+        addColFromSelection.setGraphic(new ImageView(selectionColImg));
+        addColFromSelection.setTooltip(new Tooltip("Create a collection from selected files."));
+        addColFromSelection.setDisable(true);
+    }
 
-        dbExport.setOnAction(t -> {
-            try {
-                handler.export(pathToDB);
-                stateLabel.setText("Export/Save successful.");
-            } catch (IOException e) {
-                stateLabel.setText("Export/Save unsucessful, please try again.");
-                e.printStackTrace();
-            }
-        });
+    private void customizeDeleteColButton() {
+        Image deleteColImg = new Image(getClass().getResourceAsStream("Images/deletecol.png"));
+        deleteCol.setGraphic(new ImageView(deleteColImg));
+        deleteCol.setTooltip(new Tooltip("Delete a collection."));
+        deleteCol.setDisable(true);
+    }
+
+    private void customizeRenameColButton() {
+        Image renameColImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
+        renameCol.setGraphic(new ImageView(renameColImg));
+        renameCol.setTooltip(new Tooltip("Rename a collection."));
+        renameCol.setDisable(true);
+    }
+
+    private void customizeAddTagsToFileButton() {
+        Image addTagsToFileImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
+        addTagsToFile.setGraphic(new ImageView(addTagsToFileImg));
+        addTagsToFile.setTooltip(new Tooltip("Add tags to the selected file."));
     }
 
     public void populateCollectionsListView() {
@@ -281,5 +231,86 @@ public class MainMenuController implements Initializable {
         } catch (Exception e) {
             stateLabel.setText("Could not add files, please try again.");
         }
+    }
+
+    @FXML
+    public void setDbImport() {
+        try {
+            handler.deserialize(pathToDB);
+            stateLabel.setText("Import successful.");
+        } catch (IOException e) {
+            stateLabel.setText("Import unsuccessful, please try again.");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void setDbExport(ActionEvent event) {
+        try {
+            handler.export(pathToDB);
+            stateLabel.setText("Export/Save successful.");
+        } catch (IOException e) {
+            stateLabel.setText("Export/Save unsucessful, please try again.");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void refresh(ActionEvent event) {
+        _refresh();
+    }
+
+    @FXML
+    public void setAddEmptyCol(ActionEvent event) {
+        try {
+            String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
+            if (handler.createAnEmptyCollection(newCollectionName)) {
+                _refresh();
+                stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
+            } else
+                stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
+        } catch (NoSuchElementException ignored) {}
+    }
+
+    @FXML
+    public void setAddColFromSelection() {
+        try {
+            String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
+            if (handler.addFilesToCollection(newCollectionName, selectedFiles)) {
+                _refresh();
+                stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
+            } else
+                stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
+        } catch (NoSuchElementException ignored) {}
+    }
+
+    @FXML
+    public void setDeleteCol(ActionEvent event) {
+        if (!selectedCollection.isEmpty()) {
+            if (Utility.deletionWarning("Warning")) {
+                handler.deleteACollection(selectedCollection.name);
+                filesView.setItems(null);
+            }
+        }
+        else
+            handler.deleteACollection(selectedCollection.name);
+        _refresh();
+    }
+
+    @FXML
+    public void setRenameCol(ActionEvent event) {
+        try {
+            if (handler.renameACollection(selectedCollection.name,
+                    Utility.textInput("Rename a collection", "New Name")))
+                stateLabel.setText("Collection successfuly renamed.");
+            else
+                stateLabel.setText("A collection with the same name already exists.");
+        } catch (Exception ignored) {}
+        _refresh();
+    }
+
+    @FXML
+    public void setAddTagsToFile(ActionEvent event) {
+
     }
 }

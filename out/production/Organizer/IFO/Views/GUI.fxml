@@ -10,7 +10,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                <MenuItem fx:id="addFiles" mnemonicParsing="false" text="Add files" />
+                <MenuItem fx:id="addFiles" onAction="#setAddFiles" mnemonicParsing="false" text="Add files" />
               <MenuItem fx:id="dbImport" mnemonicParsing="false" text="Import new..." />
               <MenuItem fx:id="dbExport" mnemonicParsing="false" text="Export/Save" />
             </items>
@@ -56,14 +56,16 @@
          <top>
             <ToolBar prefHeight="0.0" prefWidth="800.0" BorderPane.alignment="CENTER">
               <items>
-                <Button fx:id="refreshButton" mnemonicParsing="false" />
+                <Button fx:id="refreshButton" onAction="#refresh" mnemonicParsing="false" />
+
                   <Label text="|" />
+
                 <Button fx:id="addFilesButton" onAction="#setAddFiles" mnemonicParsing="false" />
                 <Label text="|" />
-                <Button fx:id="addEmptyCol" mnemonicParsing="false" />
-                <Button fx:id="addColFromSelection" mnemonicParsing="false" />
-                <Button fx:id="deleteCol" mnemonicParsing="false" />
-                <Button fx:id="renameCol" mnemonicParsing="false" />
+                <Button fx:id="addEmptyCol" onAction="#setAddEmptyCol" mnemonicParsing="false" />
+                <Button fx:id="addColFromSelection" onAction="#setAddColFromSelection" mnemonicParsing="false" />
+                <Button fx:id="deleteCol" onAction="#setDeleteCol" mnemonicParsing="false" />
+                <Button fx:id="renameCol" onAction="#setRenameCol" mnemonicParsing="false" />
 
                   <Label text="|" />
 
