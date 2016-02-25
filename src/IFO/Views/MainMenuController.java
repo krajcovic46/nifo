@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,20 +16,21 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
-public class MainMenuController {
+public class MainMenuController implements Initializable {
 
     @FXML
     private ListView<Ifocol> collectionsView;
     @FXML
     private ListView<Ifofile> filesView;
     @FXML
-    private MenuItem importFiles;
+    private MenuItem addFiles;
     @FXML
     private MenuItem dbImport;
     @FXML
@@ -40,19 +40,30 @@ public class MainMenuController {
     @FXML
     private Label stateLabel;
     @FXML
-    private Button addEmptyCol;
+    private Button refreshButton;
     @FXML
-    private Button addColFromSelection;
+    private Button addFilesButton;
     @FXML
-    private Button deleteCol;
+    private Button exportButton;
     @FXML
-    private Button renameCol;
+    private Button addEmptyColButton;
+    @FXML
+    private Button addColFromSelectionButton;
+    @FXML
+    private Button deleteColButton;
+    @FXML
+    private Button renameColButton;
+    @FXML
+    private Button addTagsToFileButton;
+    @FXML
+    private Button moveFileToCollectionButton;
 
+    private String pathToDB;
     private Stage primaryStage;
     private Handler handler;
-    private Integer[] selectedFiles;
+    private HashSet<Integer> selectedFiles;
     private Ifocol selectedCollection;
-
+    private ObservableList<Ifocol> collectionsData;
 
     public void setPrimaryStage(Stage stage) {
         primaryStage = stage;
@@ -64,117 +75,61 @@ public class MainMenuController {
     }
 
     public void init(String pathToDB) {
-        setupTheMenu(pathToDB);
-        createToolbarButtons();
+        this.pathToDB = pathToDB;
+        customizeToolbarButtons();
     }
 
-    private void createToolbarButtons() {
-        Image emptyColImg = new Image(getClass().getResourceAsStream("Images/newempcol.png"));
-        addEmptyCol.setGraphic(new ImageView(emptyColImg));
-        addEmptyCol.setOnAction(t -> {
-            try {
-                String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
-                if (handler.createAnEmptyCollection(newCollectionName)) {
-                    addDataToView();
-                    stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
-                } else
-                    stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
-            } catch (NoSuchElementException ignored) {}
-        });
-        addEmptyCol.setTooltip(new Tooltip("Create an empty collection."));
-
-        Image selectionColImg = new Image(getClass().getResourceAsStream("Images/newselcol.png"));
-        addColFromSelection.setGraphic(new ImageView(selectionColImg));
-        addColFromSelection.setOnAction(t -> {
-            try {
-                String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
-                if (handler.addFilesToCollection(newCollectionName, selectedFiles)) {
-                    addDataToView();
-                    stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
-                } else
-                    stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
-            } catch (NoSuchElementException ignored) {}
-        });
-        addColFromSelection.setTooltip(new Tooltip("Create a collection from selected files."));
-
-        Image deleteColImg = new Image(getClass().getResourceAsStream("Images/deletecol.png"));
-        deleteCol.setGraphic(new ImageView(deleteColImg));
-        deleteCol.setOnAction(event -> {
-            if (!selectedCollection.isEmpty()) {
-                if (Utility.deletionWarning("Warning"))
-                    handler.deleteACollection(selectedCollection.name);
-            }
-            else
-                handler.deleteACollection(selectedCollection.name);
-            addDataToView();
-            /*deleteCol.setDisable(true);
-            renameCol.setDisable(true);*/
-        });
-        deleteCol.setTooltip(new Tooltip("Delete a collection."));
-        deleteCol.setDisable(true);
-
-        Image renameColImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
-        renameCol.setGraphic(new ImageView(renameColImg));
-        renameCol.setOnAction(event -> {
-            try {
-                if (handler.renameACollection(selectedCollection.name,
-                        Utility.textInput("Rename a collection", "New Name")))
-                    stateLabel.setText("Collection successfuly renamed.");
-                else
-                    stateLabel.setText("A collection with the same name already exists.");
-            } catch (Exception ignored) {}
-            /*deleteCol.setDisable(true);
-            renameCol.setDisable(true);*/
-        });
-        renameCol.setTooltip(new Tooltip("Rename a collection."));
-        renameCol.setDisable(true);
-        /*TODO - add button handling cause this is one big pile of shit
-        * solution moze byt ze nebudes nikdy blokovat buttony, len to bude hlasit
-        * hlasky ked pouzivatel klikne na button a nic sa nemoze stat*/
+    private void _refresh() {
+        UpdateableListViewSkin.cast(collectionsView.getSkin()).refresh();
+        UpdateableListViewSkin.cast(filesView.getSkin()).refresh();
     }
 
-    private void setupTheMenu(String pathToDB) {
-        importFiles.setOnAction(t -> {
-            try {
-                handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
-                addDataToView();
-                handler.export(pathToDB);
-            } catch (Exception e) {
-                stateLabel.setText("Could not add files, please try again.");
-            }
-        });
+    private void _updateCollectionsView() {
+        collectionsData = FXCollections.observableArrayList(handler.collections.values()).sorted();
+//        collectionsView.setItems(null);
+        collectionsView.setItems(collectionsData);
+    }
 
-        dbImport.setOnAction(t -> {
-            try {
-                handler.deserialize(pathToDB);
-                stateLabel.setText("Import successful.");
-            } catch (IOException e) {
-                stateLabel.setText("Import unsuccessful, please try again.");
-                e.printStackTrace();
-            }
-        });
+    private void customizeToolbarButtons() {
+        customizeButton(refreshButton, "Images/refresh.png", "Refresh", false);
+        customizeButton(addFilesButton, "Images/addfiles.png", "Add new files to the database", false);
+        customizeButton(exportButton, "Images/export.png", "Export/Save", false);
+        customizeButton(addEmptyColButton, "Images/newempcol.png", "Create an empty collection", false);
+        customizeButton(addColFromSelectionButton, "Images/newselcol.png", "Create a collection from selected files", true);
+        customizeButton(deleteColButton, "Images/deletecol.png", "Delete a collection", true);
+        customizeButton(renameColButton, "Images/renamecol.png", "Rename a collection", true);
+        customizeButton(addTagsToFileButton, "Images/addtags.png", "Add tags to the selected file.", true);
+        customizeButton(moveFileToCollectionButton, "Images/movefiletocol.png", "Move file to another collection",
+                true);
+    }
 
-        dbExport.setOnAction(t -> {
-            try {
-                handler.export(pathToDB);
-                stateLabel.setText("Export/Save successful.");
-            } catch (IOException e) {
-                stateLabel.setText("Export/Save unsucessful, please try again.");
-                e.printStackTrace();
-            }
-        });
+    private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
+        Image image = new Image(getClass().getResourceAsStream(pathToImage));
+        button.setGraphic(new ImageView(image));
+        button.setTooltip(new Tooltip(tooltip));
+        button.setDisable(disabled);
     }
 
     public void populateCollectionsListView() {
-
-        addDataToView();
+        collectionsData =
+                FXCollections.observableArrayList(handler.collections.values()).sorted();
+        collectionsView.setItems(collectionsData);
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
-            System.out.println("selected: " + collectionsView.getSelectionModel().getSelectedItem());
+            _refresh();
+
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
-            if (selectedCollection != null) {
-                deleteCol.setDisable(false);
-                renameCol.setDisable(false);
+
+            boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
+            deleteColButton.setDisable(!isSelectedButNotAll);
+            renameColButton.setDisable(!isSelectedButNotAll);
+            if (isSelectedButNotAll) {
+                boolean isEmpty;
+                isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
+                        selectedCollection.getFilesInside() == null || selectedCollection.getFilesInside().size() == 0;
+                addColFromSelectionButton.setDisable(isEmpty);
+                addTagsToFileButton.setDisable(isEmpty);
+                moveFileToCollectionButton.setDisable(isEmpty);
             }
         });
 
@@ -192,7 +147,6 @@ public class MainMenuController {
 
         FilteredList<Ifofile> filteredData = new FilteredList<>(filesData, p -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-            // kind of magic - vracia to true ak to splna podmienky medzi ORmi
             filteredData.setPredicate(file -> newValue == null ||
                     newValue.isEmpty() || file.getName().toLowerCase().contains(newValue.toLowerCase()));
         });
@@ -200,6 +154,7 @@ public class MainMenuController {
         filesView.setItems(filteredData);
 
         filesView.setOnMouseClicked(e -> {
+            _refresh();
             if (e.getClickCount() == 2) {
                 Ifofile currentItemSelected = filesView.getSelectionModel().getSelectedItem();
                 try {
@@ -212,22 +167,17 @@ public class MainMenuController {
 
         filesView.getSelectionModel().selectedItemProperty().addListener(t -> {
             ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
-//            System.out.println(selectedItems);
             /*TODO - shift-click stale nefunguje ffs*/
-            selectedFiles = new Integer[selectedItems.size()];
-            for (int i = 0; i < selectedItems.size(); i++)
-                selectedFiles[i] = selectedItems.get(i).getId();
+            selectedFiles = new HashSet<>();
+            for (Ifofile selectedItem : selectedItems) {
+                selectedFiles.add(selectedItem.getId());
+                System.out.println("selectedFiles: " + selectedFiles + " selectedItems: " + selectedItems + " selectedItem: " + selectedItem);
+            }
+            boolean disable = selectedItems.size()==0;
+            addColFromSelectionButton.setDisable(disable);
+            addTagsToFileButton.setDisable(disable);
+            moveFileToCollectionButton.setDisable(disable);
         });
-    }
-
-    private void addDataToView() {
-        /*TODO - optimalize this -> called too many times, sorted and copied each time, could be
-        * catastrophic in bigger DBs*/
-
-        ObservableList<Ifocol> collectionsData =
-                FXCollections.observableArrayList(handler.collections.values()).sorted();
-
-        collectionsView.setItems(collectionsData);
     }
 
     private void initializeFileDialogController(Ifofile file) throws Exception {
@@ -245,5 +195,148 @@ public class MainMenuController {
         fdController.showInfo(file);
 
         dialogStage.showAndWait();
+    }
+
+    private void initializeMoveFileToColDialogController() throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("Views/MoveFileToColDialog.fxml"));
+        Parent page = loader.load();
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        MoveFileToColDialogController mftcdController = loader.getController();
+        mftcdController.init(handler, selectedCollection, selectedFiles);
+        mftcdController.setStage(dialogStage);
+
+        dialogStage.showAndWait();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        UpdateableListViewSkin<Ifocol> colSkin = new UpdateableListViewSkin<>(collectionsView);
+        UpdateableListViewSkin<Ifofile> filSkin = new UpdateableListViewSkin<>(filesView);
+        collectionsView.setSkin(colSkin);
+        filesView.setSkin(filSkin);
+    }
+
+    @FXML
+    public void setAddFiles(ActionEvent actionEvent) {
+        long startTime = System.nanoTime();
+        try {
+            handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
+            _refresh();
+            handler.export(pathToDB);
+        } catch (Exception e) {
+            stateLabel.setText("Could not add files, please try again.");
+        }
+        long estimatedTime = System.nanoTime() - startTime;
+        System.out.println(estimatedTime);
+        _updateCollectionsView();
+    }
+
+    @FXML
+    public void setDbImport() {
+        try {
+            handler.deserialize(pathToDB);
+            stateLabel.setText("Import successful.");
+        } catch (IOException e) {
+            stateLabel.setText("Import unsuccessful, please try again.");
+            e.printStackTrace();
+        }
+        _updateCollectionsView();
+    }
+
+    @FXML
+    public void setDbExport(ActionEvent event) {
+        try {
+            handler.export(pathToDB);
+            stateLabel.setText("Export/Save successful.");
+        } catch (IOException e) {
+            stateLabel.setText("Export/Save unsucessful, please try again.");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void refresh(ActionEvent event) {
+        _refresh();
+        _updateCollectionsView();
+        stateLabel.setText("Refreshed");
+    }
+
+    @FXML
+    public void setAddEmptyColButton(ActionEvent event) {
+        try {
+            String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
+            if (handler.createAnEmptyCollection(newCollectionName)) {
+                _refresh();
+                stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
+            } else
+                stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
+        } catch (NoSuchElementException ignored) {}
+        _updateCollectionsView();
+    }
+
+    @FXML
+    public void setAddColFromSelection() {
+        try {
+            String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
+            if (handler.addFilesToCollection(newCollectionName, selectedFiles)) {
+                _refresh();
+                stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
+            } else
+                stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
+        } catch (NoSuchElementException ignored) {}
+        _updateCollectionsView();
+    }
+
+    @FXML
+    public void setDeleteColButton(ActionEvent event) {
+        if (!selectedCollection.isEmpty()) {
+            if (Utility.deletionWarning("Warning")) {
+                handler.deleteACollection(selectedCollection.name);
+                filesView.setItems(null);
+            }
+        }
+        else
+            handler.deleteACollection(selectedCollection.name);
+        _updateCollectionsView();
+    }
+
+    @FXML
+    public void setRenameColButton(ActionEvent event) {
+        try {
+            if (handler.renameACollection(selectedCollection.name,
+                    Utility.textInput("Rename a collection", "New Name")))
+                stateLabel.setText("Collection successfuly renamed.");
+            else
+                stateLabel.setText("A collection with the same name already exists.");
+        } catch (Exception ignored) {}
+        _refresh();
+    }
+
+    @FXML
+    public void setAddTagsToFileButton(ActionEvent event) {
+        if (selectedFiles.size() == 0 || selectedFiles == null)
+            stateLabel.setText("Please choose a file to set tags to.");
+        else
+            for (Integer f : selectedFiles) {
+            /*TODO - vytvorit view na pridavanie tagov*/
+            }
+        stateLabel.setText("zatial nic");
+    }
+
+    @FXML
+    public void setMoveFileToCollectionButton(ActionEvent event) {
+        try {
+            initializeMoveFileToColDialogController();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        _updateCollectionsView();
     }
 }

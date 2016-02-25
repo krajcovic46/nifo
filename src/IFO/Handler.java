@@ -28,7 +28,8 @@ public class Handler {
                     String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
                     String col = FileExtensions.EXTENSIONS_MAP.get(extension);
                     if (col == null) col = "Miscellaneous";
-                    addFilesToCollection(col, new Integer[]{lastID});
+                    addFilesToCollection(col, lastID);
+                    addFilesToCollection("All", lastID);
                 } else
                     if (searchRecursively)
                         fillInternalStructures(f.getAbsolutePath(), true);
@@ -93,24 +94,6 @@ public class Handler {
         return true;
     }
 
-    boolean moveFile(Integer key, String toPath) {
-        Ifofile workingFile = files.get(key);
-        Path from = Paths.get(workingFile.absolutePath);
-        Path to = Paths.get(toPath);
-        CopyOption[] options = new CopyOption[] { StandardCopyOption.REPLACE_EXISTING };
-        try {
-            Files.move(from, to, options);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        Ifofile newFile = new Ifofile(toPath, key);
-        newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
-                workingFile.getDescription(), workingFile.getPopularity());
-        files.put(key, newFile);
-        return true;
-    }
-
     public boolean createAnEmptyCollection(String colName) {
         if (!collections.containsKey(colName)) {
             collections.put(colName, new Ifocol(colName));
@@ -134,7 +117,7 @@ public class Handler {
         return true;
     }
 
-    public boolean addFilesToCollection(String colName, Integer[] keys) {
+    public boolean addFilesToCollection(String colName, HashSet<Integer> keys) {
         Ifocol col = collections.get(colName);
         if (col == null) {
             col = new Ifocol(colName);
@@ -142,6 +125,16 @@ public class Handler {
         }
         for (Integer k : keys)
             col.add(k);
+        return true;
+    }
+
+    public boolean addFilesToCollection(String colName, Integer key) {
+        Ifocol col = collections.get(colName);
+        if (col == null) {
+            col = new Ifocol(colName);
+            collections.put(colName, col);
+        }
+        col.add(key);
         return true;
     }
 
@@ -154,7 +147,7 @@ public class Handler {
         return true;
     }
 
-    boolean moveFilesFromCollectionToCollection(String fromCol, String toCol, Integer[] keys) {
+    public boolean moveFilesBetweenCollections(String fromCol, String toCol, HashSet<Integer> keys) {
         Ifocol fcol = collections.get(fromCol);
         Ifocol tcol = collections.get(toCol);
         if (fcol == null || tcol == null)
@@ -223,5 +216,23 @@ public class Handler {
                 return true;
         }
         return false;
+    }
+
+    boolean moveFile(Integer key, String toPath) {
+        Ifofile workingFile = files.get(key);
+        Path from = Paths.get(workingFile.absolutePath);
+        Path to = Paths.get(toPath);
+        CopyOption[] options = new CopyOption[] { StandardCopyOption.REPLACE_EXISTING };
+        try {
+            Files.move(from, to, options);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        Ifofile newFile = new Ifofile(toPath, key);
+        newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
+                workingFile.getDescription(), workingFile.getPopularity());
+        files.put(key, newFile);
+        return true;
     }
 }
