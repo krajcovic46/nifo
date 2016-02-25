@@ -28,8 +28,8 @@ public class Handler {
                     String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
                     String col = FileExtensions.EXTENSIONS_MAP.get(extension);
                     if (col == null) col = "Miscellaneous";
-                    addFilesToCollection(col, new Integer[]{lastID});
-                    addFilesToCollection("All", new Integer[]{lastID});
+                    addFilesToCollection(col, lastID);
+                    addFilesToCollection("All", lastID);
                 } else
                     if (searchRecursively)
                         fillInternalStructures(f.getAbsolutePath(), true);
@@ -135,7 +135,7 @@ public class Handler {
         return true;
     }
 
-    public boolean addFilesToCollection(String colName, Integer[] keys) {
+    public boolean addFilesToCollection(String colName, HashSet<Integer> keys) {
         Ifocol col = collections.get(colName);
         if (col == null) {
             col = new Ifocol(colName);
@@ -143,6 +143,16 @@ public class Handler {
         }
         for (Integer k : keys)
             col.add(k);
+        return true;
+    }
+
+    public boolean addFilesToCollection(String colName, Integer key) {
+        Ifocol col = collections.get(colName);
+        if (col == null) {
+            col = new Ifocol(colName);
+            collections.put(colName, col);
+        }
+        col.add(key);
         return true;
     }
 

@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
@@ -58,8 +59,9 @@ public class MainMenuController implements Initializable {
     private String pathToDB;
     private Stage primaryStage;
     private Handler handler;
-    private Integer[] selectedFiles;
+    private HashSet<Integer> selectedFiles;
     private Ifocol selectedCollection;
+    private ObservableList<Ifocol> collectionsData;
 
     public void setPrimaryStage(Stage stage) {
         primaryStage = stage;
@@ -80,8 +82,16 @@ public class MainMenuController implements Initializable {
         UpdateableListViewSkin.cast(filesView.getSkin()).refresh();
     }
 
+    private void _updateCollectionsView() {
+        collectionsData = FXCollections.observableArrayList(handler.collections.values()).sorted();
+//        collectionsView.setItems(null);
+        collectionsView.setItems(collectionsData);
+    }
+
     private void customizeToolbarButtons() {
         customizeRefreshButton();
+
+        customizeAddFilesButton();
 
         customizeAddEmptyColButton();
 
@@ -95,9 +105,15 @@ public class MainMenuController implements Initializable {
     }
 
     private void customizeRefreshButton() {
-        Image refreshButtImg = new Image(getClass().getResourceAsStream(""));
+        Image refreshButtImg = new Image(getClass().getResourceAsStream("Images/refresh.png"));
         refreshButton.setGraphic(new ImageView(refreshButtImg));
         refreshButton.setTooltip(new Tooltip("Refresh"));
+    }
+
+    private void customizeAddFilesButton() {
+        Image addFilesButtImg = new Image(getClass().getResourceAsStream("Images/addfiles.png"));
+        addFilesButton.setGraphic(new ImageView(addFilesButtImg));
+        addFilesButton.setTooltip(new Tooltip("Add new files to the database"));
     }
 
     private void customizeAddEmptyColButton() {
@@ -134,21 +150,22 @@ public class MainMenuController implements Initializable {
     }
 
     public void populateCollectionsListView() {
-        ObservableList<Ifocol> collectionsData =
+        collectionsData =
                 FXCollections.observableArrayList(handler.collections.values()).sorted();
         collectionsView.setItems(collectionsData);
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
-            //System.out.println("selected: " + collectionsView.getSelectionModel().getSelectedItem());
+            _refresh();
+
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
 
-            System.out.println(Arrays.toString(selectedFiles));
             boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
             deleteCol.setDisable(!isSelectedButNotAll);
             renameCol.setDisable(!isSelectedButNotAll);
             if (isSelectedButNotAll) {
-                boolean isEmpty = selectedCollection.getFilesInside() == null ||
-                        selectedCollection.getFilesInside().size() == 0 || selectedFiles == null;
+                boolean isEmpty;
+                isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
+                        selectedCollection.getFilesInside() == null || selectedCollection.getFilesInside().size() == 0;
                 addColFromSelection.setDisable(isEmpty);
             }
         });
@@ -167,7 +184,6 @@ public class MainMenuController implements Initializable {
 
         FilteredList<Ifofile> filteredData = new FilteredList<>(filesData, p -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-            // kind of magic - vracia to true ak to splna podmienky medzi ORmi
             filteredData.setPredicate(file -> newValue == null ||
                     newValue.isEmpty() || file.getName().toLowerCase().contains(newValue.toLowerCase()));
         });
@@ -175,6 +191,7 @@ public class MainMenuController implements Initializable {
         filesView.setItems(filteredData);
 
         filesView.setOnMouseClicked(e -> {
+            _refresh();
             if (e.getClickCount() == 2) {
                 Ifofile currentItemSelected = filesView.getSelectionModel().getSelectedItem();
                 try {
@@ -188,12 +205,10 @@ public class MainMenuController implements Initializable {
         filesView.getSelectionModel().selectedItemProperty().addListener(t -> {
             ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
             /*TODO - shift-click stale nefunguje ffs*/
-            selectedFiles = new Integer[selectedItems.size()];
-            for (int i = 0; i < selectedItems.size(); i++)
-                /*TODO - sem dat asi inu datovu strukturu pretoze je to retardovane*/
-                selectedFiles[i] = selectedItems.get(i).getId();
-            System.out.println(Arrays.toString(selectedFiles));
-            addColFromSelection.setDisable(false);
+            selectedFiles = new HashSet<>();
+            for (Ifofile selectedItem : selectedItems)
+                selectedFiles.add(selectedItem.getId());
+            addColFromSelection.setDisable(selectedItems.size()==0);
         });
     }
 
@@ -231,6 +246,7 @@ public class MainMenuController implements Initializable {
         } catch (Exception e) {
             stateLabel.setText("Could not add files, please try again.");
         }
+        _updateCollectionsView();
     }
 
     @FXML
@@ -242,6 +258,7 @@ public class MainMenuController implements Initializable {
             stateLabel.setText("Import unsuccessful, please try again.");
             e.printStackTrace();
         }
+        _updateCollectionsView();
     }
 
     @FXML
@@ -258,6 +275,8 @@ public class MainMenuController implements Initializable {
     @FXML
     public void refresh(ActionEvent event) {
         _refresh();
+        _updateCollectionsView();
+        stateLabel.setText("Refreshed");
     }
 
     @FXML
@@ -270,6 +289,7 @@ public class MainMenuController implements Initializable {
             } else
                 stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
         } catch (NoSuchElementException ignored) {}
+        _updateCollectionsView();
     }
 
     @FXML
@@ -282,6 +302,7 @@ public class MainMenuController implements Initializable {
             } else
                 stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
         } catch (NoSuchElementException ignored) {}
+        _updateCollectionsView();
     }
 
     @FXML
@@ -294,7 +315,7 @@ public class MainMenuController implements Initializable {
         }
         else
             handler.deleteACollection(selectedCollection.name);
-        _refresh();
+        _updateCollectionsView();
     }
 
     @FXML

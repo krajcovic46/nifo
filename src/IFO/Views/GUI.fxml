@@ -61,7 +61,9 @@
                   <Label text="|" />
 
                 <Button fx:id="addFilesButton" onAction="#setAddFiles" mnemonicParsing="false" />
-                <Label text="|" />
+
+                  <Label text="|" />
+
                 <Button fx:id="addEmptyCol" onAction="#setAddEmptyCol" mnemonicParsing="false" />
                 <Button fx:id="addColFromSelection" onAction="#setAddColFromSelection" mnemonicParsing="false" />
                 <Button fx:id="deleteCol" onAction="#setDeleteCol" mnemonicParsing="false" />

@@ -7,7 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dbexport.ifo" afterPath="$PROJECT_DIR$/dbexport.ifo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Handler.java" afterPath="$PROJECT_DIR$/src/IFO/Handler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Main.java" afterPath="$PROJECT_DIR$/src/IFO/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/GUI.fxml" afterPath="$PROJECT_DIR$/src/IFO/Views/GUI.fxml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/MainMenuController.java" afterPath="$PROJECT_DIR$/src/IFO/Views/MainMenuController.java" />
     </list>
@@ -74,7 +77,7 @@
         <entry file="file://$PROJECT_DIR$/src/IFO/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="64" column="39" selection-start-line="64" selection-start-column="39" selection-end-line="64" selection-end-column="39" />
+              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -96,7 +99,7 @@
         <entry file="file://$PROJECT_DIR$/src/IFO/Handler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
+              <caret line="40" column="48" selection-start-line="40" selection-start-column="48" selection-end-line="40" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -107,13 +110,16 @@
       <file leaf-file-name="MainMenuController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/IFO/Views/MainMenuController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.32412523">
-              <caret line="74" column="31" selection-start-line="74" selection-start-column="31" selection-end-line="74" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.548803">
+              <caret line="216" column="53" selection-start-line="216" selection-start-column="53" selection-end-line="216" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#setPrimaryStage#0;class#MainMenuController#0" expanded="false" />
-                <element signature="e#9510#9511#0" expanded="true" />
-                <element signature="e#9536#9537#0" expanded="true" />
+                <element signature="method#customizeAddEmptyColButton#0;class#MainMenuController#0" expanded="false" />
+                <element signature="method#customizeAddColFromSelectionButton#0;class#MainMenuController#0" expanded="false" />
+                <element signature="method#customizeDeleteColButton#0;class#MainMenuController#0" expanded="false" />
+                <element signature="method#customizeRenameColButton#0;class#MainMenuController#0" expanded="false" />
+                <element signature="method#customizeAddTagsToFileButton#0;class#MainMenuController#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -122,8 +128,8 @@
       <file leaf-file-name="GUI.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/IFO/Views/GUI.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.8363636">
-              <caret line="14" column="63" selection-start-line="14" selection-start-column="63" selection-end-line="14" selection-end-column="63" />
+            <state vertical-scroll-proportion="-3.4545455">
+              <caret line="64" column="18" selection-start-line="64" selection-start-column="18" selection-end-line="64" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -217,10 +223,10 @@
         <option value="$PROJECT_DIR$/src/IFO/Ifocol.java" />
         <option value="$PROJECT_DIR$/src/IFO/Utility.java" />
         <option value="$PROJECT_DIR$/dbexport.ifo" />
-        <option value="$PROJECT_DIR$/src/IFO/Handler.java" />
-        <option value="$PROJECT_DIR$/src/IFO/Main.java" />
         <option value="$PROJECT_DIR$/src/IFO/UpdateableListViewSkin.java" />
         <option value="$PROJECT_DIR$/src/IFO/Views/GUI.fxml" />
+        <option value="$PROJECT_DIR$/src/IFO/Main.java" />
+        <option value="$PROJECT_DIR$/src/IFO/Handler.java" />
         <option value="$PROJECT_DIR$/src/IFO/Views/MainMenuController.java" />
       </list>
     </option>
@@ -1034,7 +1040,7 @@
       <workItem from="1456172169412" duration="12640000" />
       <workItem from="1456218935629" duration="3229000" />
       <workItem from="1456231892922" duration="907000" />
-      <workItem from="1456335522432" duration="8111000" />
+      <workItem from="1456335522432" duration="15006000" />
     </task>
     <servers />
   </component>
@@ -1071,7 +1077,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197247000" />
+    <option name="totallyTimeSpent" value="204142000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -1152,7 +1158,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1209,8 +1215,11 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#setPrimaryStage#0;class#MainMenuController#0" expanded="false" />
-            <element signature="e#9510#9511#0" expanded="true" />
-            <element signature="e#9536#9537#0" expanded="true" />
+            <element signature="method#customizeAddEmptyColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeAddColFromSelectionButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeDeleteColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeRenameColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeAddTagsToFileButton#0;class#MainMenuController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1274,8 +1283,11 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#setPrimaryStage#0;class#MainMenuController#0" expanded="false" />
-            <element signature="e#9510#9511#0" expanded="true" />
-            <element signature="e#9536#9537#0" expanded="true" />
+            <element signature="method#customizeAddEmptyColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeAddColFromSelectionButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeDeleteColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeRenameColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeAddTagsToFileButton#0;class#MainMenuController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1331,8 +1343,11 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#setPrimaryStage#0;class#MainMenuController#0" expanded="false" />
-            <element signature="e#9510#9511#0" expanded="true" />
-            <element signature="e#9536#9537#0" expanded="true" />
+            <element signature="method#customizeAddEmptyColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeAddColFromSelectionButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeDeleteColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeRenameColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeAddTagsToFileButton#0;class#MainMenuController#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1533,14 +1548,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="64" column="39" selection-start-line="64" selection-start-column="39" selection-end-line="64" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IFO/Ifofile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1570,16 +1577,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Handler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/IFO/UpdateableListViewSkin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3915989">
@@ -1597,8 +1594,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/IFO/Views/GUI.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.8363636">
-          <caret line="14" column="63" selection-start-line="14" selection-start-column="63" selection-end-line="14" selection-end-column="63" />
+        <state vertical-scroll-proportion="-3.4545455">
+          <caret line="64" column="18" selection-start-line="64" selection-start-column="18" selection-end-line="64" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -1606,15 +1603,36 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/IFO/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IFO/Handler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="48" selection-start-line="40" selection-start-column="48" selection-end-line="40" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/IFO/Views/MainMenuController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.32412523">
-          <caret line="74" column="31" selection-start-line="74" selection-start-column="31" selection-end-line="74" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.548803">
+          <caret line="216" column="53" selection-start-line="216" selection-start-column="53" selection-end-line="216" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#setPrimaryStage#0;class#MainMenuController#0" expanded="false" />
-            <element signature="e#9510#9511#0" expanded="true" />
-            <element signature="e#9536#9537#0" expanded="true" />
+            <element signature="method#customizeAddEmptyColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeAddColFromSelectionButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeDeleteColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeRenameColButton#0;class#MainMenuController#0" expanded="false" />
+            <element signature="method#customizeAddTagsToFileButton#0;class#MainMenuController#0" expanded="false" />
           </folding>
         </state>
       </provider>
