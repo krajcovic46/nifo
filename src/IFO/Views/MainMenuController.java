@@ -44,6 +44,8 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button addFilesButton;
     @FXML
+    private Button exportButton;
+    @FXML
     private Button addEmptyCol;
     @FXML
     private Button addColFromSelection;
@@ -93,6 +95,8 @@ public class MainMenuController implements Initializable {
 
         customizeAddFilesButton();
 
+        customizeExportButton();
+
         customizeAddEmptyColButton();
 
         customizeAddColFromSelectionButton();
@@ -114,6 +118,12 @@ public class MainMenuController implements Initializable {
         Image addFilesButtImg = new Image(getClass().getResourceAsStream("Images/addfiles.png"));
         addFilesButton.setGraphic(new ImageView(addFilesButtImg));
         addFilesButton.setTooltip(new Tooltip("Add new files to the database"));
+    }
+
+    private void customizeExportButton() {
+        Image exportButtImg = new Image(getClass().getResourceAsStream("Images/export.png"));
+        exportButton.setGraphic(new ImageView(exportButtImg));
+        exportButton.setTooltip(new Tooltip("Export/Save"));
     }
 
     private void customizeAddEmptyColButton() {
