@@ -91,72 +91,44 @@ public class MainMenuController implements Initializable {
     }
 
     private void customizeToolbarButtons() {
-        customizeRefreshButton();
+        //customizeRefreshButton();
 
-        customizeAddFilesButton();
+        customizeButton(refreshButton, "Images/refresh.png", "Refresh", false);
 
-        customizeExportButton();
+        //customizeAddFilesButton();
 
-        customizeAddEmptyColButton();
+        customizeButton(addFilesButton, "Images/addfiles.png", "Add new files to the database", false);
 
-        customizeAddColFromSelectionButton();
+        //customizeExportButton();
 
-        customizeDeleteColButton();
+        customizeButton(exportButton, "Images/export.png", "Export/Save", false);
 
-        customizeRenameColButton();
+        //customizeAddEmptyColButton();
 
-        customizeAddTagsToFileButton();
+        customizeButton(addEmptyCol, "Images/newempcol.png", "Create an empty collection", false);
+
+//        customizeAddColFromSelectionButton();
+
+        customizeButton(addColFromSelection, "Images/newselcol.png", "Create a collection from selected files", true);
+
+//        customizeDeleteColButton();
+
+        customizeButton(deleteCol, "Images/deletecol.png", "Delete a collection", true);
+
+//        customizeRenameColButton();
+
+        customizeButton(renameCol, "Images/renamecol.png", "Rename a collection", true);
+
+//        customizeAddTagsToFileButton();
+
+        customizeButton(addTagsToFile, "Images/renamecol.png", "Add tags to the selected file.", false);
     }
 
-    private void customizeRefreshButton() {
-        Image refreshButtImg = new Image(getClass().getResourceAsStream("Images/refresh.png"));
-        refreshButton.setGraphic(new ImageView(refreshButtImg));
-        refreshButton.setTooltip(new Tooltip("Refresh"));
-    }
-
-    private void customizeAddFilesButton() {
-        Image addFilesButtImg = new Image(getClass().getResourceAsStream("Images/addfiles.png"));
-        addFilesButton.setGraphic(new ImageView(addFilesButtImg));
-        addFilesButton.setTooltip(new Tooltip("Add new files to the database"));
-    }
-
-    private void customizeExportButton() {
-        Image exportButtImg = new Image(getClass().getResourceAsStream("Images/export.png"));
-        exportButton.setGraphic(new ImageView(exportButtImg));
-        exportButton.setTooltip(new Tooltip("Export/Save"));
-    }
-
-    private void customizeAddEmptyColButton() {
-        Image emptyColImg = new Image(getClass().getResourceAsStream("Images/newempcol.png"));
-        addEmptyCol.setGraphic(new ImageView(emptyColImg));
-        addEmptyCol.setTooltip(new Tooltip("Create an empty collection."));
-    }
-
-    private void customizeAddColFromSelectionButton(){
-        Image selectionColImg = new Image(getClass().getResourceAsStream("Images/newselcol.png"));
-        addColFromSelection.setGraphic(new ImageView(selectionColImg));
-        addColFromSelection.setTooltip(new Tooltip("Create a collection from selected files."));
-        addColFromSelection.setDisable(true);
-    }
-
-    private void customizeDeleteColButton() {
-        Image deleteColImg = new Image(getClass().getResourceAsStream("Images/deletecol.png"));
-        deleteCol.setGraphic(new ImageView(deleteColImg));
-        deleteCol.setTooltip(new Tooltip("Delete a collection."));
-        deleteCol.setDisable(true);
-    }
-
-    private void customizeRenameColButton() {
-        Image renameColImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
-        renameCol.setGraphic(new ImageView(renameColImg));
-        renameCol.setTooltip(new Tooltip("Rename a collection."));
-        renameCol.setDisable(true);
-    }
-
-    private void customizeAddTagsToFileButton() {
-        Image addTagsToFileImg = new Image(getClass().getResourceAsStream("Images/renamecol.png"));
-        addTagsToFile.setGraphic(new ImageView(addTagsToFileImg));
-        addTagsToFile.setTooltip(new Tooltip("Add tags to the selected file."));
+    private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
+        Image image = new Image(getClass().getResourceAsStream(pathToImage));
+        button.setGraphic(new ImageView(image));
+        button.setTooltip(new Tooltip(tooltip));
+        button.setDisable(disabled);
     }
 
     public void populateCollectionsListView() {
