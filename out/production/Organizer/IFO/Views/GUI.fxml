@@ -65,15 +65,15 @@
 
                   <Label text="|" />
 
-                <Button fx:id="addEmptyCol" mnemonicParsing="false" onAction="#setAddEmptyCol" />
-                <Button fx:id="addColFromSelection" mnemonicParsing="false" onAction="#setAddColFromSelection" />
-                <Button fx:id="deleteCol" mnemonicParsing="false" onAction="#setDeleteCol" />
-                <Button fx:id="renameCol" mnemonicParsing="false" onAction="#setRenameCol" />
+                <Button fx:id="addEmptyColButton" mnemonicParsing="false" onAction="#setAddEmptyColButton" />
+                <Button fx:id="addColFromSelectionButton" mnemonicParsing="false" onAction="#setAddColFromSelection" />
+                <Button fx:id="deleteColButton" mnemonicParsing="false" onAction="#setDeleteColButton" />
+                <Button fx:id="renameColButton" mnemonicParsing="false" onAction="#setRenameColButton" />
 
                   <Label text="|" />
 
-                <Button fx:id="addTagsToFile" mnemonicParsing="false" />
-                <Button fx:id="moveFileToCollection" mnemonicParsing="false" />
+                <Button fx:id="addTagsToFileButton" mnemonicParsing="false" onAction="#setAddTagsToFileButton" />
+                <Button fx:id="moveFileToCollectionButton" mnemonicParsing="false" onAction="#setMoveFileToCollectionButton"/>
               </items>
             </ToolBar>
          </top>

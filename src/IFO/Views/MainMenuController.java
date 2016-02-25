@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
@@ -46,17 +45,17 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button exportButton;
     @FXML
-    private Button addEmptyCol;
+    private Button addEmptyColButton;
     @FXML
-    private Button addColFromSelection;
+    private Button addColFromSelectionButton;
     @FXML
-    private Button deleteCol;
+    private Button deleteColButton;
     @FXML
-    private Button renameCol;
+    private Button renameColButton;
     @FXML
-    private Button addTagsToFile;
+    private Button addTagsToFileButton;
     @FXML
-    private Button moveFileToCollection;
+    private Button moveFileToCollectionButton;
 
     private String pathToDB;
     private Stage primaryStage;
@@ -91,37 +90,16 @@ public class MainMenuController implements Initializable {
     }
 
     private void customizeToolbarButtons() {
-        //customizeRefreshButton();
-
         customizeButton(refreshButton, "Images/refresh.png", "Refresh", false);
-
-        //customizeAddFilesButton();
-
         customizeButton(addFilesButton, "Images/addfiles.png", "Add new files to the database", false);
-
-        //customizeExportButton();
-
         customizeButton(exportButton, "Images/export.png", "Export/Save", false);
-
-        //customizeAddEmptyColButton();
-
-        customizeButton(addEmptyCol, "Images/newempcol.png", "Create an empty collection", false);
-
-//        customizeAddColFromSelectionButton();
-
-        customizeButton(addColFromSelection, "Images/newselcol.png", "Create a collection from selected files", true);
-
-//        customizeDeleteColButton();
-
-        customizeButton(deleteCol, "Images/deletecol.png", "Delete a collection", true);
-
-//        customizeRenameColButton();
-
-        customizeButton(renameCol, "Images/renamecol.png", "Rename a collection", true);
-
-//        customizeAddTagsToFileButton();
-
-        customizeButton(addTagsToFile, "Images/renamecol.png", "Add tags to the selected file.", false);
+        customizeButton(addEmptyColButton, "Images/newempcol.png", "Create an empty collection", false);
+        customizeButton(addColFromSelectionButton, "Images/newselcol.png", "Create a collection from selected files", true);
+        customizeButton(deleteColButton, "Images/deletecol.png", "Delete a collection", true);
+        customizeButton(renameColButton, "Images/renamecol.png", "Rename a collection", true);
+        customizeButton(addTagsToFileButton, "Images/addtags.png", "Add tags to the selected file.", true);
+        customizeButton(moveFileToCollectionButton, "Images/movefiletocol.png", "Move file to another collection",
+                true);
     }
 
     private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
@@ -142,13 +120,15 @@ public class MainMenuController implements Initializable {
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
 
             boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
-            deleteCol.setDisable(!isSelectedButNotAll);
-            renameCol.setDisable(!isSelectedButNotAll);
+            deleteColButton.setDisable(!isSelectedButNotAll);
+            renameColButton.setDisable(!isSelectedButNotAll);
             if (isSelectedButNotAll) {
                 boolean isEmpty;
                 isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
                         selectedCollection.getFilesInside() == null || selectedCollection.getFilesInside().size() == 0;
-                addColFromSelection.setDisable(isEmpty);
+                addColFromSelectionButton.setDisable(isEmpty);
+                addTagsToFileButton.setDisable(isEmpty);
+                moveFileToCollectionButton.setDisable(isEmpty);
             }
         });
 
@@ -188,9 +168,14 @@ public class MainMenuController implements Initializable {
             ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
             /*TODO - shift-click stale nefunguje ffs*/
             selectedFiles = new HashSet<>();
-            for (Ifofile selectedItem : selectedItems)
+            for (Ifofile selectedItem : selectedItems) {
                 selectedFiles.add(selectedItem.getId());
-            addColFromSelection.setDisable(selectedItems.size()==0);
+                System.out.println("selectedFiles: " + selectedFiles + " selectedItems: " + selectedItems + " selectedItem: " + selectedItem);
+            }
+            boolean disable = selectedItems.size()==0;
+            addColFromSelectionButton.setDisable(disable);
+            addTagsToFileButton.setDisable(disable);
+            moveFileToCollectionButton.setDisable(disable);
         });
     }
 
@@ -262,7 +247,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setAddEmptyCol(ActionEvent event) {
+    public void setAddEmptyColButton(ActionEvent event) {
         try {
             String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
             if (handler.createAnEmptyCollection(newCollectionName)) {
@@ -288,7 +273,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setDeleteCol(ActionEvent event) {
+    public void setDeleteColButton(ActionEvent event) {
         if (!selectedCollection.isEmpty()) {
             if (Utility.deletionWarning("Warning")) {
                 handler.deleteACollection(selectedCollection.name);
@@ -301,7 +286,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setRenameCol(ActionEvent event) {
+    public void setRenameColButton(ActionEvent event) {
         try {
             if (handler.renameACollection(selectedCollection.name,
                     Utility.textInput("Rename a collection", "New Name")))
@@ -313,7 +298,18 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setAddTagsToFile(ActionEvent event) {
+    public void setAddTagsToFileButton(ActionEvent event) {
+        if (selectedFiles.size() == 0 || selectedFiles == null)
+            stateLabel.setText("Please choose a file to set tags to.");
+        else
+            for (Integer f : selectedFiles) {
+
+            }
+        stateLabel.setText("zatial nic");
+    }
+
+    @FXML
+    public void setMoveFileToCollectionButton(ActionEvent event) {
 
     }
 }
