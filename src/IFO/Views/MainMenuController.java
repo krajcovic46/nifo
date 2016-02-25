@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
@@ -196,6 +197,24 @@ public class MainMenuController implements Initializable {
         dialogStage.showAndWait();
     }
 
+    private void initializeMoveFileToColDialogController() throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("Views/MoveFileToColDialog.fxml"));
+        Parent page = loader.load();
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        MoveFileToColDialogController mftcdController = loader.getController();
+        mftcdController.init(handler, selectedCollection, selectedFiles);
+        mftcdController.setStage(dialogStage);
+
+        dialogStage.showAndWait();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         UpdateableListViewSkin<Ifocol> colSkin = new UpdateableListViewSkin<>(collectionsView);
@@ -206,6 +225,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     public void setAddFiles(ActionEvent actionEvent) {
+        long startTime = System.nanoTime();
         try {
             handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
             _refresh();
@@ -213,6 +233,8 @@ public class MainMenuController implements Initializable {
         } catch (Exception e) {
             stateLabel.setText("Could not add files, please try again.");
         }
+        long estimatedTime = System.nanoTime() - startTime;
+        System.out.println(estimatedTime);
         _updateCollectionsView();
     }
 
@@ -303,13 +325,18 @@ public class MainMenuController implements Initializable {
             stateLabel.setText("Please choose a file to set tags to.");
         else
             for (Integer f : selectedFiles) {
-
+            /*TODO - vytvorit view na pridavanie tagov*/
             }
         stateLabel.setText("zatial nic");
     }
 
     @FXML
     public void setMoveFileToCollectionButton(ActionEvent event) {
-
+        try {
+            initializeMoveFileToColDialogController();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        _updateCollectionsView();
     }
 }

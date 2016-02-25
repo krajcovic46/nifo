@@ -147,7 +147,7 @@ public class Handler {
         return true;
     }
 
-    boolean moveFilesFromCollectionToCollection(String fromCol, String toCol, Integer[] keys) {
+    public boolean moveFilesBetweenCollections(String fromCol, String toCol, HashSet<Integer> keys) {
         Ifocol fcol = collections.get(fromCol);
         Ifocol tcol = collections.get(toCol);
         if (fcol == null || tcol == null)
