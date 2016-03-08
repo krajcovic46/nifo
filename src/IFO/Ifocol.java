@@ -15,10 +15,6 @@ public class Ifocol {
         this.name = name;
     }
 
-    /*public Ifocol(HashSet<Integer> setToCopy) {
-        filesInside = new HashSet<>(setToCopy);
-    }*/
-
     public boolean add(Integer key) {
         return filesInside.add(key);
     }
