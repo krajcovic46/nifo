@@ -74,6 +74,16 @@ public class Handler {
         return filesWhichDontExist;
     }
 
+    public void addTagToFiles(String tag, HashSet<Integer> keys) {
+        for (Integer key : keys)
+            files.get(key).addTag("", tag);
+    }
+
+    public void addTagsToFiles(HashSet<String> tags, HashSet<Integer> keys) {
+        for (Integer key : keys)
+            files.get(key).addTags("", tags);
+    }
+
     boolean copyFile(Integer key, String toPath, boolean preserveCustomAttributes) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);

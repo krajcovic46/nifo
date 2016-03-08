@@ -202,7 +202,7 @@ public class MainMenuController implements Initializable {
         loader.setLocation(Main.class.getResource("Views/MoveFileToColDialog.fxml"));
         Parent page = loader.load();
         Stage dialogStage = new Stage();
-        dialogStage.setTitle("");
+        dialogStage.setTitle("Move a file to another collection");
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.initOwner(primaryStage);
         Scene scene = new Scene(page);
@@ -211,6 +211,24 @@ public class MainMenuController implements Initializable {
         MoveFileToColDialogController mftcdController = loader.getController();
         mftcdController.init(handler, selectedCollection, selectedFiles);
         mftcdController.setStage(dialogStage);
+
+        dialogStage.showAndWait();
+    }
+
+    private void initializeAddTagsDialogController() throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("Views/AddTagsDialog.fxml"));
+        Parent page = loader.load();
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Add tags to files");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        AddTagsDialogController atdcController = loader.getController();
+        atdcController.init(handler, selectedFiles);
+        atdcController.setStage(dialogStage);
 
         dialogStage.showAndWait();
     }
@@ -325,9 +343,13 @@ public class MainMenuController implements Initializable {
             stateLabel.setText("Please choose a file to set tags to.");
         else
             for (Integer f : selectedFiles) {
-            /*TODO - vytvorit view na pridavanie tagov*/
+                try {
+                    initializeAddTagsDialogController();
+                } catch (Exception e) {
+                    stateLabel.setText("Tags have not been added, please try again.");
+                }
             }
-        stateLabel.setText("zatial nic");
+        stateLabel.setText("Tags have been added successfully.");
     }
 
     @FXML
