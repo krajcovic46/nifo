@@ -84,6 +84,11 @@ public class Handler {
             files.get(key).addTags("", tags);
     }
 
+    public void addDescriptionToFiles(String description, HashSet<Integer> keys) {
+        for (Integer key : keys)
+            files.get(key).setDescription(description);
+    }
+
     boolean copyFile(Integer key, String toPath, boolean preserveCustomAttributes) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);

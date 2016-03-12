@@ -73,7 +73,8 @@
                   <Label text="|" />
 
                 <Button fx:id="addTagsToFileButton" mnemonicParsing="false" onAction="#setAddTagsToFileButton" />
-                <Button fx:id="moveFileToCollectionButton" mnemonicParsing="false" onAction="#setMoveFileToCollectionButton"/>
+                <Button fx:id="addDescription" onAction="#setAddDescriptionButton" mnemonicParsing="false" />
+                <Button fx:id="moveFileToCollectionButton" mnemonicParsing="false" onAction="#setMoveFileToCollectionButton" />
               </items>
             </ToolBar>
          </top>
