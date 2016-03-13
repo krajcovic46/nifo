@@ -20,10 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
@@ -64,6 +62,8 @@ public class MainMenuController implements Initializable {
     private Button moveFileToCollectionButton;
     @FXML
     private Button addDescription;
+    @FXML
+    private Button removeTags;
 
     private String pathToDB;
     private Stage primaryStage;
@@ -93,7 +93,6 @@ public class MainMenuController implements Initializable {
 
     private void _updateCollectionsView() {
         collectionsData = FXCollections.observableArrayList(handler.collections.values()).sorted();
-//        collectionsView.setItems(null);
         collectionsView.setItems(collectionsData);
     }
 
@@ -109,6 +108,7 @@ public class MainMenuController implements Initializable {
         customizeButton(moveFileToCollectionButton, "Images/movefiletocol.png", "Move file to another collection",
                 true);
         customizeButton(addDescription, "Images/adddescription.png", "Add description to file", true);
+        customizeButton(removeTags, "Images/removefile.png", "Remove tags from a file", true);
     }
 
     private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
@@ -136,7 +136,7 @@ public class MainMenuController implements Initializable {
                 isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
                         selectedCollection.getFilesInside() == null || selectedCollection.getFilesInside().size() == 0;
                 disableChosenButtons(isEmpty, addColFromSelectionButton, addTagsToFileButton,
-                        moveFileToCollectionButton, addDescription);
+                        moveFileToCollectionButton, addDescription, removeTags);
             }
         });
 
@@ -182,7 +182,7 @@ public class MainMenuController implements Initializable {
             }
             boolean disable = selectedItems.size()==0;
             disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
-                    moveFileToCollectionButton, addDescription);
+                    moveFileToCollectionButton, addDescription, removeTags);
         });
     }
 
@@ -258,6 +258,24 @@ public class MainMenuController implements Initializable {
         AddDescriptionDialogController addcController = loader.getController();
         addcController.init(handler, selectedFiles);
         addcController.setStage(dialogStage);
+
+        dialogStage.showAndWait();
+    }
+
+    private void initializeRemoveTagDialogController() throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("Views/RemoveTagDialog.fxml"));
+        Parent page = loader.load();
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Remove tags from files");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        RemoveTagDialogController rtdcController = loader.getController();
+        rtdcController.init(handler, selectedFiles);
+        rtdcController.setStage(dialogStage);
 
         dialogStage.showAndWait();
     }
@@ -368,29 +386,32 @@ public class MainMenuController implements Initializable {
 
     @FXML
     public void setAddTagsToFileButton(ActionEvent event) {
-        if (selectedFiles.size() == 0 || selectedFiles == null)
-            stateLabel.setText("Please choose a file to set tags to.");
-        else {
-            try {
-                initializeAddTagsDialogController();
-            }
-            catch (Exception e) {
-                stateLabel.setText("Tags have not been added, please try again.");
-            }
+        try {
+            initializeAddTagsDialogController();
+        }
+        catch (Exception e) {
+            stateLabel.setText("Tags have not been added, please try again.");
         }
         stateLabel.setText("Tags have been added successfully.");
     }
 
     @FXML
     public void setAddDescriptionButton(ActionEvent event) {
-        if (selectedFiles.size() == 0 || selectedFiles == null)
-            stateLabel.setText("Please choose a file to set tags to.");
-        else {
-            try {
-                initializeAddDescriptionDialogController();
-            } catch (Exception e) {
-                stateLabel.setText("Description has not been added, please try again.");
-            }
+        try {
+            initializeAddDescriptionDialogController();
+        } catch (Exception e) {
+            stateLabel.setText("Description has not been added, please try again.");
+        }
+    }
+
+    @FXML
+    public void setRemoveTags(ActionEvent event) {
+        try {
+            initializeRemoveTagDialogController();
+        } catch (Exception e) {
+            e.printStackTrace();
+            /*TODO - lepsi popisok bro*/
+            stateLabel.setText("Couldn't :(");
         }
     }
 
