@@ -108,7 +108,7 @@ public class MainMenuController implements Initializable {
         customizeButton(addTagsToFileButton, "Images/addtags.png", "Add tags to the selected file.", true);
         customizeButton(moveFileToCollectionButton, "Images/movefiletocol.png", "Move file to another collection",
                 true);
-        customizeButton(addDescription, "Images/movefiletocol.png", "Add description to file", true);
+        customizeButton(addDescription, "Images/adddescription.png", "Add description to file", true);
     }
 
     private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
