@@ -31,9 +31,7 @@ public class RemoveTagDialogController implements Initializable {
     ObservableList<String> tagsData;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
+    public void initialize(URL location, ResourceBundle resources) {}
 
     public void setStage(Stage stage) {
         this.stage = stage;

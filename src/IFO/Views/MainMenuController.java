@@ -123,6 +123,8 @@ public class MainMenuController implements Initializable {
                 FXCollections.observableArrayList(handler.collections.values()).sorted();
         collectionsView.setItems(collectionsData);
 
+        /*TODO - zoptimalizovat*/
+
         collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
             _refresh();
 
