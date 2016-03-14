@@ -4,7 +4,6 @@ import IFO.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -111,7 +110,7 @@ public class MainMenuController implements Initializable {
                 true);
         customizeButton(addDescription, "Images/adddescription.png", "Add description to file", true);
         customizeButton(removeTags, "Images/removefile.png", "Remove tags from a file", true);
-        customizeButton(removeFileFromACol, "Images/removefile.png", "Remove files from the collection",
+        customizeButton(removeFileFromACol, "Images/removefilefromcol.png", "Remove files from the collection",
                 true);
     }
 
@@ -135,7 +134,7 @@ public class MainMenuController implements Initializable {
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
 
             boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
-            disableChosenButtons(!isSelectedButNotAll, deleteColButton, renameColButton, removeFileFromACol);
+            disableChosenButtons(!isSelectedButNotAll, deleteColButton, renameColButton);
             if (isSelectedButNotAll) {
                 boolean isEmpty;
                 isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
@@ -188,6 +187,8 @@ public class MainMenuController implements Initializable {
             boolean disable = selectedItems.size()==0;
             disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
                     moveFileToCollectionButton, addDescription, removeTags);
+            boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
+            disableChosenButtons(disableSpecific, removeFileFromACol);
         });
     }
 
@@ -437,6 +438,8 @@ public class MainMenuController implements Initializable {
                 "Are you sure?")) {
             handler.removeFilesFromCollection(selectedCollection.name, selectedFiles);
         }
-        _refresh();
+        refresh();
+//        _refresh();
+//        _updateCollectionsView();
     }
 }
