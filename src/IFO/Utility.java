@@ -39,11 +39,11 @@ public class Utility {
         return selectedFile.getAbsolutePath();
     }
 
-    public static boolean deletionWarning(String title) {
+    public static boolean deletionWarning(String title, String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
-        alert.setHeaderText("You are trying to delete a collection which is not empty.");
-        alert.setContentText("Are you sure?");
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
 
         Optional<ButtonType> result = alert.showAndWait();
         return (result.get() == ButtonType.OK);

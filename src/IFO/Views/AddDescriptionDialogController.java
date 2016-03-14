@@ -38,5 +38,6 @@ public class AddDescriptionDialogController implements Initializable {
     public void setAddDescription(ActionEvent event) {
         handler.addDescriptionToFiles(descriptionTextArea.getText(), keys);
         descriptionTextArea.setText("");
+        stage.close();
     }
 }

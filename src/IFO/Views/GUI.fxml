@@ -76,6 +76,7 @@
                 <Button fx:id="addDescription" mnemonicParsing="false" onAction="#setAddDescriptionButton" />
                 <Button fx:id="removeTags" mnemonicParsing="false" onAction="#setRemoveTags" />
                 <Button fx:id="moveFileToCollectionButton" mnemonicParsing="false" onAction="#setMoveFileToCollectionButton" />
+                <Button fx:id="removeFileFromACol" mnemonicParsing="false" onAction="#setRemoveFileFromACollection"/>
               </items>
             </ToolBar>
          </top>

@@ -153,7 +153,7 @@ public class Handler {
         return true;
     }
 
-    boolean removeFilesFromCollection(String colName, Integer[] keys) {
+    public boolean removeFilesFromCollection(String colName, HashSet<Integer> keys) {
         Ifocol col = collections.get(colName);
         if (col == null)
             return false;

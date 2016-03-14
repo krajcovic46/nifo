@@ -64,6 +64,8 @@ public class MainMenuController implements Initializable {
     private Button addDescription;
     @FXML
     private Button removeTags;
+    @FXML
+    private Button removeFileFromACol;
 
     private String pathToDB;
     private Stage primaryStage;
@@ -109,6 +111,8 @@ public class MainMenuController implements Initializable {
                 true);
         customizeButton(addDescription, "Images/adddescription.png", "Add description to file", true);
         customizeButton(removeTags, "Images/removefile.png", "Remove tags from a file", true);
+        customizeButton(removeFileFromACol, "Images/removefile.png", "Remove files from the collection",
+                true);
     }
 
     private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
@@ -131,8 +135,7 @@ public class MainMenuController implements Initializable {
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
 
             boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
-            deleteColButton.setDisable(!isSelectedButNotAll);
-            renameColButton.setDisable(!isSelectedButNotAll);
+            disableChosenButtons(!isSelectedButNotAll, deleteColButton, renameColButton, removeFileFromACol);
             if (isSelectedButNotAll) {
                 boolean isEmpty;
                 isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
@@ -291,7 +294,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setAddFiles(ActionEvent actionEvent) {
+    public void setAddFiles() {
         long startTime = System.nanoTime();
         try {
             handler.fillInternalStructures(Utility.directoryChooser("Add files", primaryStage), true);
@@ -318,7 +321,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setDbExport(ActionEvent event) {
+    public void setDbExport() {
         try {
             handler.export(pathToDB);
             stateLabel.setText("Export/Save successful.");
@@ -329,14 +332,14 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void refresh(ActionEvent event) {
+    public void refresh() {
         _refresh();
         _updateCollectionsView();
         stateLabel.setText("Refreshed");
     }
 
     @FXML
-    public void setAddEmptyColButton(ActionEvent event) {
+    public void setAddEmptyColButton() {
         try {
             String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
             if (handler.createAnEmptyCollection(newCollectionName)) {
@@ -362,9 +365,10 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setDeleteColButton(ActionEvent event) {
+    public void setDeleteColButton() {
         if (!selectedCollection.isEmpty()) {
-            if (Utility.deletionWarning("Warning")) {
+            if (Utility.deletionWarning("Warning", "You are trying to delete a collection which is not empty",
+                    "Are you sure?")) {
                 handler.deleteACollection(selectedCollection.name);
                 filesView.setItems(null);
             }
@@ -375,11 +379,11 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setRenameColButton(ActionEvent event) {
+    public void setRenameColButton() {
         try {
             if (handler.renameACollection(selectedCollection.name,
                     Utility.textInput("Rename a collection", "New Name")))
-                stateLabel.setText("Collection successfuly renamed.");
+                stateLabel.setText("Collection successfully renamed.");
             else
                 stateLabel.setText("A collection with the same name already exists.");
         } catch (Exception ignored) {}
@@ -387,7 +391,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setAddTagsToFileButton(ActionEvent event) {
+    public void setAddTagsToFileButton() {
         try {
             initializeAddTagsDialogController();
         }
@@ -398,7 +402,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setAddDescriptionButton(ActionEvent event) {
+    public void setAddDescriptionButton() {
         try {
             initializeAddDescriptionDialogController();
         } catch (Exception e) {
@@ -407,7 +411,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setRemoveTags(ActionEvent event) {
+    public void setRemoveTags() {
         try {
             initializeRemoveTagDialogController();
         } catch (Exception e) {
@@ -418,12 +422,21 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setMoveFileToCollectionButton(ActionEvent event) {
+    public void setMoveFileToCollectionButton() {
         try {
             initializeMoveFileToColDialogController();
         } catch (Exception e) {
             e.printStackTrace();
         }
         _updateCollectionsView();
+    }
+
+    @FXML
+    public void setRemoveFileFromACollection() {
+        if (Utility.deletionWarning("Warning", "You are trying to delete files from a collection",
+                "Are you sure?")) {
+            handler.removeFilesFromCollection(selectedCollection.name, selectedFiles);
+        }
+        _refresh();
     }
 }
