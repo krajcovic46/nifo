@@ -118,6 +118,7 @@ public class MainMenuController implements Initializable {
         customizeButton(removeFileFromACol, "Images/removefilefromcol.png", "Remove files from the collection",
                 true);
         customizeButton(removeDescription, "Images/removefile.png", "Remove description from selected files", true);
+        customizeButton(copyCol, "Images/refresh.png", "Copy an entire collection", true);
     }
 
     private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
@@ -194,7 +195,7 @@ public class MainMenuController implements Initializable {
             disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
                     addDescription, removeTags, removeDescription);
             boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
-            disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
+            disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton, copyCol);
         });
     }
 
@@ -450,5 +451,14 @@ public class MainMenuController implements Initializable {
         if (Utility.deletionWarning("Warning", "You are trying to remove description from selected files",
                 "Are you sure?"))
             handler.removeDescriptionFromFiles(selectedFiles);
+    }
+
+    @FXML
+    public void setCopyCol() {
+        if (Utility.deletionWarning("Warning", "You are trying to copy the contents of an entire collection to" +
+                "another place on your HDD", "Are you sure you wish to proceed?")) {
+            String directory = Utility.directoryChooser("Pick a new location", primaryStage);
+            handler.copyFilesInCollectionOnDisk(selectedCollection.name, directory);
+        }
     }
 }

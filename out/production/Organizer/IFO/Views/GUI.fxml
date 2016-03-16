@@ -78,6 +78,10 @@
                 <Button fx:id="removeDescription" mnemonicParsing="false" onAction="#setRemoveDescriptionButton" />
                 <Button fx:id="moveFileToCollectionButton" mnemonicParsing="false" onAction="#setMoveFileToCollectionButton" />
                 <Button fx:id="removeFileFromACol" mnemonicParsing="false" onAction="#setRemoveFileFromACollection"/>
+
+                  <Label text="|" />
+
+                <Button fx:id="copyCol" mnemonicParsing="false" onAction="#setCopyCol"/>
               </items>
             </ToolBar>
          </top>

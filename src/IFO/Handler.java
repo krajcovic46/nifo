@@ -97,20 +97,20 @@ public class Handler {
     boolean copyFile(Integer key, String toPath, boolean preserveCustomAttributes) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);
+        toPath += "\\"+workingFile.getName();
         Path to = Paths.get(toPath);
-        CopyOption[] options = new CopyOption[] { StandardCopyOption.REPLACE_EXISTING };
         try {
-            Files.copy(from, to, options);
+            Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-        Ifofile newFile = new Ifofile(toPath, key);
-        if (preserveCustomAttributes) {
-            newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
-                    workingFile.getDescription(), workingFile.getPopularity());
-        }
-        files.put(++lastID, newFile);
+        Ifofile newFile = new Ifofile(toPath, ++lastID);
+        if (preserveCustomAttributes)
+            newFile.setNewRawCustomAttributes(workingFile.getRawTags(), workingFile.getDescription(),
+                    workingFile.getPopularity());
+        /*TODO - treba pridat aby sa to pridalo aj do kolekcie novej*/
+        files.put(lastID, newFile);
         return true;
     }
 
@@ -179,7 +179,7 @@ public class Handler {
         return true;
     }
 
-    boolean moveFilesInCollectionOnDisk(String colName, String toPath) {
+    public boolean moveFilesInCollectionOnDisk(String colName, String toPath) {
         Ifocol col = collections.get(colName);
         if (col == null)
             return false;
@@ -188,7 +188,7 @@ public class Handler {
         return true;
     }
 
-    boolean copyFilesInCollectionOnDisk(String colName, String toPath) {
+    public boolean copyFilesInCollectionOnDisk(String colName, String toPath) {
         Ifocol col = collections.get(colName);
         if (col == null)
             return false;
