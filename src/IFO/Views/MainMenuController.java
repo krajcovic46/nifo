@@ -65,6 +65,10 @@ public class MainMenuController implements Initializable {
     private Button removeTags;
     @FXML
     private Button removeFileFromACol;
+    @FXML
+    private Button removeDescription;
+    @FXML
+    private Button copyCol;
 
     private String pathToDB;
     private Stage primaryStage;
@@ -102,7 +106,8 @@ public class MainMenuController implements Initializable {
         customizeButton(addFilesButton, "Images/addfiles.png", "Add new files to the database", false);
         customizeButton(exportButton, "Images/export.png", "Export/Save", false);
         customizeButton(addEmptyColButton, "Images/newempcol.png", "Create an empty collection", false);
-        customizeButton(addColFromSelectionButton, "Images/newselcol.png", "Create a collection from selected files", true);
+        customizeButton(addColFromSelectionButton, "Images/newselcol.png", "Create a collection from selected files",
+                true);
         customizeButton(deleteColButton, "Images/deletecol.png", "Delete a collection", true);
         customizeButton(renameColButton, "Images/renamecol.png", "Rename a collection", true);
         customizeButton(addTagsToFileButton, "Images/addtags.png", "Add tags to the selected file.", true);
@@ -112,6 +117,7 @@ public class MainMenuController implements Initializable {
         customizeButton(removeTags, "Images/removefile.png", "Remove tags from a file", true);
         customizeButton(removeFileFromACol, "Images/removefilefromcol.png", "Remove files from the collection",
                 true);
+        customizeButton(removeDescription, "Images/removefile.png", "Remove description from selected files", true);
     }
 
     private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
@@ -140,7 +146,7 @@ public class MainMenuController implements Initializable {
                 isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
                         selectedCollection.getFilesInside() == null || selectedCollection.getFilesInside().size() == 0;
                 disableChosenButtons(isEmpty, addColFromSelectionButton, addTagsToFileButton,
-                        moveFileToCollectionButton, addDescription, removeTags);
+                        addDescription, removeTags, removeDescription);
             }
         });
 
@@ -186,9 +192,9 @@ public class MainMenuController implements Initializable {
             }
             boolean disable = selectedItems.size()==0;
             disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
-                    moveFileToCollectionButton, addDescription, removeTags);
+                    addDescription, removeTags, removeDescription);
             boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
-            disableChosenButtons(disableSpecific, removeFileFromACol);
+            disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
         });
     }
 
@@ -434,12 +440,15 @@ public class MainMenuController implements Initializable {
 
     @FXML
     public void setRemoveFileFromACollection() {
-        if (Utility.deletionWarning("Warning", "You are trying to delete files from a collection",
-                "Are you sure?")) {
+        if (Utility.deletionWarning("Warning", "You are trying to delete files from a collection", "Are you sure?"))
             handler.removeFilesFromCollection(selectedCollection.name, selectedFiles);
-        }
         refresh();
-//        _refresh();
-//        _updateCollectionsView();
+    }
+
+    @FXML
+    public void setRemoveDescriptionButton() {
+        if (Utility.deletionWarning("Warning", "You are trying to remove description from selected files",
+                "Are you sure?"))
+            handler.removeDescriptionFromFiles(selectedFiles);
     }
 }
