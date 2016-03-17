@@ -109,28 +109,9 @@ public class Handler {
         if (preserveCustomAttributes)
             newFile.setNewRawCustomAttributes(workingFile.getRawTags(), workingFile.getDescription(),
                     workingFile.getPopularity());
-        /*TODO - treba pridat aby sa to pridalo aj do kolekcie novej*/
         addFilesToCollection(colName+" - new", lastID);
         addFilesToCollection("All", lastID);
         files.put(lastID, newFile);
-        return true;
-    }
-
-    boolean moveFile(Integer key, String toPath) {
-        Ifofile workingFile = files.get(key);
-        Path from = Paths.get(workingFile.absolutePath);
-        Path to = Paths.get(toPath);
-        CopyOption[] options = new CopyOption[] { StandardCopyOption.REPLACE_EXISTING };
-        try {
-            Files.move(from, to, options);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        Ifofile newFile = new Ifofile(toPath, key);
-        newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
-                workingFile.getDescription(), workingFile.getPopularity());
-        files.put(key, newFile);
         return true;
     }
 
@@ -203,8 +184,35 @@ public class Handler {
         Ifocol col = collections.get(colName);
         if (col == null)
             return false;
-        for (Integer key : col.getFilesInside())
-            moveFile(key, toPath);
+        for (Integer key : col.getFilesInside()) {
+            moveFile(colName, key, toPath);
+        }
+        return true;
+    }
+
+    boolean moveFile(String colName, Integer key, String toPath) {
+        Ifofile workingFile = files.get(key);
+        Path from = Paths.get(workingFile.absolutePath);
+        toPath += "\\"+workingFile.getName();
+        Path to = Paths.get(toPath);
+        System.out.println(from);
+        System.out.println(to);
+        try {
+            Files.move(from, to, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        Ifofile newFile = new Ifofile(toPath, ++lastID);
+        newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
+                workingFile.getDescription(), workingFile.getPopularity());
+        files.put(lastID, newFile);
+        /*TODO - toto dokoncit*/
+        //addFilesToCollection(colName, lastID);
+        //addFilesToCollection("All", lastID);
+        /*collections.get(colName).remove(key);
+        collections.get("All").remove(key);
+        files.remove(key);*/
         return true;
     }
 
@@ -212,8 +220,9 @@ public class Handler {
         Ifocol col = collections.get(colName);
         if (col == null)
             return false;
-        for (Integer key : col.getFilesInside())
+        for (Integer key : col.getFilesInside()) {
             copyFile(colName, key, toPath, true);
+        }
         return true;
     }
 
@@ -233,6 +242,7 @@ public class Handler {
         try {
             Files.delete(path);
         } catch (java.io.IOException e) {
+            e.printStackTrace();
             return false;
         }
         return true;

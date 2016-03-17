@@ -465,6 +465,11 @@ public class MainMenuController implements Initializable {
     }
 
     public void setMoveCol() {
-
+        if (Utility.deletionWarning("Warning", "You are trying to move the contents of an entire collection to" +
+                "another place on your HDD", "Are you sure you wish to proceed?")) {
+            String directory = Utility.directoryChooser("Pick a new location", primaryStage);
+            handler.moveFilesInCollectionOnDisk(selectedCollection.name, directory);
+        }
+        refresh();
     }
 }
