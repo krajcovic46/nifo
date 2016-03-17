@@ -81,7 +81,8 @@
 
                   <Label text="|" />
 
-                <Button fx:id="copyCol" mnemonicParsing="false" onAction="#setCopyCol"/>
+                <Button fx:id="copyColButton" mnemonicParsing="false" onAction="#setCopyCol"/>
+                <Button fx:id="moveColButton" mnemonicParsing="false" onAction="#setMoveCol"/>
               </items>
             </ToolBar>
          </top>

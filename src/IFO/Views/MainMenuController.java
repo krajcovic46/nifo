@@ -68,7 +68,9 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button removeDescription;
     @FXML
-    private Button copyCol;
+    private Button copyColButton;
+    @FXML
+    private Button moveColButton;
 
     private String pathToDB;
     private Stage primaryStage;
@@ -118,7 +120,8 @@ public class MainMenuController implements Initializable {
         customizeButton(removeFileFromACol, "Images/removefilefromcol.png", "Remove files from the collection",
                 true);
         customizeButton(removeDescription, "Images/removefile.png", "Remove description from selected files", true);
-        customizeButton(copyCol, "Images/refresh.png", "Copy an entire collection", true);
+        customizeButton(copyColButton, "Images/copycol.png", "Copy an entire collection", true);
+        customizeButton(moveColButton, "Images/movecol.png", "Move an entire collection", true);
     }
 
     private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
@@ -133,15 +136,13 @@ public class MainMenuController implements Initializable {
                 FXCollections.observableArrayList(handler.collections.values()).sorted();
         collectionsView.setItems(collectionsData);
 
-        /*TODO - zoptimalizovat*/
-
         collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
             _refresh();
 
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
 
             boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
-            disableChosenButtons(!isSelectedButNotAll, deleteColButton, renameColButton);
+            disableChosenButtons(!isSelectedButNotAll, deleteColButton, renameColButton, copyColButton, moveColButton);
             if (isSelectedButNotAll) {
                 boolean isEmpty;
                 isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
@@ -172,7 +173,7 @@ public class MainMenuController implements Initializable {
         filesView.setItems(filteredData);
 
         filesView.setOnMouseClicked(e -> {
-            _refresh();
+            //_refresh();
             if (e.getClickCount() == 2) {
                 Ifofile currentItemSelected = filesView.getSelectionModel().getSelectedItem();
                 try {
@@ -195,7 +196,7 @@ public class MainMenuController implements Initializable {
             disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
                     addDescription, removeTags, removeDescription);
             boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
-            disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton, copyCol);
+            disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
         });
     }
 
@@ -460,5 +461,10 @@ public class MainMenuController implements Initializable {
             String directory = Utility.directoryChooser("Pick a new location", primaryStage);
             handler.copyFilesInCollectionOnDisk(selectedCollection.name, directory);
         }
+        refresh();
+    }
+
+    public void setMoveCol() {
+
     }
 }

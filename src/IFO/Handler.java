@@ -94,7 +94,7 @@ public class Handler {
             files.get(key).setDescription("");
     }
 
-    boolean copyFile(Integer key, String toPath, boolean preserveCustomAttributes) {
+    boolean copyFile(String colName, Integer key, String toPath, boolean preserveCustomAttributes) {
         Ifofile workingFile = files.get(key);
         Path from = Paths.get(workingFile.absolutePath);
         toPath += "\\"+workingFile.getName();
@@ -110,7 +110,27 @@ public class Handler {
             newFile.setNewRawCustomAttributes(workingFile.getRawTags(), workingFile.getDescription(),
                     workingFile.getPopularity());
         /*TODO - treba pridat aby sa to pridalo aj do kolekcie novej*/
+        addFilesToCollection(colName+" - new", lastID);
+        addFilesToCollection("All", lastID);
         files.put(lastID, newFile);
+        return true;
+    }
+
+    boolean moveFile(Integer key, String toPath) {
+        Ifofile workingFile = files.get(key);
+        Path from = Paths.get(workingFile.absolutePath);
+        Path to = Paths.get(toPath);
+        CopyOption[] options = new CopyOption[] { StandardCopyOption.REPLACE_EXISTING };
+        try {
+            Files.move(from, to, options);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        Ifofile newFile = new Ifofile(toPath, key);
+        newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
+                workingFile.getDescription(), workingFile.getPopularity());
+        files.put(key, newFile);
         return true;
     }
 
@@ -193,7 +213,7 @@ public class Handler {
         if (col == null)
             return false;
         for (Integer key : col.getFilesInside())
-            copyFile(key, toPath, true);
+            copyFile(colName, key, toPath, true);
         return true;
     }
 
@@ -236,23 +256,5 @@ public class Handler {
                 return true;
         }
         return false;
-    }
-
-    boolean moveFile(Integer key, String toPath) {
-        Ifofile workingFile = files.get(key);
-        Path from = Paths.get(workingFile.absolutePath);
-        Path to = Paths.get(toPath);
-        CopyOption[] options = new CopyOption[] { StandardCopyOption.REPLACE_EXISTING };
-        try {
-            Files.move(from, to, options);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        Ifofile newFile = new Ifofile(toPath, key);
-        newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
-                workingFile.getDescription(), workingFile.getPopularity());
-        files.put(key, newFile);
-        return true;
     }
 }
