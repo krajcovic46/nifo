@@ -168,6 +168,14 @@ public class Handler {
         return true;
     }
 
+    public boolean removeFilesFromCollection(String colName, Integer key) {
+        Ifocol col = collections.get(colName);
+        if (col == null)
+            return false;
+        col.remove(key);
+        return true;
+    }
+
     public boolean moveFilesBetweenCollections(String fromCol, String toCol, HashSet<Integer> keys) {
         Ifocol fcol = collections.get(fromCol);
         Ifocol tcol = collections.get(toCol);
@@ -180,8 +188,22 @@ public class Handler {
         return true;
     }
 
+    private HashMap<String, Ifocol> deepCopyCollections() {
+        HashMap<String, Ifocol> temp = new HashMap<>();
+        temp.putAll(collections);
+        /*System.out.println(collections);
+        System.out.println(temp);
+        System.out.println(collections.equals(temp));
+        temp.put("Nieco", new Ifocol());
+        System.out.println(collections);
+        System.out.println(temp);
+        System.out.println(collections.equals(temp));*/
+        return temp;
+    }
+
     public boolean moveFilesInCollectionOnDisk(String colName, String toPath) {
-        Ifocol col = collections.get(colName);
+        HashMap<String, Ifocol> copy = deepCopyCollections();
+        Ifocol col = copy.get(colName);
         if (col == null)
             return false;
         for (Integer key : col.getFilesInside()) {
@@ -195,8 +217,6 @@ public class Handler {
         Path from = Paths.get(workingFile.absolutePath);
         toPath += "\\"+workingFile.getName();
         Path to = Paths.get(toPath);
-        System.out.println(from);
-        System.out.println(to);
         try {
             Files.move(from, to, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -208,11 +228,11 @@ public class Handler {
                 workingFile.getDescription(), workingFile.getPopularity());
         files.put(lastID, newFile);
         /*TODO - toto dokoncit*/
-        //addFilesToCollection(colName, lastID);
-        //addFilesToCollection("All", lastID);
-        /*collections.get(colName).remove(key);
-        collections.get("All").remove(key);
-        files.remove(key);*/
+        /*addFilesToCollection(colName, lastID);
+        addFilesToCollection("All", lastID);
+        removeFilesFromCollection(colName, key);
+        removeFilesFromCollection("All", key);*/
+        files.remove(key);
         return true;
     }
 
