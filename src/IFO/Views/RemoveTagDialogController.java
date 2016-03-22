@@ -14,8 +14,10 @@ import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.TreeSet;
 
 public class RemoveTagDialogController implements Initializable {
     @FXML
@@ -41,27 +43,31 @@ public class RemoveTagDialogController implements Initializable {
         this.handler = handler;
         this.keys = keys;
 
-        HashSet<String> tags = new HashSet<>();
+        TreeSet<String> tags = new TreeSet<>();
 
         for (Integer k : keys)
             tags.addAll(handler.getFiles().get(k).getAllTags());
 
-        tagsData = FXCollections.observableArrayList();
-        tagsData.addAll(tags);
+        tagsData = FXCollections.observableArrayList(tags).sorted();
 
         tagsView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tagsView.setItems(tagsData);
+
         tagsView.getSelectionModel().selectedItemProperty().addListener(t -> {
             selectedItems = tagsView.getSelectionModel().getSelectedItems();
         });
     }
 
-    public void setRemoveTags(ActionEvent event) {
+    public void setRemoveTags() {
         for (String tag : selectedItems)
             for (Integer k : keys) {
                 handler.getFiles().get(k).removeTag("", tag);
                 tagsData.remove(tag);
             }
         tagsView.setItems(tagsData);
+    }
+
+    public void setShowTags() {
+        /*TODO - ukazat novy dialog so vsetkymi tagmi*/
     }
 }

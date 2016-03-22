@@ -11,9 +11,10 @@ import com.google.gson.reflect.TypeToken;
 public class Handler {
 
     private HashMap<Integer, Ifofile> files = new HashMap<>();
-
     Integer lastID = 0;
     public HashMap<String, Ifocol> collections = new HashMap<>();
+    public HashSet<String> allTags = new HashSet<>();
+
 
     public HashMap<Integer, Ifofile> getFiles() {
         return this.files;
@@ -42,8 +43,7 @@ public class Handler {
     }
 
     public void deserialize(String path) throws IOException  {
-        BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(new File(path)));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(path)));
         String filesToBe, collectionsToBe;
         filesToBe = bufferedReader.readLine();
         collectionsToBe = bufferedReader.readLine();
@@ -52,6 +52,12 @@ public class Handler {
         Gson gson = new Gson();
         files = gson.fromJson(filesToBe, new TypeToken<HashMap<Integer, Ifofile>>(){}.getType());
         collections = gson.fromJson(collectionsToBe, new TypeToken<HashMap<String, Ifocol>>(){}.getType());
+        fillAllTags();
+    }
+
+    private void fillAllTags() {
+        for (Ifofile ifo : files.values())
+            allTags.addAll(ifo.getAllTags());
     }
 
     public void export(String path) throws IOException {
@@ -77,11 +83,13 @@ public class Handler {
     public void addTagToFiles(String tag, HashSet<Integer> keys) {
         for (Integer key : keys)
             files.get(key).addTag("", tag);
+        allTags.add(tag);
     }
 
     public void addTagsToFiles(HashSet<String> tags, HashSet<Integer> keys) {
         for (Integer key : keys)
             files.get(key).addTags("", tags);
+        allTags.addAll(tags);
     }
 
     public void addDescriptionToFiles(String description, HashSet<Integer> keys) {
