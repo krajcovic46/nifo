@@ -25,7 +25,7 @@
          <children>
             <Button fx:id="removeTags" mnemonicParsing="false" onAction="#setRemoveTags" text="Remove tag(s)" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <ListView fx:id="tagsView" prefHeight="91.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" text="?" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" text="?" onAction="#setShowTags" GridPane.columnIndex="3" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
