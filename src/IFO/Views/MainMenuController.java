@@ -22,7 +22,6 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.naming.Context;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
@@ -76,14 +75,18 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button moveColButton;
 
-    private MenuItem addTagsMenuItem = new MenuItem("Add tag(s)...");
-    private MenuItem addDescriptionMenuItem = new MenuItem("Add description...");
-    private MenuItem removeTagsMenuItem = new MenuItem("Remove tag(s)...");
-    private MenuItem removeDescriptionMenuItem = new MenuItem("Remove description");
-    private MenuItem moveFilesToAnotherColMenuItem = new MenuItem("Move files to a collection...");
-    private MenuItem removeFilesFromColMenuItem = new MenuItem("Remove files from a collection...");
+    private MenuItem addTagsMenuItem;
+    private MenuItem addDescriptionMenuItem;
+    private MenuItem removeTagsMenuItem;
+    private MenuItem removeDescriptionMenuItem;
+    private MenuItem moveFilesToAnotherColMenuItem;
+    private MenuItem removeFilesFromColMenuItem;
+
+    private MenuItem renameColMenuItem;
+    private MenuItem deleteColMenuItem;
 
     private ContextMenu filesContextMenu;
+    private ContextMenu colContextMenu;
 
     private String pathToDB;
     private Stage primaryStage;
@@ -105,6 +108,7 @@ public class MainMenuController implements Initializable {
         this.pathToDB = pathToDB;
         customizeToolbarButtons();
         setupFilesContextMenu();
+        setupColContextMenu();
     }
 
     private void _refresh() {
@@ -117,8 +121,39 @@ public class MainMenuController implements Initializable {
         collectionsView.setItems(collectionsData);
     }
 
+    private void setupColContextMenu() {
+        colContextMenu = new ContextMenu();
+
+        renameColMenuItem = new MenuItem("Rename collection...");
+        renameColMenuItem.setOnAction(e -> setRenameColButton());
+
+        deleteColMenuItem = new MenuItem("Delete collection...");
+        deleteColMenuItem.setOnAction(e -> setDeleteColButton());
+
+        colContextMenu.getItems().addAll(renameColMenuItem, deleteColMenuItem);
+    }
+
     private void setupFilesContextMenu() {
         filesContextMenu = new ContextMenu();
+
+        addTagsMenuItem = new MenuItem("Add tag(s)...");
+        addTagsMenuItem.setOnAction(e -> setAddTagsToFileButton());
+
+        addDescriptionMenuItem = new MenuItem("Add description...");
+        addDescriptionMenuItem.setOnAction(e -> setAddDescriptionButton());
+
+        removeTagsMenuItem = new MenuItem("Remove tag(s)...");
+        removeTagsMenuItem.setOnAction(e -> setRemoveTags());
+
+        removeDescriptionMenuItem = new MenuItem("Remove description");
+        removeDescriptionMenuItem.setOnAction(e -> setRemoveDescriptionButton());
+
+        moveFilesToAnotherColMenuItem = new MenuItem("Move files to a collection...");
+        moveFilesToAnotherColMenuItem.setOnAction(e -> setMoveFileToCollectionButton());
+
+        removeFilesFromColMenuItem = new MenuItem("Remove files from a collection...");
+        removeFilesFromColMenuItem.setOnAction(e -> setRemoveFileFromACollection());
+
         filesContextMenu.getItems().addAll(addTagsMenuItem, addDescriptionMenuItem, removeTagsMenuItem,
                 removeDescriptionMenuItem, moveFilesToAnotherColMenuItem, removeFilesFromColMenuItem);
     }
@@ -169,6 +204,15 @@ public class MainMenuController implements Initializable {
                         selectedCollection.getFilesInside() == null || selectedCollection.getFilesInside().size() == 0;
                 disableChosenButtons(isEmpty, addColFromSelectionButton, addTagsToFileButton,
                         addDescription, removeTags, removeDescription);
+            }
+        });
+
+        collectionsView.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.SECONDARY) {
+                colContextMenu.show(primaryStage, e.getScreenX(), e.getScreenY());
+                boolean allColSelected = selectedCollection.name.equals("All");
+                renameColMenuItem.setDisable(allColSelected);
+                deleteColMenuItem.setDisable(allColSelected);
             }
         });
 
