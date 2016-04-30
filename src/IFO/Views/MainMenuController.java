@@ -4,6 +4,8 @@ import IFO.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,9 +18,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.naming.Context;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
@@ -72,6 +76,15 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button moveColButton;
 
+    private MenuItem addTagsMenuItem = new MenuItem("Add tag(s)...");
+    private MenuItem addDescriptionMenuItem = new MenuItem("Add description...");
+    private MenuItem removeTagsMenuItem = new MenuItem("Remove tag(s)...");
+    private MenuItem removeDescriptionMenuItem = new MenuItem("Remove description");
+    private MenuItem moveFilesToAnotherColMenuItem = new MenuItem("Move files to a collection...");
+    private MenuItem removeFilesFromColMenuItem = new MenuItem("Remove files from a collection...");
+
+    private ContextMenu filesContextMenu;
+
     private String pathToDB;
     private Stage primaryStage;
     private Handler handler;
@@ -91,6 +104,7 @@ public class MainMenuController implements Initializable {
     public void init(String pathToDB) {
         this.pathToDB = pathToDB;
         customizeToolbarButtons();
+        setupFilesContextMenu();
     }
 
     private void _refresh() {
@@ -101,6 +115,12 @@ public class MainMenuController implements Initializable {
     private void _updateCollectionsView() {
         collectionsData = FXCollections.observableArrayList(handler.collections.values()).sorted();
         collectionsView.setItems(collectionsData);
+    }
+
+    private void setupFilesContextMenu() {
+        filesContextMenu = new ContextMenu();
+        filesContextMenu.getItems().addAll(addTagsMenuItem, addDescriptionMenuItem, removeTagsMenuItem,
+                removeDescriptionMenuItem, moveFilesToAnotherColMenuItem, removeFilesFromColMenuItem);
     }
 
     private void customizeToolbarButtons() {
@@ -172,31 +192,35 @@ public class MainMenuController implements Initializable {
         filesView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         filesView.setItems(filteredData);
 
+        ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
+
         filesView.setOnMouseClicked(e -> {
-            //_refresh();
-            if (e.getClickCount() == 2) {
-                Ifofile currentItemSelected = filesView.getSelectionModel().getSelectedItem();
-                try {
-                    initializeFileDialogController(currentItemSelected);
-                } catch (Exception d) {
-                    d.printStackTrace();
+            if (e.getButton() == MouseButton.SECONDARY) {
+                filesContextMenu.show(primaryStage, e.getScreenX(), e.getScreenY());
+                boolean allColSelected = selectedCollection.name.equals("All");
+                moveFilesToAnotherColMenuItem.setDisable(allColSelected);
+                removeFilesFromColMenuItem.setDisable(allColSelected);
+
+            }
+            else if (e.getButton() == MouseButton.PRIMARY) {
+                System.out.println(selectedItems);
+                selectedFiles = new HashSet<>();
+                for (Ifofile selectedItem : selectedItems)
+                    selectedFiles.add(selectedItem.getId());
+                boolean disable = selectedItems.size()==0;
+                disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
+                        addDescription, removeTags, removeDescription);
+                boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
+                disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
+                if (e.getClickCount() == 2) {
+                    Ifofile currentItemSelected = filesView.getSelectionModel().getSelectedItem();
+                    try {
+                        initializeFileDialogController(currentItemSelected);
+                    } catch (Exception d) {
+                        d.printStackTrace();
+                    }
                 }
             }
-        });
-
-        filesView.getSelectionModel().selectedItemProperty().addListener(t -> {
-            ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
-            /*TODO - shift-click stale nefunguje ffs*/
-            selectedFiles = new HashSet<>();
-            for (Ifofile selectedItem : selectedItems) {
-                selectedFiles.add(selectedItem.getId());
-                System.out.println("selectedFiles: " + selectedFiles + " selectedItems: " + selectedItems + " selectedItem: " + selectedItem);
-            }
-            boolean disable = selectedItems.size()==0;
-            disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
-                    addDescription, removeTags, removeDescription);
-            boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
-            disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
         });
     }
 
