@@ -217,6 +217,12 @@ public class Handler {
         for (Integer key : col.getFilesInside()) {
             moveFile(colName, key, toPath);
         }
+        for (Integer key : col.getFilesInside()) {
+            addFilesToCollection(colName, lastID);
+            addFilesToCollection("All", lastID);
+            removeFilesFromCollection(colName, key);
+            removeFilesFromCollection("All", key);
+        }
         return true;
     }
 

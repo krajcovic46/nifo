@@ -14,41 +14,25 @@ public class Ifofile {
 
     //--------------------
 
-    File absoluteFile;
-    File parentFile;
     String absolutePath;
     String path;
     String name;
     String parent;
-    boolean canExecute;
-    boolean canRead;
-    boolean canWrite;
     boolean isAbsolute;
     boolean isDirectory;
     boolean isFile;
-    boolean isHidden;
-    Date lastModified;
-    long length;
 
     public Ifofile (String path, Integer id) {
         this.id = id;
 
         File workingFile = new File(path);
-        this.absoluteFile = workingFile.getAbsoluteFile();
-        this.parentFile = workingFile.getParentFile();
         this.absolutePath = workingFile.getAbsolutePath();
         this.path = workingFile.getPath();
         this.name = workingFile.getName();
         this.parent = workingFile.getParent();
-        this.canExecute = workingFile.canExecute();
-        this.canRead = workingFile.canRead();
-        this.canWrite = workingFile.canWrite();
         this.isAbsolute = workingFile.isAbsolute();
         this.isDirectory = workingFile.isDirectory();
         this.isFile = workingFile.isFile();
-        this.isHidden = workingFile.isHidden();
-        this.lastModified = new Date(workingFile.lastModified());
-        this.length = workingFile.length();
     }
 
     public Integer getId() {
