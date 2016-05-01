@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -48,21 +49,21 @@ public class RemoveTagDialogController implements Initializable {
         for (Integer k : keys)
             tags.addAll(handler.getFiles().get(k).getAllTags());
 
-        tagsData = FXCollections.observableArrayList(tags).sorted();
+        tagsData = FXCollections.observableArrayList(tags).sorted(); /*TODO - asi nemusi byt sorted ked je to treeset duh*/
 
-        tagsView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tagsView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tagsView.setItems(tagsData);
 
-        tagsView.getSelectionModel().selectedItemProperty().addListener(t -> {
-            selectedItems = tagsView.getSelectionModel().getSelectedItems();
-        });
+        selectedItems = tagsView.getSelectionModel().getSelectedItems();
     }
 
     public void setRemoveTags() {
+        System.out.println(selectedItems);
+        System.out.println(tagsData);
         for (String tag : selectedItems)
             for (Integer k : keys) {
                 handler.getFiles().get(k).removeTag("", tag);
-                tagsData.remove(tag);
+                init(handler, keys); /*TODO - shitcode*/
             }
         tagsView.setItems(tagsData);
     }

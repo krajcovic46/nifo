@@ -27,6 +27,7 @@
             <TextArea fx:id="tagTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Button fx:id="addTag" mnemonicParsing="false" onAction="#setAddTag" text="Add a tag" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button fx:id="addTags" mnemonicParsing="false" onAction="#setAddTags" text="Add tags" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="tagsListLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </children>

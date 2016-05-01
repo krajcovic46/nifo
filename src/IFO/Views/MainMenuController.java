@@ -208,7 +208,7 @@ public class MainMenuController implements Initializable {
         });
 
         collectionsView.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.SECONDARY) {
+            if (e.getButton() == MouseButton.SECONDARY && selectedCollection != null) {
                 colContextMenu.show(primaryStage, e.getScreenX(), e.getScreenY());
                 boolean allColSelected = selectedCollection.name.equals("All");
                 renameColMenuItem.setDisable(allColSelected);
@@ -239,7 +239,17 @@ public class MainMenuController implements Initializable {
         ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
 
         filesView.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.SECONDARY) {
+            selectedFiles = new HashSet<>();
+            for (Ifofile selectedItem : selectedItems)
+                selectedFiles.add(selectedItem.getId());
+            boolean disable = selectedItems.size()==0;
+            disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
+                    addDescription, removeTags, removeDescription);
+            boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
+            disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
+            System.out.println(selectedItems);
+
+            if (e.getButton() == MouseButton.SECONDARY && selectedFiles.size() != 0) {
                 filesContextMenu.show(primaryStage, e.getScreenX(), e.getScreenY());
                 boolean allColSelected = selectedCollection.name.equals("All");
                 moveFilesToAnotherColMenuItem.setDisable(allColSelected);
@@ -247,15 +257,6 @@ public class MainMenuController implements Initializable {
 
             }
             else if (e.getButton() == MouseButton.PRIMARY) {
-                System.out.println(selectedItems);
-                selectedFiles = new HashSet<>();
-                for (Ifofile selectedItem : selectedItems)
-                    selectedFiles.add(selectedItem.getId());
-                boolean disable = selectedItems.size()==0;
-                disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
-                        addDescription, removeTags, removeDescription);
-                boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
-                disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
                 if (e.getClickCount() == 2) {
                     Ifofile currentItemSelected = filesView.getSelectionModel().getSelectedItem();
                     try {
