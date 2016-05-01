@@ -34,4 +34,11 @@ public class Ifocol {
     public boolean isEmpty() {
         return filesInside.isEmpty();
     }
+
+    @Override
+    public Ifocol clone() {
+        Ifocol result = new Ifocol(name);
+        result.filesInside = (HashSet<Integer>) filesInside.clone();
+        return result;
+    }
 }

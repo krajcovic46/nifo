@@ -157,30 +157,12 @@ public class Handler {
         return true;
     }
 
-    public boolean addFilesToCollection(String colName, Integer key) {
-        Ifocol col = collections.get(colName);
-        if (col == null) {
-            col = new Ifocol(colName);
-            collections.put(colName, col);
-        }
-        col.add(key);
-        return true;
-    }
-
     public boolean removeFilesFromCollection(String colName, HashSet<Integer> keys) {
         Ifocol col = collections.get(colName);
         if (col == null)
             return false;
         for (Integer k : keys)
             col.remove(k);
-        return true;
-    }
-
-    public boolean removeFilesFromCollection(String colName, Integer key) {
-        Ifocol col = collections.get(colName);
-        if (col == null)
-            return false;
-        col.remove(key);
         return true;
     }
 
@@ -197,16 +179,31 @@ public class Handler {
     }
 
     private HashMap<String, Ifocol> deepCopyCollections() {
-        HashMap<String, Ifocol> temp = new HashMap<>();
-        temp.putAll(collections);
-        /*System.out.println(collections);
-        System.out.println(temp);
-        System.out.println(collections.equals(temp));
-        temp.put("Nieco", new Ifocol());
-        System.out.println(collections);
-        System.out.println(temp);
-        System.out.println(collections.equals(temp));*/
+        HashMap<String, Ifocol> temp; // = new HashMap<>();
+//        temp.putAll(collections);
+        temp = (HashMap<String, Ifocol>) collections.clone();
+        for (Map.Entry<String, Ifocol> entry : collections.entrySet()) {
+            temp.put(entry.getKey(), entry.getValue().clone());
+        }
         return temp;
+    }
+
+    public boolean addFilesToCollection(String colName, Integer key) {
+        Ifocol col = collections.get(colName);
+        if (col == null) {
+            col = new Ifocol(colName);
+            collections.put(colName, col);
+        }
+        col.add(key);
+        return true;
+    }
+
+    public boolean removeFilesFromCollection(String colName, Integer key) {
+        Ifocol col = collections.get(colName);
+        if (col == null)
+            return false;
+        col.remove(key);
+        return true;
     }
 
     public boolean moveFilesInCollectionOnDisk(String colName, String toPath) {
@@ -214,15 +211,14 @@ public class Handler {
         Ifocol col = copy.get(colName);
         if (col == null)
             return false;
-        for (Integer key : col.getFilesInside()) {
+        for (Integer key : col.getFilesInside())
             moveFile(colName, key, toPath);
-        }
-        for (Integer key : col.getFilesInside()) {
-            addFilesToCollection(colName, lastID);
-            addFilesToCollection("All", lastID);
-            removeFilesFromCollection(colName, key);
-            removeFilesFromCollection("All", key);
-        }
+//        for (Integer key : col.getFilesInside()) {
+//            addFilesToCollection(colName, lastID);
+//            addFilesToCollection("All", lastID);
+//            removeFilesFromCollection(colName, key);
+//            removeFilesFromCollection("All", key);
+//        }
         return true;
     }
 
@@ -242,10 +238,10 @@ public class Handler {
                 workingFile.getDescription(), workingFile.getPopularity());
         files.put(lastID, newFile);
         /*TODO - toto dokoncit*/
-        /*addFilesToCollection(colName, lastID);
+        addFilesToCollection(colName, lastID);
         addFilesToCollection("All", lastID);
         removeFilesFromCollection(colName, key);
-        removeFilesFromCollection("All", key);*/
+        removeFilesFromCollection("All", key);
         files.remove(key);
         return true;
     }
