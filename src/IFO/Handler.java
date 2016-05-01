@@ -179,8 +179,7 @@ public class Handler {
     }
 
     private HashMap<String, Ifocol> deepCopyCollections() {
-        HashMap<String, Ifocol> temp; // = new HashMap<>();
-//        temp.putAll(collections);
+        HashMap<String, Ifocol> temp;
         temp = (HashMap<String, Ifocol>) collections.clone();
         for (Map.Entry<String, Ifocol> entry : collections.entrySet()) {
             temp.put(entry.getKey(), entry.getValue().clone());
@@ -213,12 +212,6 @@ public class Handler {
             return false;
         for (Integer key : col.getFilesInside())
             moveFile(colName, key, toPath);
-//        for (Integer key : col.getFilesInside()) {
-//            addFilesToCollection(colName, lastID);
-//            addFilesToCollection("All", lastID);
-//            removeFilesFromCollection(colName, key);
-//            removeFilesFromCollection("All", key);
-//        }
         return true;
     }
 
