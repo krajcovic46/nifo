@@ -53,6 +53,7 @@ public class Handler {
         files = gson.fromJson(filesToBe, new TypeToken<HashMap<Integer, Ifofile>>(){}.getType());
         collections = gson.fromJson(collectionsToBe, new TypeToken<HashMap<String, Ifocol>>(){}.getType());
         fillAllTags();
+        Utility.nonExistentFiles = checkFilesExistence();
     }
 
     private void fillAllTags() {
@@ -67,13 +68,16 @@ public class Handler {
         bufferedWriter.close();
     }
 
-    HashSet<Ifofile> checkFilesExistence() {
-        HashSet<Ifofile> filesWhichDontExist = new HashSet<>();
+    HashSet<Integer> checkFilesExistence() {
+        HashSet<Integer> filesWhichDontExist = new HashSet<>();
         Thread checker = new Thread() {
             public void run() {
                 for (Ifofile f : files.values())
-                    if (!f.exists())
-                        filesWhichDontExist.add(f);
+                    if (!f.exists()) {
+                        Integer fid = f.getId();
+                        filesWhichDontExist.add(fid);
+                        files.get(fid).linked = false;
+                    }
             }
         };
         checker.start();
@@ -230,7 +234,6 @@ public class Handler {
         newFile.setNewRawCustomAttributes(workingFile.getRawTags(),
                 workingFile.getDescription(), workingFile.getPopularity());
         files.put(lastID, newFile);
-        /*TODO - toto dokoncit*/
         addFilesToCollection(colName, lastID);
         addFilesToCollection("All", lastID);
         removeFilesFromCollection(colName, key);

@@ -4,8 +4,6 @@ import IFO.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,12 +19,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
+import javax.rmi.CORBA.Util;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainMenuController implements Initializable {
 
@@ -40,6 +38,8 @@ public class MainMenuController implements Initializable {
     private MenuItem dbImport;
     @FXML
     private MenuItem dbExport;
+    @FXML
+    private MenuItem viewPaths;
     @FXML
     private TextField filterField;
     @FXML
@@ -94,6 +94,8 @@ public class MainMenuController implements Initializable {
     private HashSet<Integer> selectedFiles;
     private Ifocol selectedCollection;
     private ObservableList<Ifocol> collectionsData;
+
+    private HashMap<ListCell<Ifofile>, Ifofile> cells = new HashMap<>();
 
     public void setPrimaryStage(Stage stage) {
         primaryStage = stage;
@@ -238,6 +240,8 @@ public class MainMenuController implements Initializable {
 
         ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
 
+        /*TODO - treba zarucit aby unlinked files ukazovali ine veci ako ukazuju teraz (path dat prec atd)*/
+
         filesView.setOnMouseClicked(e -> {
             selectedFiles = new HashSet<>();
             for (Ifofile selectedItem : selectedItems)
@@ -247,7 +251,7 @@ public class MainMenuController implements Initializable {
                     addDescription, removeTags, removeDescription);
             boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
             disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
-            System.out.println(selectedItems);
+            System.out.println(selectedItems + " + " + selectedFiles);
 
             if (e.getButton() == MouseButton.SECONDARY && selectedFiles.size() != 0) {
                 filesContextMenu.show(primaryStage, e.getScreenX(), e.getScreenY());
@@ -265,6 +269,31 @@ public class MainMenuController implements Initializable {
                         d.printStackTrace();
                     }
                 }
+            }
+        });
+
+        filesView.setCellFactory(new Callback<ListView<Ifofile>, ListCell<Ifofile>>() {
+            @Override
+            public ListCell<Ifofile> call(ListView<Ifofile> stringListView) {
+                return new ListCell<Ifofile>(){
+                    @Override
+                    protected void updateItem(Ifofile ifofile, boolean b) {
+                        super.updateItem(ifofile, b);
+                        if (ifofile != null) {
+                            String tags = (ifofile.getAllTags().size() == 0) ? "no tags" : ifofile.getAllTags().toString();
+                            String description = (ifofile.getDescription().equals("")) ? "no description"
+                                    : ifofile.getDescription();
+                            if (Utility.nonExistentFiles != null && Utility.nonExistentFiles.contains(ifofile.getId())) {
+                                setStyle("-fx-background-color: rgba(205, 0, 8, 0.61);");
+                                setText(ifofile.getName() + " -- " + tags + ", " + description);
+                            } else {
+                                setStyle(null);
+                                setText(ifofile.getName() + " -- " + tags + ", " + description);
+                            }
+                            cells.put(this, ifofile);
+                        }
+                    }
+                };
             }
         });
     }
@@ -540,5 +569,10 @@ public class MainMenuController implements Initializable {
             handler.moveFilesInCollectionOnDisk(selectedCollection.name, directory);
         }
         refresh();
+    }
+
+    public void setViewPaths() {
+        Utility.withPath = !Utility.withPath;
+        _refresh();
     }
 }

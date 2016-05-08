@@ -1,5 +1,7 @@
 package IFO;
 
+import javafx.beans.property.SimpleStringProperty;
+
 import java.io.File;
 import java.util.*;
 
@@ -15,24 +17,24 @@ public class Ifofile {
     //--------------------
 
     String absolutePath;
-    String path;
     String name;
     String parent;
     boolean isAbsolute;
     boolean isDirectory;
     boolean isFile;
+    boolean linked;
 
     public Ifofile (String path, Integer id) {
         this.id = id;
 
         File workingFile = new File(path);
         this.absolutePath = workingFile.getAbsolutePath();
-        this.path = workingFile.getPath();
         this.name = workingFile.getName();
         this.parent = workingFile.getParent();
         this.isAbsolute = workingFile.isAbsolute();
         this.isDirectory = workingFile.isDirectory();
         this.isFile = workingFile.isFile();
+        this.linked = true;
     }
 
     public Integer getId() {
@@ -47,8 +49,8 @@ public class Ifofile {
         return this.name;
     }
 
-    public String getPath() {
-        return this.path;
+    public String getAbsolutePath() {
+        return this.absolutePath;
     }
 
     public String getParent() {
@@ -131,11 +133,14 @@ public class Ifofile {
     }
 
     public String toString() {
-        return this.name;
+        if (Utility.withPath)
+            return this.name + " - " + this.absolutePath;
+        else
+            return this.name;
     }
 
     public boolean exists() {
-        File fileToCheck = new File(path);
+        File fileToCheck = new File(absolutePath);
         return fileToCheck.exists();
     }
 

@@ -18,7 +18,6 @@ public class Main extends Application {
     Stage primaryStage;
     MainMenuController mainController;
     Handler handler;
-    HashSet<Ifofile> nonExistentFiles;
     String pathToDB = System.getProperty("user.dir")+"\\dbexport.ifo";
 
     @Override
@@ -55,7 +54,7 @@ public class Main extends Application {
             handler.deserialize(pathToDB);
         }
         catch (IOException e) {
-            Utility.createBeginningAlert(handler, primaryStage, nonExistentFiles);
+            Utility.createBeginningAlert(handler, primaryStage);
         }
         mainController.populateCollectionsListView();
     }

@@ -15,14 +15,14 @@
               <MenuItem fx:id="dbExport" mnemonicParsing="false" onAction="#setDbExport" text="Export/Save" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="View">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="viewPaths" mnemonicParsing="false" text="View/Hide paths" onAction="#setViewPaths" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="Tools">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" text="Fulltext Search" />
             </items>
           </Menu>
         </menus>
@@ -77,12 +77,12 @@
                 <Button fx:id="removeTags" mnemonicParsing="false" onAction="#setRemoveTags" />
                 <Button fx:id="removeDescription" mnemonicParsing="false" onAction="#setRemoveDescriptionButton" />
                 <Button fx:id="moveFileToCollectionButton" mnemonicParsing="false" onAction="#setMoveFileToCollectionButton" />
-                <Button fx:id="removeFileFromACol" mnemonicParsing="false" onAction="#setRemoveFileFromACollection"/>
+                <Button fx:id="removeFileFromACol" mnemonicParsing="false" onAction="#setRemoveFileFromACollection" />
 
                   <Label text="|" />
 
-                <Button fx:id="copyColButton" mnemonicParsing="false" onAction="#setCopyCol"/>
-                <Button fx:id="moveColButton" mnemonicParsing="false" onAction="#setMoveCol"/>
+                <Button fx:id="copyColButton" mnemonicParsing="false" onAction="#setCopyCol" />
+                <Button fx:id="moveColButton" mnemonicParsing="false" onAction="#setMoveCol" />
               </items>
             </ToolBar>
          </top>

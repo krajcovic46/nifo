@@ -32,7 +32,7 @@ public class FileDialogController implements Initializable {
 
     public void showInfo(Ifofile file) {
         nameInfo.setText(file.getName());
-        pathInfo.setText(file.getPath());
+        pathInfo.setText(file.getAbsolutePath());
         folderInfo.setText(file.getParent());
         descInfo.setText(file.getDescription());
         tagsInfo.setText(file.getAllTags().toString());

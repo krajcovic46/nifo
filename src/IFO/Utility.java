@@ -4,10 +4,14 @@ import javafx.scene.control.*;
 import javafx.stage.*;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 public class Utility {
+
+    public static boolean withPath;
+    public static HashSet<Integer> nonExistentFiles;
 
     public static String directoryChooser(String title, Stage primaryStage) {
         DirectoryChooser chooser = new DirectoryChooser();
@@ -49,7 +53,7 @@ public class Utility {
         return (result.get() == ButtonType.OK);
     }
 
-    public static void createBeginningAlert(Handler handler, Stage primaryStage, Set<Ifofile> nonExistentFiles) {
+    public static void createBeginningAlert(Handler handler, Stage primaryStage) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("No files");
         alert.setHeaderText("There are no files loaded in the database");
@@ -64,7 +68,7 @@ public class Utility {
                 handler.fillInternalStructures(Utility.directoryChooser("Point to a directory", primaryStage), true);
             } catch (Exception e) {
                 e.printStackTrace();
-                createBeginningAlert(handler, primaryStage, nonExistentFiles);
+                createBeginningAlert(handler, primaryStage);
             }
         } else if (result.get() == importJSON) {
             try {
@@ -75,7 +79,7 @@ public class Utility {
                 nonExistentFiles = handler.checkFilesExistence();
             } catch (Exception e) {
                 e.printStackTrace();
-                createBeginningAlert(handler, primaryStage, nonExistentFiles);
+                createBeginningAlert(handler, primaryStage);
             }
         }
         else System.exit(0);
