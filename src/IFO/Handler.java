@@ -7,6 +7,7 @@ import java.util.*;
 import IFO.Extensions.FileExtensions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.scene.control.TextField;
 
 public class Handler {
 
@@ -14,6 +15,7 @@ public class Handler {
     Integer lastID = 0;
     public HashMap<String, Ifocol> collections = new HashMap<>();
     public HashSet<String> allTags = new HashSet<>();
+    public HashSet<Integer> logicFound = new HashSet<>();
 
 
     public HashMap<Integer, Ifofile> getFiles() {
@@ -303,4 +305,33 @@ public class Handler {
         }
         return false;
     }
+
+    public void logicSearchCore(HashMap<TextField, TextField> fieldsSet) {
+        HashSet<Integer> ids = new HashSet<>();
+        for (Map.Entry<TextField, TextField> entry : fieldsSet.entrySet()) {
+            HashSet<String> tags = new HashSet<>();
+            HashSet<String> nots = new HashSet<>();
+            tags.addAll(Arrays.asList(entry.getKey().getText().split(",")));
+            tags.addAll(Arrays.asList(entry.getValue().getText().split(",")));
+            ids.addAll(ifoAnd(tags, nots));
+        }
+        logicFound = ids;
+    }
+
+    private HashSet<Integer> ifoAnd(HashSet<String> tags, HashSet<String> nots) {
+        HashSet<Integer> filesSearchedFor = new HashSet<>();
+        for (Ifofile file : files.values())
+            if (fileContainsTags(file, tags) && (!fileContainsTags(file, nots)))
+                filesSearchedFor.add(file.getId());
+        return filesSearchedFor;
+    }
+
+    private boolean fileContainsTags(Ifofile file, HashSet<String> tags) {
+        for (String tag : tags)
+            if (!file.getAllTags().contains(tag))
+                return false;
+        return true;
+    }
+
+
 }

@@ -405,6 +405,24 @@ public class MainMenuController implements Initializable {
         dialogStage.showAndWait();
     }
 
+    private void initializeLogicSearchController() throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("Views/LogicSearch.fxml"));
+        Parent page = loader.load();
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Search files using logic(tm)");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        LogicSearchController lsController = loader.getController();
+        lsController.init(handler);
+        lsController.setStage(dialogStage);
+
+        dialogStage.showAndWait();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         UpdateableListViewSkin<Ifocol> colSkin = new UpdateableListViewSkin<>(collectionsView);
@@ -608,6 +626,18 @@ public class MainMenuController implements Initializable {
         for (Integer id : found)
             filesData.add(handler.getFiles().get(id));
         showFilesInCollections(filesData);
+        _refresh();
+    }
+
+    public void setLogicSearch() {
+        try {
+            initializeLogicSearchController();
+            collectionsView.getSelectionModel().clearSelection();
+            ObservableList<Ifofile> filesData = FXCollections.observableArrayList();
+            for (Integer id : handler.logicFound)
+                filesData.add(handler.getFiles().get(id));
+            showFilesInCollections(filesData);
+        } catch (Exception ignored) {}
         _refresh();
     }
 }

@@ -1,17 +1,13 @@
 package IFO;
 
-import IFO.Views.FileDialogController;
 import IFO.Views.MainMenuController;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashSet;
 
 public class Main extends Application {
 
@@ -32,7 +28,7 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         try {
             FXMLLoader loader;
-            loader = new FXMLLoader(getClass().getResource("Views/GUI.fxml"));
+            loader = new FXMLLoader(getClass().getResource("Views/MainMenu.fxml"));
             Parent root  = loader.load();
 
             mainController = loader.getController();
