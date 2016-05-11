@@ -22,11 +22,11 @@ public class Utility {
         return selectedDirectory.getAbsolutePath();
     }
 
-    public static String textInput(String title, String what) {
+    public static String textInput(String title, String header, String contentText, String what) {
         TextInputDialog dialog = new TextInputDialog(what);
         dialog.setTitle(title);
-        dialog.setHeaderText("Please enter new name");
-        dialog.setContentText("Name:");
+        dialog.setHeaderText(header);
+        dialog.setContentText(contentText);
 
         Optional<String> result = dialog.showAndWait();
         //result.ifPresent(name -> System.out.println("Your name: " + name));

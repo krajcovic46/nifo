@@ -21,7 +21,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import javax.rmi.CORBA.Util;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -71,9 +70,11 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button removeDescription;
     @FXML
-    private Button copyColButton;
+    private Button copyColContentButton;
     @FXML
-    private Button moveColButton;
+    private Button moveColContentButton;
+    @FXML
+    private Button copyOnlyColButton;
 
     private MenuItem addTagsMenuItem;
     private MenuItem addDescriptionMenuItem;
@@ -81,6 +82,7 @@ public class MainMenuController implements Initializable {
     private MenuItem removeDescriptionMenuItem;
     private MenuItem moveFilesToAnotherColMenuItem;
     private MenuItem removeFilesFromColMenuItem;
+    private MenuItem copyOnlyColMenuItem;
 
     private MenuItem renameColMenuItem;
     private MenuItem deleteColMenuItem;
@@ -132,7 +134,10 @@ public class MainMenuController implements Initializable {
         deleteColMenuItem = new MenuItem("Delete collection...");
         deleteColMenuItem.setOnAction(e -> setDeleteColButton());
 
-        colContextMenu.getItems().addAll(renameColMenuItem, deleteColMenuItem);
+        copyOnlyColMenuItem = new MenuItem("Copy collection");
+        copyOnlyColMenuItem.setOnAction(e -> setCopyOnlyCol());
+
+        colContextMenu.getItems().addAll(renameColMenuItem, deleteColMenuItem, copyOnlyColMenuItem);
     }
 
     private void setupFilesContextMenu() {
@@ -167,6 +172,7 @@ public class MainMenuController implements Initializable {
         customizeButton(addEmptyColButton, "Images/newempcol.png", "Create an empty collection", false);
         customizeButton(addColFromSelectionButton, "Images/newselcol.png", "Create a collection from selected files",
                 true);
+        customizeButton(copyOnlyColButton, "Images/copyonlycol.png", "Copy an entire collection", true);
         customizeButton(deleteColButton, "Images/deletecol.png", "Delete a collection", true);
         customizeButton(renameColButton, "Images/renamecol.png", "Rename a collection", true);
         customizeButton(addTagsToFileButton, "Images/addtags.png", "Add tags to the selected file.", true);
@@ -177,8 +183,8 @@ public class MainMenuController implements Initializable {
         customizeButton(removeFileFromACol, "Images/removefilefromcol.png", "Remove files from the collection",
                 true);
         customizeButton(removeDescription, "Images/removefile.png", "Remove description from selected files", true);
-        customizeButton(copyColButton, "Images/copycol.png", "Copy an entire collection", true);
-        customizeButton(moveColButton, "Images/movecol.png", "Move an entire collection", true);
+        customizeButton(copyColContentButton, "Images/copycol.png", "Copy the entire content of a collection", true);
+        customizeButton(moveColContentButton, "Images/movecol.png", "Move the entire content of a collection", true);
     }
 
     private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
@@ -199,7 +205,8 @@ public class MainMenuController implements Initializable {
             selectedCollection = collectionsView.getSelectionModel().getSelectedItem();
 
             boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
-            disableChosenButtons(!isSelectedButNotAll, deleteColButton, renameColButton, copyColButton, moveColButton);
+            disableChosenButtons(!isSelectedButNotAll, deleteColButton, copyOnlyColButton, renameColButton,
+                    copyColContentButton, moveColContentButton);
             if (isSelectedButNotAll) {
                 boolean isEmpty;
                 isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
@@ -220,16 +227,16 @@ public class MainMenuController implements Initializable {
 
         collectionsView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    if (newValue != null)
-                        showFilesInCollections(newValue);
+                    if (newValue != null) {
+                        ObservableList<Ifofile> filesData = FXCollections.observableArrayList();
+                        for (Integer id : newValue.getFilesInside())
+                            filesData.add(handler.getFiles().get(id));
+                        showFilesInCollections(filesData);
+                    }
                 });
     }
 
-    public void showFilesInCollections(Ifocol col) {
-        ObservableList<Ifofile> filesData = FXCollections.observableArrayList();
-        for (Integer id : col.getFilesInside())
-            filesData.add(handler.getFiles().get(id));
-
+    public void showFilesInCollections(ObservableList<Ifofile> filesData) {
         FilteredList<Ifofile> filteredData = new FilteredList<>(filesData, p -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(file -> newValue == null ||
@@ -249,16 +256,18 @@ public class MainMenuController implements Initializable {
             boolean disable = selectedItems.size()==0;
             disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
                     addDescription, removeTags, removeDescription);
-            boolean disableSpecific = selectedItems.size()==0 || selectedCollection.name.equals("All");
-            disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
-            System.out.println(selectedItems + " + " + selectedFiles);
+            try {
+                boolean disableSpecific = selectedItems.size() == 0 || selectedCollection.name.equals("All");
+                disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
+            }
+            catch (NullPointerException ignored) {}
+//            System.out.println(selectedItems + " + " + selectedFiles);
 
             if (e.getButton() == MouseButton.SECONDARY && selectedFiles.size() != 0) {
                 filesContextMenu.show(primaryStage, e.getScreenX(), e.getScreenY());
                 boolean allColSelected = selectedCollection.name.equals("All");
                 moveFilesToAnotherColMenuItem.setDisable(allColSelected);
                 removeFilesFromColMenuItem.setDisable(allColSelected);
-
             }
             else if (e.getButton() == MouseButton.PRIMARY) {
                 if (e.getClickCount() == 2) {
@@ -279,18 +288,22 @@ public class MainMenuController implements Initializable {
                     @Override
                     protected void updateItem(Ifofile ifofile, boolean b) {
                         super.updateItem(ifofile, b);
-                        if (ifofile != null) {
-                            String tags = (ifofile.getAllTags().size() == 0) ? "no tags" : ifofile.getAllTags().toString();
-                            String description = (ifofile.getDescription().equals("")) ? "no description"
-                                    : ifofile.getDescription();
-                            if (Utility.nonExistentFiles != null && Utility.nonExistentFiles.contains(ifofile.getId())) {
-                                setStyle("-fx-background-color: rgba(205, 0, 8, 0.61);");
-                                setText(ifofile.getName() + " -- " + tags + ", " + description);
-                            } else {
-                                setStyle(null);
-                                setText(ifofile.getName() + " -- " + tags + ", " + description);
+                        if (isEmpty()) {
+                            setText(null);
+                        } else {
+                            if (ifofile != null) {
+                                String tags = (ifofile.getAllTags().size() == 0) ? "no tags" : ifofile.getAllTags().toString();
+                                String description = (ifofile.getDescription().equals("")) ? "no description"
+                                        : ifofile.getDescription();
+                                if (Utility.nonExistentFiles != null && Utility.nonExistentFiles.contains(ifofile.getId())) {
+                                    setStyle("-fx-background-color: rgba(205, 0, 8, 0.61);");
+                                    setText(ifofile.getName() + " -- " + tags + ", " + description);
+                                } else {
+                                    setStyle(null);
+                                    setText(ifofile.getName() + " -- " + tags + ", " + description);
+                                }
+                                cells.put(this, ifofile);
                             }
-                            cells.put(this, ifofile);
                         }
                     }
                 };
@@ -448,7 +461,8 @@ public class MainMenuController implements Initializable {
     @FXML
     public void setAddEmptyColButton() {
         try {
-            String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
+            String newCollectionName = Utility.textInput("Add collection", "Enter name for new collection", "Name",
+                    "New Collection");
             if (handler.createAnEmptyCollection(newCollectionName)) {
                 _refresh();
                 stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
@@ -461,7 +475,8 @@ public class MainMenuController implements Initializable {
     @FXML
     public void setAddColFromSelection() {
         try {
-            String newCollectionName = Utility.textInput("Enter name for new collection", "New Collection");
+            String newCollectionName = Utility.textInput("Add collection", "Enter name for new collection", "Name",
+                    "New Collection");
             if (handler.addFilesToCollection(newCollectionName, selectedFiles)) {
                 _refresh();
                 stateLabel.setText("\"" + newCollectionName + "\" collection has been added successfully.");
@@ -469,6 +484,12 @@ public class MainMenuController implements Initializable {
                 stateLabel.setText("A collection with name "+ "\"" + newCollectionName + "\" already exists.");
         } catch (NoSuchElementException ignored) {}
         _updateCollectionsView();
+    }
+
+    @FXML
+    public void setCopyOnlyCol() {
+        handler.copyOnlyCollection(selectedCollection.name);
+        refresh();
     }
 
     @FXML
@@ -489,7 +510,7 @@ public class MainMenuController implements Initializable {
     public void setRenameColButton() {
         try {
             if (handler.renameACollection(selectedCollection.name,
-                    Utility.textInput("Rename a collection", "New Name")))
+                    Utility.textInput("Rename", "Enter new name to rename", "Name", "New Name")))
                 stateLabel.setText("Collection successfully renamed.");
             else
                 stateLabel.setText("A collection with the same name already exists.");
@@ -505,6 +526,7 @@ public class MainMenuController implements Initializable {
         catch (Exception e) {
             stateLabel.setText("Tags have not been added, please try again.");
         }
+        _refresh();
         stateLabel.setText("Tags have been added successfully.");
     }
 
@@ -515,6 +537,8 @@ public class MainMenuController implements Initializable {
         } catch (Exception e) {
             stateLabel.setText("Description has not been added, please try again.");
         }
+        _refresh();
+        stateLabel.setText("Description has been added successfully.");
     }
 
     @FXML
@@ -526,6 +550,7 @@ public class MainMenuController implements Initializable {
             /*TODO - lepsi popisok bro*/
             stateLabel.setText("Couldn't :(");
         }
+        _refresh();
     }
 
     @FXML
@@ -573,6 +598,16 @@ public class MainMenuController implements Initializable {
 
     public void setViewPaths() {
         Utility.withPath = !Utility.withPath;
+        _refresh();
+    }
+
+    public void setSearch() {
+        collectionsView.getSelectionModel().clearSelection();
+        HashSet<Integer> found = handler.fullTextSearch(Utility.textInput("Search", "Enter a term to search", "Query", ""));
+        ObservableList<Ifofile> filesData = FXCollections.observableArrayList();
+        for (Integer id : found)
+            filesData.add(handler.getFiles().get(id));
+        showFilesInCollections(filesData);
         _refresh();
     }
 }

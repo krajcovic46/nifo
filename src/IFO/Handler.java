@@ -135,6 +135,17 @@ public class Handler {
         return false;
     }
 
+    public boolean copyOnlyCollection(String colName) {
+        if (collections.containsKey(colName)) {
+            Ifocol newCol = new Ifocol(colName + " - copy");
+            for (Integer id : collections.get(colName).getFilesInside())
+                newCol.add(id);
+            collections.put(newCol.name, newCol);
+            return true;
+        }
+        return false;
+    }
+
     public boolean deleteACollection(String colName) {
         if (collections.containsKey(colName))
             collections.remove(colName);
@@ -274,13 +285,12 @@ public class Handler {
         return true;
     }
 
-    HashSet<Integer> fullTextSearch(String what) {
+    public HashSet<Integer> fullTextSearch(String what) {
         HashSet<Integer> candidates = new HashSet<>();
-        for (int i = 0; i < files.size(); i++) {
-            Ifofile workFile = files.get(i);
-            if (workFile.name.contains(what) || workFile.getDescription().contains(what)
-                    || tagsContainSearchedWord(workFile, what)) {
-                candidates.add(i);
+        for(Ifofile f : files.values()) {
+            if (f.name.contains(what) || f.getDescription().contains(what)
+                    || tagsContainSearchedWord(f, what)) {
+                candidates.add(f.getId());
             }
         }
         return candidates;

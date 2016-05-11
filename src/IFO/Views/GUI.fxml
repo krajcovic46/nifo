@@ -17,12 +17,12 @@
           </Menu>
           <Menu mnemonicParsing="false" text="View">
             <items>
-              <MenuItem fx:id="viewPaths" mnemonicParsing="false" text="View/Hide paths" onAction="#setViewPaths" />
+              <MenuItem fx:id="viewPaths" mnemonicParsing="false" onAction="#setViewPaths" text="View/Hide paths" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Tools">
             <items>
-              <MenuItem mnemonicParsing="false" text="Fulltext Search" />
+              <MenuItem mnemonicParsing="false" onAction="#setSearch" text="Fulltext Search" />
             </items>
           </Menu>
         </menus>
@@ -67,6 +67,7 @@
 
                 <Button fx:id="addEmptyColButton" mnemonicParsing="false" onAction="#setAddEmptyColButton" />
                 <Button fx:id="addColFromSelectionButton" mnemonicParsing="false" onAction="#setAddColFromSelection" />
+                <Button fx:id="copyOnlyColButton" mnemonicParsing="false" onAction="#setCopyOnlyCol"/>
                 <Button fx:id="deleteColButton" mnemonicParsing="false" onAction="#setDeleteColButton" />
                 <Button fx:id="renameColButton" mnemonicParsing="false" onAction="#setRenameColButton" />
 
@@ -81,8 +82,8 @@
 
                   <Label text="|" />
 
-                <Button fx:id="copyColButton" mnemonicParsing="false" onAction="#setCopyCol" />
-                <Button fx:id="moveColButton" mnemonicParsing="false" onAction="#setMoveCol" />
+                <Button fx:id="copyColContentButton" mnemonicParsing="false" onAction="#setCopyCol" />
+                <Button fx:id="moveColContentButton" mnemonicParsing="false" onAction="#setMoveCol" />
               </items>
             </ToolBar>
          </top>
