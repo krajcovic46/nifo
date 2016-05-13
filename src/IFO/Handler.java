@@ -27,15 +27,23 @@ public class Handler {
         if (directory != null)
             for (File f : directory)
                 if (f.isFile()) {
-                    files.put(++lastID, new Ifofile(f.getAbsolutePath(), lastID));
-                    String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
-                    String col = FileExtensions.EXTENSIONS_MAP.get(extension);
-                    if (col == null) col = "Miscellaneous";
-                    addFilesToCollection(col, lastID);
-                    addFilesToCollection("All", lastID);
+                    addFile(f);
                 } else
                     if (searchRecursively)
                         fillInternalStructures(f.getAbsolutePath(), true);
+    }
+
+    public void addFile(File f) {
+        files.put(++lastID, new Ifofile(f.getAbsolutePath(), lastID));
+        String extension = f.getName().substring(f.getName().lastIndexOf(".") + 1);
+        String col = FileExtensions.EXTENSIONS_MAP.get(extension);
+        if (col == null) col = "Miscellaneous";
+        addFilesToCollection(col, lastID);
+        addFilesToCollection("All", lastID);
+    }
+
+    public void removeFile(Integer id) {
+        files.remove(id);
     }
 
     private String serialize() {
@@ -275,7 +283,7 @@ public class Handler {
         return false;
     }
 
-    boolean removeFile(Integer key) {
+    boolean removeFileOnDisk(Integer key) {
         Ifofile file = files.get(key);
         Path path = Paths.get(file.absolutePath);
         try {
@@ -299,29 +307,26 @@ public class Handler {
     }
 
     private boolean tagsContainSearchedWord(Ifofile file, String what) {
-        for (String s : file.getAllTags()) {
+        for (String s : file.getAllTags())
             if (s.contains(what))
                 return true;
-        }
         return false;
     }
 
     public void logicSearchCore(HashMap<TextField, TextField> fieldsSet) {
-        HashSet<Integer> ids = new HashSet<>();
         for (Map.Entry<TextField, TextField> entry : fieldsSet.entrySet()) {
             HashSet<String> tags = new HashSet<>();
             HashSet<String> nots = new HashSet<>();
             tags.addAll(Arrays.asList(entry.getKey().getText().split(",")));
-            tags.addAll(Arrays.asList(entry.getValue().getText().split(",")));
-            ids.addAll(ifoAnd(tags, nots));
+            nots.addAll(Arrays.asList(entry.getValue().getText().split(",")));
+            logicFound.addAll(ifoAnd(tags, nots));
         }
-        logicFound = ids;
     }
 
     private HashSet<Integer> ifoAnd(HashSet<String> tags, HashSet<String> nots) {
         HashSet<Integer> filesSearchedFor = new HashSet<>();
         for (Ifofile file : files.values())
-            if (fileContainsTags(file, tags) && (!fileContainsTags(file, nots)))
+            if ((fileContainsTags(file, tags) && (!fileContainsTags(file, nots))))
                 filesSearchedFor.add(file.getId());
         return filesSearchedFor;
     }

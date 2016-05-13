@@ -32,7 +32,7 @@ public class LogicSearchController implements Initializable {
     private Handler handler;
     private Stage stage;
 
-    private HashMap<TextField, TextField> fieldsSet;
+    private HashMap<TextField, TextField> fieldsSet = new HashMap<>();
     private Integer lastRow;
 
     @Override
@@ -50,13 +50,14 @@ public class LogicSearchController implements Initializable {
         lastRow = 3;
     }
 
-    public void setAddLine() {
-        TextField newTF = new TextField();
-        TextField newTFnegation = new TextField();
-        baseGridPane.add(newTF, 1, ++lastRow);
-        baseGridPane.add(newTFnegation, 2, lastRow);
-        fieldsSet.put(newTF, newTFnegation);
-    }
+//    public void setAddLine() {
+//        TextField newTF = new TextField();
+//        TextField newTFnegation = new TextField();
+//        baseGridPane.addRow(++lastRow);//
+//        baseGridPane.add(newTF, 1, lastRow);
+//        baseGridPane.add(newTFnegation, 2, lastRow);
+//        fieldsSet.put(newTF, newTFnegation);
+//    }
 
     public void setSearch() {
         handler.logicSearchCore(fieldsSet);

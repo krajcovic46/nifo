@@ -23,6 +23,7 @@
           <Menu mnemonicParsing="false" text="Tools">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#setSearch" text="Fulltext Search" />
+              <MenuItem mnemonicParsing="false" onAction="#setLogicSearch" text="Logic Search" />
             </items>
           </Menu>
         </menus>

@@ -41,6 +41,10 @@ public class Ifofile {
         return this.id;
     }
 
+    public boolean isLinked() {
+        return this.linked;
+    }
+
     public void setDescription(String desc) {
         this.description = desc;
     }

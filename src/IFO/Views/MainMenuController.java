@@ -21,6 +21,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -83,6 +84,7 @@ public class MainMenuController implements Initializable {
     private MenuItem moveFilesToAnotherColMenuItem;
     private MenuItem removeFilesFromColMenuItem;
     private MenuItem copyOnlyColMenuItem;
+    private MenuItem linkUnlinkedFiles;
 
     private MenuItem renameColMenuItem;
     private MenuItem deleteColMenuItem;
@@ -161,8 +163,11 @@ public class MainMenuController implements Initializable {
         removeFilesFromColMenuItem = new MenuItem("Remove files from a collection...");
         removeFilesFromColMenuItem.setOnAction(e -> setRemoveFileFromACollection());
 
+        linkUnlinkedFiles = new MenuItem("Link unlinked file...");
+        linkUnlinkedFiles.setOnAction(e -> setLinkUnlinkedFiles());
+
         filesContextMenu.getItems().addAll(addTagsMenuItem, addDescriptionMenuItem, removeTagsMenuItem,
-                removeDescriptionMenuItem, moveFilesToAnotherColMenuItem, removeFilesFromColMenuItem);
+                removeDescriptionMenuItem, moveFilesToAnotherColMenuItem, removeFilesFromColMenuItem, linkUnlinkedFiles);
     }
 
     private void customizeToolbarButtons() {
@@ -268,6 +273,13 @@ public class MainMenuController implements Initializable {
                 boolean allColSelected = selectedCollection.name.equals("All");
                 moveFilesToAnotherColMenuItem.setDisable(allColSelected);
                 removeFilesFromColMenuItem.setDisable(allColSelected);
+                if (selectedFiles.size() == 1) {
+                    ArrayList<Integer> list = new ArrayList<>(selectedFiles);
+                    boolean unlinkedFileSelected = selectedFiles.size() == 1 &&
+                            handler.getFiles().get(list.get(0)).isLinked();
+                    linkUnlinkedFiles.setDisable(unlinkedFileSelected);
+                }
+
             }
             else if (e.getButton() == MouseButton.PRIMARY) {
                 if (e.getClickCount() == 2) {
@@ -614,6 +626,14 @@ public class MainMenuController implements Initializable {
         refresh();
     }
 
+    public void setLinkUnlinkedFiles() {
+        try {
+            String pathToFile = Utility.fileChooser("Choose a file to link", primaryStage);
+            handler.addFile(new File(pathToFile));
+            /*TODO - toto dokoncit*/
+        } catch (NullPointerException ignored) {}
+    }
+
     public void setViewPaths() {
         Utility.withPath = !Utility.withPath;
         _refresh();
@@ -637,7 +657,9 @@ public class MainMenuController implements Initializable {
             for (Integer id : handler.logicFound)
                 filesData.add(handler.getFiles().get(id));
             showFilesInCollections(filesData);
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         _refresh();
     }
 }
