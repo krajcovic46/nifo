@@ -15,6 +15,7 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="151.0" minWidth="10.0" prefWidth="52.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="10.0" prefWidth="264.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -28,6 +29,7 @@
             <Button fx:id="addTag" mnemonicParsing="false" onAction="#setAddTag" text="Add a tag" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button fx:id="addTags" mnemonicParsing="false" onAction="#setAddTags" text="Add tags" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label fx:id="tagsListLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ListView fx:id="tagsView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="3" />
          </children>
       </GridPane>
    </children>

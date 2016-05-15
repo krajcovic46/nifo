@@ -33,14 +33,6 @@ public class MainMenuController implements Initializable {
     @FXML
     private ListView<Ifofile> filesView;
     @FXML
-    private MenuItem addFiles;
-    @FXML
-    private MenuItem dbImport;
-    @FXML
-    private MenuItem dbExport;
-    @FXML
-    private MenuItem viewPaths;
-    @FXML
     private TextField filterField;
     @FXML
     private Label stateLabel;
@@ -63,7 +55,7 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button moveFileToCollectionButton;
     @FXML
-    private Button addDescription;
+    private Button addDescriptionButton;
     @FXML
     private Button removeTags;
     @FXML
@@ -76,6 +68,17 @@ public class MainMenuController implements Initializable {
     private Button moveColContentButton;
     @FXML
     private Button copyOnlyColButton;
+    @FXML
+    private Button copyFileToCollectionButton;
+
+    @FXML
+    private MenuItem addColFromSelectionMenu;
+    @FXML
+    private MenuItem copySelectedCollectionMenu;
+    @FXML
+    private MenuItem deleteSelectedCollectionMenu;
+    @FXML
+    private MenuItem renameSelectedCollectionMenu;
 
     private MenuItem addTagsMenuItem;
     private MenuItem addDescriptionMenuItem;
@@ -84,7 +87,9 @@ public class MainMenuController implements Initializable {
     private MenuItem moveFilesToAnotherColMenuItem;
     private MenuItem removeFilesFromColMenuItem;
     private MenuItem copyOnlyColMenuItem;
-    private MenuItem linkUnlinkedFiles;
+    private MenuItem linkUnlinkedFilesMenuItem;
+    private MenuItem addColFromSelectionMenuItem;
+    private MenuItem addFilesToColMenuItem;
 
     private MenuItem renameColMenuItem;
     private MenuItem deleteColMenuItem;
@@ -137,13 +142,16 @@ public class MainMenuController implements Initializable {
         deleteColMenuItem.setOnAction(e -> setDeleteColButton());
 
         copyOnlyColMenuItem = new MenuItem("Copy collection");
-        copyOnlyColMenuItem.setOnAction(e -> setCopyOnlyCol());
+        copyOnlyColMenuItem.setOnAction(e -> setCopyOnlyColButton());
 
         colContextMenu.getItems().addAll(renameColMenuItem, deleteColMenuItem, copyOnlyColMenuItem);
     }
 
     private void setupFilesContextMenu() {
         filesContextMenu = new ContextMenu();
+
+        SeparatorMenuItem smi = new SeparatorMenuItem();
+        SeparatorMenuItem smi2 = new SeparatorMenuItem();
 
         addTagsMenuItem = new MenuItem("Add tag(s)...");
         addTagsMenuItem.setOnAction(e -> setAddTagsToFileButton());
@@ -152,7 +160,7 @@ public class MainMenuController implements Initializable {
         addDescriptionMenuItem.setOnAction(e -> setAddDescriptionButton());
 
         removeTagsMenuItem = new MenuItem("Remove tag(s)...");
-        removeTagsMenuItem.setOnAction(e -> setRemoveTags());
+        removeTagsMenuItem.setOnAction(e -> setRemoveTagsButton());
 
         removeDescriptionMenuItem = new MenuItem("Remove description");
         removeDescriptionMenuItem.setOnAction(e -> setRemoveDescriptionButton());
@@ -161,13 +169,20 @@ public class MainMenuController implements Initializable {
         moveFilesToAnotherColMenuItem.setOnAction(e -> setMoveFileToCollectionButton());
 
         removeFilesFromColMenuItem = new MenuItem("Remove files from a collection...");
-        removeFilesFromColMenuItem.setOnAction(e -> setRemoveFileFromACollection());
+        removeFilesFromColMenuItem.setOnAction(e -> setRemoveFileFromACollectionButton());
 
-        linkUnlinkedFiles = new MenuItem("Link unlinked file...");
-        linkUnlinkedFiles.setOnAction(e -> setLinkUnlinkedFiles());
+        linkUnlinkedFilesMenuItem = new MenuItem("Link unlinked file...");
+        linkUnlinkedFilesMenuItem.setOnAction(e -> setLinkUnlinkedFiles());
 
-        filesContextMenu.getItems().addAll(addTagsMenuItem, addDescriptionMenuItem, removeTagsMenuItem,
-                removeDescriptionMenuItem, moveFilesToAnotherColMenuItem, removeFilesFromColMenuItem, linkUnlinkedFiles);
+        addColFromSelectionMenuItem = new MenuItem("Create collection from selection...");
+        addColFromSelectionMenuItem.setOnAction(e -> setAddColFromSelection());
+
+        addFilesToColMenuItem = new MenuItem("Add files to another collection...");
+        addFilesToColMenuItem.setOnAction(e -> setCopyFileToCollectionButton());
+
+        filesContextMenu.getItems().addAll(addColFromSelectionMenuItem, addFilesToColMenuItem,
+                moveFilesToAnotherColMenuItem, smi, addTagsMenuItem, addDescriptionMenuItem, removeTagsMenuItem,
+                removeDescriptionMenuItem, removeFilesFromColMenuItem, smi2, linkUnlinkedFilesMenuItem);
     }
 
     private void customizeToolbarButtons() {
@@ -181,15 +196,17 @@ public class MainMenuController implements Initializable {
         customizeButton(deleteColButton, "Images/deletecol.png", "Delete a collection", true);
         customizeButton(renameColButton, "Images/renamecol.png", "Rename a collection", true);
         customizeButton(addTagsToFileButton, "Images/addtags.png", "Add tags to the selected file.", true);
-        customizeButton(moveFileToCollectionButton, "Images/movefiletocol.png", "Move file to another collection",
+        customizeButton(copyFileToCollectionButton, "Images/movefiletocol.png", "Add file(s) to another collection",
                 true);
-        customizeButton(addDescription, "Images/adddescription.png", "Add description to file", true);
+        customizeButton(moveFileToCollectionButton, "Images/movefiletocol.png", "Move file(s) to another collection",
+                true);
+        customizeButton(addDescriptionButton, "Images/adddescription.png", "Add description to file(s)", true);
         customizeButton(removeTags, "Images/removefile.png", "Remove tags from a file", true);
         customizeButton(removeFileFromACol, "Images/removefilefromcol.png", "Remove files from the collection",
                 true);
         customizeButton(removeDescription, "Images/removefile.png", "Remove description from selected files", true);
-        customizeButton(copyColContentButton, "Images/copycol.png", "Copy the entire content of a collection", true);
-        customizeButton(moveColContentButton, "Images/movecol.png", "Move the entire content of a collection", true);
+        customizeButton(copyColContentButton, "Images/copycol.png", "Copy the entire content of a collection on HDD", true);
+        customizeButton(moveColContentButton, "Images/movecol.png", "Move the entire content of a collection on HDD", true);
     }
 
     private void customizeButton(Button button, String pathToImage, String tooltip, boolean disabled) {
@@ -204,6 +221,11 @@ public class MainMenuController implements Initializable {
                 FXCollections.observableArrayList(handler.collections.values()).sorted();
         collectionsView.setItems(collectionsData);
 
+//        addColFromSelectionMenu;
+//        copySelectedCollectionMenu;
+//        deleteSelectedCollectionMenu;
+//        renameSelectedCollectionMenu;
+
         collectionsView.getSelectionModel().selectedItemProperty().addListener(t -> {
             _refresh();
 
@@ -212,12 +234,15 @@ public class MainMenuController implements Initializable {
             boolean isSelectedButNotAll = selectedCollection != null && !selectedCollection.name.equals("All");
             disableChosenButtons(!isSelectedButNotAll, deleteColButton, copyOnlyColButton, renameColButton,
                     copyColContentButton, moveColContentButton);
+            disableChosenMenuItems(!isSelectedButNotAll, deleteColMenuItem, renameSelectedCollectionMenu);
             if (isSelectedButNotAll) {
                 boolean isEmpty;
                 isEmpty = selectedFiles == null || selectedFiles.size() == 0 ||
                         selectedCollection.getFilesInside() == null || selectedCollection.getFilesInside().size() == 0;
                 disableChosenButtons(isEmpty, addColFromSelectionButton, addTagsToFileButton,
-                        addDescription, removeTags, removeDescription);
+                        addDescriptionButton, removeTags, removeDescription);
+
+                disableChosenMenuItems(isEmpty, addColFromSelectionMenu);
             }
         });
 
@@ -225,7 +250,7 @@ public class MainMenuController implements Initializable {
             if (e.getButton() == MouseButton.SECONDARY && selectedCollection != null) {
                 colContextMenu.show(primaryStage, e.getScreenX(), e.getScreenY());
                 boolean allColSelected = selectedCollection.name.equals("All");
-                renameColMenuItem.setDisable(allColSelected);
+                renameColMenuItem.setDisable(allColSelected);;
                 deleteColMenuItem.setDisable(allColSelected);
             }
         });
@@ -260,13 +285,13 @@ public class MainMenuController implements Initializable {
                 selectedFiles.add(selectedItem.getId());
             boolean disable = selectedItems.size()==0;
             disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
-                    addDescription, removeTags, removeDescription);
+                    addDescriptionButton, removeTags, removeDescription);
             try {
                 boolean disableSpecific = selectedItems.size() == 0 || selectedCollection.name.equals("All");
-                disableChosenButtons(disableSpecific, removeFileFromACol, moveFileToCollectionButton);
+                disableChosenButtons(disableSpecific, removeFileFromACol, copyFileToCollectionButton,
+                        moveFileToCollectionButton);
             }
             catch (NullPointerException ignored) {}
-//            System.out.println(selectedItems + " + " + selectedFiles);
 
             if (e.getButton() == MouseButton.SECONDARY && selectedFiles.size() != 0) {
                 filesContextMenu.show(primaryStage, e.getScreenX(), e.getScreenY());
@@ -275,9 +300,8 @@ public class MainMenuController implements Initializable {
                 removeFilesFromColMenuItem.setDisable(allColSelected);
                 if (selectedFiles.size() == 1) {
                     ArrayList<Integer> list = new ArrayList<>(selectedFiles);
-                    boolean unlinkedFileSelected = selectedFiles.size() == 1 &&
-                            handler.getFiles().get(list.get(0)).isLinked();
-                    linkUnlinkedFiles.setDisable(unlinkedFileSelected);
+                    boolean unlinkedFileSelected = handler.getFiles().get(list.get(0)).isLinked();
+                    linkUnlinkedFilesMenuItem.setDisable(unlinkedFileSelected);
                 }
 
             }
@@ -328,6 +352,11 @@ public class MainMenuController implements Initializable {
             b.setDisable(value);
     }
 
+    private void disableChosenMenuItems(boolean value, MenuItem... items) {
+        for (MenuItem m : items)
+            m.setDisable(value);
+    }
+
     private void initializeFileDialogController(Ifofile file) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("Views/FileDialog.fxml"));
@@ -345,7 +374,7 @@ public class MainMenuController implements Initializable {
         dialogStage.showAndWait();
     }
 
-    private void initializeMoveFileToColDialogController() throws Exception {
+    private void initializeMoveFileToColDialogController(boolean copy) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("Views/MoveFileToColDialog.fxml"));
         Parent page = loader.load();
@@ -357,7 +386,7 @@ public class MainMenuController implements Initializable {
         dialogStage.setScene(scene);
 
         MoveFileToColDialogController mftcdController = loader.getController();
-        mftcdController.init(handler, selectedCollection, selectedFiles);
+        mftcdController.init(handler, selectedCollection, selectedFiles, copy);
         mftcdController.setStage(dialogStage);
 
         dialogStage.showAndWait();
@@ -517,9 +546,10 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setCopyOnlyCol() {
+    public void setCopyOnlyColButton() {
         handler.copyOnlyCollection(selectedCollection.name);
         refresh();
+        stateLabel.setText("Collection has been copied.");
     }
 
     @FXML
@@ -572,7 +602,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setRemoveTags() {
+    public void setRemoveTagsButton() {
         try {
             initializeRemoveTagDialogController();
         } catch (Exception e) {
@@ -584,9 +614,9 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setMoveFileToCollectionButton() {
+    public void setCopyFileToCollectionButton() {
         try {
-            initializeMoveFileToColDialogController();
+            initializeMoveFileToColDialogController(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -594,7 +624,17 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setRemoveFileFromACollection() {
+    public void setMoveFileToCollectionButton() {
+        try {
+            initializeMoveFileToColDialogController(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        _updateCollectionsView();
+    }
+
+    @FXML
+    public void setRemoveFileFromACollectionButton() {
         if (Utility.deletionWarning("Warning", "You are trying to delete files from a collection", "Are you sure?"))
             handler.removeFilesFromCollection(selectedCollection.name, selectedFiles);
         refresh();
@@ -608,7 +648,7 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void setCopyCol() {
+    public void setCopyColContent() {
         if (Utility.deletionWarning("Warning", "You are trying to copy the contents of an entire collection to" +
                 "another place on your HDD", "Are you sure you wish to proceed?")) {
             String directory = Utility.directoryChooser("Pick a new location", primaryStage);
@@ -617,7 +657,7 @@ public class MainMenuController implements Initializable {
         refresh();
     }
 
-    public void setMoveCol() {
+    public void setMoveColContent() {
         if (Utility.deletionWarning("Warning", "You are trying to move the contents of an entire collection to" +
                 "another place on your HDD", "Are you sure you wish to proceed?")) {
             String directory = Utility.directoryChooser("Pick a new location", primaryStage);

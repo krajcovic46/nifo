@@ -191,6 +191,17 @@ public class Handler {
         return true;
     }
 
+    public boolean copyFilesFromColToCol(String fromCol, String toCol, HashSet<Integer> keys) {
+        Ifocol fcol = collections.get(fromCol);
+        Ifocol tcol = collections.get(toCol);
+        if (fcol == null || tcol == null)
+            return false;
+        for (Integer k : keys) {
+            tcol.add(k);
+        }
+        return true;
+    }
+
     public boolean moveFilesBetweenCollections(String fromCol, String toCol, HashSet<Integer> keys) {
         Ifocol fcol = collections.get(fromCol);
         Ifocol tcol = collections.get(toCol);

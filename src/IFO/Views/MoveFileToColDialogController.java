@@ -19,13 +19,13 @@ import java.util.ResourceBundle;
 public class MoveFileToColDialogController implements Initializable {
     @FXML
     private ChoiceBox<Ifocol> choiceBox;
-    @FXML
-    private Button confirmButton;
 
     private Handler handler;
     private Ifocol selectedIfocol;
     private Stage stage;
     private HashSet<Integer> keys;
+
+    private boolean copy;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,18 +35,32 @@ public class MoveFileToColDialogController implements Initializable {
         this.stage = stage;
     }
 
-    public void init(Handler handler, Ifocol selectedIfocol, HashSet<Integer> keys) {
+    public void init(Handler handler, Ifocol selectedIfocol, HashSet<Integer> keys, boolean copy) {
         this.handler = handler;
+        this.copy = copy;
         this.selectedIfocol = selectedIfocol;
         this.keys = keys;
         Collection<Ifocol> values = handler.collections.values();
         ObservableList<Ifocol> choiceCollections = FXCollections.observableArrayList(values);
+        removeAllFromCols(choiceCollections);
         choiceCollections.remove(selectedIfocol);
         choiceBox.setItems(choiceCollections);
     }
 
-    public void getSelected(ActionEvent actionEvent) {
-        handler.moveFilesBetweenCollections(selectedIfocol.name, choiceBox.getValue().name, keys);
+    public void getSelected() {
+        if (!copy)
+            handler.moveFilesBetweenCollections(selectedIfocol.name, choiceBox.getValue().name, keys);
+        else
+            handler.copyFilesFromColToCol(selectedIfocol.name, choiceBox.getValue().name, keys);
         stage.close();
+    }
+
+    private void removeAllFromCols(Collection<Ifocol> values) {
+        for (Ifocol col : values) {
+            if (col.name.equals("All")) {
+                values.remove(col);
+                break;
+            }
+        }
     }
 }

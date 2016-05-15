@@ -10,14 +10,18 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                <MenuItem fx:id="addFiles" mnemonicParsing="false" onAction="#setAddFiles" text="Add files" />
-              <MenuItem fx:id="dbImport" mnemonicParsing="false" onAction="#setDbImport" text="Import new..." />
-              <MenuItem fx:id="dbExport" mnemonicParsing="false" onAction="#setDbExport" text="Export/Save" />
+              <MenuItem mnemonicParsing="false" onAction="#setAddFiles" text="Add files" />
+              <MenuItem mnemonicParsing="false" onAction="#setDbImport" text="Import new..." />
+              <MenuItem mnemonicParsing="false" onAction="#setDbExport" text="Export/Save" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="View">
+          <Menu mnemonicParsing="false" text="Collections">
             <items>
-              <MenuItem fx:id="viewPaths" mnemonicParsing="false" onAction="#setViewPaths" text="View/Hide paths" />
+              <MenuItem mnemonicParsing="false" onAction="#setAddEmptyColButton" text="Add an empty collection..." />
+              <MenuItem fx:id="addColFromSelectionMenu" mnemonicParsing="false" onAction="#setAddColFromSelection" text="Create a collection from selection..." />
+              <MenuItem fx:id="copySelectedCollectionMenu" mnemonicParsing="false" onAction="#setCopyOnlyColButton" text="Copy the selected collection..." />
+              <MenuItem fx:id="deleteSelectedCollectionMenu" mnemonicParsing="false" onAction="#setDeleteColButton" text="Delete the selected collection..." />
+              <MenuItem fx:id="renameSelectedCollectionMenu" mnemonicParsing="false" onAction="#setRenameColButton" text="Rename the selected collection..." />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Tools">
@@ -68,23 +72,24 @@
 
                 <Button fx:id="addEmptyColButton" mnemonicParsing="false" onAction="#setAddEmptyColButton" />
                 <Button fx:id="addColFromSelectionButton" mnemonicParsing="false" onAction="#setAddColFromSelection" />
-                <Button fx:id="copyOnlyColButton" mnemonicParsing="false" onAction="#setCopyOnlyCol"/>
+                <Button fx:id="copyOnlyColButton" mnemonicParsing="false" onAction="#setCopyOnlyColButton"/>
                 <Button fx:id="deleteColButton" mnemonicParsing="false" onAction="#setDeleteColButton" />
                 <Button fx:id="renameColButton" mnemonicParsing="false" onAction="#setRenameColButton" />
 
                   <Label text="|" />
 
                 <Button fx:id="addTagsToFileButton" mnemonicParsing="false" onAction="#setAddTagsToFileButton" />
-                <Button fx:id="addDescription" mnemonicParsing="false" onAction="#setAddDescriptionButton" />
-                <Button fx:id="removeTags" mnemonicParsing="false" onAction="#setRemoveTags" />
+                <Button fx:id="addDescriptionButton" mnemonicParsing="false" onAction="#setAddDescriptionButton" />
+                <Button fx:id="removeTags" mnemonicParsing="false" onAction="#setRemoveTagsButton" />
                 <Button fx:id="removeDescription" mnemonicParsing="false" onAction="#setRemoveDescriptionButton" />
+                <Button fx:id="copyFileToCollectionButton" mnemonicParsing="false" onAction="#setCopyFileToCollectionButton" />
                 <Button fx:id="moveFileToCollectionButton" mnemonicParsing="false" onAction="#setMoveFileToCollectionButton" />
-                <Button fx:id="removeFileFromACol" mnemonicParsing="false" onAction="#setRemoveFileFromACollection" />
+                <Button fx:id="removeFileFromACol" mnemonicParsing="false" onAction="#setRemoveFileFromACollectionButton" />
 
                   <Label text="|" />
 
-                <Button fx:id="copyColContentButton" mnemonicParsing="false" onAction="#setCopyCol" />
-                <Button fx:id="moveColContentButton" mnemonicParsing="false" onAction="#setMoveCol" />
+                <Button fx:id="copyColContentButton" mnemonicParsing="false" onAction="#setCopyColContent" />
+                <Button fx:id="moveColContentButton" mnemonicParsing="false" onAction="#setMoveColContent" />
               </items>
             </ToolBar>
          </top>

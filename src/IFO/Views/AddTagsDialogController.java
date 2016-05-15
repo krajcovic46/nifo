@@ -1,6 +1,8 @@
 package IFO.Views;
 
 import IFO.Handler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,6 +30,8 @@ public class AddTagsDialogController implements Initializable {
     private Button addTags;
     @FXML
     private javafx.scene.control.Label tagsListLabel;
+    @FXML
+    private ListView<String> tagsView;
 
     private Handler handler;
     private Stage stage;
@@ -53,7 +57,15 @@ public class AddTagsDialogController implements Initializable {
             tags.addAll(handler.getFiles().get(k).getAllTags());
         }
 
-        tagsListLabel.setText((tags.size() == 0) ? "žiadne tagy" : tags.toString());
+        tagsListLabel.setText((tags.size() == 0) ? "no tags in this file" : tags.toString());
+
+        ObservableList<String> tagsData = FXCollections.observableArrayList();
+        tagsData.addAll(handler.allTags);
+
+        tagsView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tagsView.setItems(tagsData);
+        tagsView.setFocusTraversable(false);
+
     }
 
     public void setAddTag() {
@@ -63,7 +75,7 @@ public class AddTagsDialogController implements Initializable {
     }
 
     public void setAddTags() {
-        HashSet<String> tags = new HashSet<>(Arrays.asList(tagTextArea.getText().split(",")));
+        HashSet<String> tags = new HashSet<>(Arrays.asList(tagTextArea.getText().trim().split(",")));
         handler.addTagsToFiles(tags, keys);
         tagTextArea.setText("");
         init(handler, keys);

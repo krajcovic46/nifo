@@ -1,13 +1,18 @@
 package IFO.Views;
 
 import IFO.Handler;
+import IFO.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -32,8 +37,10 @@ public class LogicSearchController implements Initializable {
     private Handler handler;
     private Stage stage;
 
+    @FXML
+    private ListView<String> tagsView;
+
     private HashMap<TextField, TextField> fieldsSet = new HashMap<>();
-    private Integer lastRow;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {}
@@ -47,20 +54,42 @@ public class LogicSearchController implements Initializable {
         fieldsSet.put(tf11, tf21);
         fieldsSet.put(tf12, tf22);
         fieldsSet.put(tf13, tf23);
-        lastRow = 3;
-    }
 
-//    public void setAddLine() {
-//        TextField newTF = new TextField();
-//        TextField newTFnegation = new TextField();
-//        baseGridPane.addRow(++lastRow);//
-//        baseGridPane.add(newTF, 1, lastRow);
-//        baseGridPane.add(newTFnegation, 2, lastRow);
-//        fieldsSet.put(newTF, newTFnegation);
-//    }
+        ObservableList<String> tagsData = FXCollections.observableArrayList();
+        tagsData.addAll(handler.allTags);
+
+        tagsView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tagsView.setItems(tagsData);
+        tagsView.setFocusTraversable(false);
+    }
 
     public void setSearch() {
         handler.logicSearchCore(fieldsSet);
         stage.close();
     }
+
+//    public void showAllTags() {
+//        try {
+//            initializeShowAllTagsController();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void initializeShowAllTagsController() throws Exception {
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(Main.class.getResource("Views/ShowAllTags.fxml"));
+//        Parent page = loader.load();
+//        Stage dialogStage = new Stage();
+//        dialogStage.setTitle("");
+//        dialogStage.initModality(Modality.WINDOW_MODAL);
+//        dialogStage.initOwner(stage);
+//        Scene scene = new Scene(page);
+//        dialogStage.setScene(scene);
+//
+//        ShowAllTagsController satController = loader.getController();
+//        satController.init(handler, this);
+//
+//        dialogStage.showAndWait();
+//    }
 }
