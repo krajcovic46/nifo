@@ -8,30 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/dbexport.ifo" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Handler$1.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Handler$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Handler$2.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Handler$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Handler$3.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Handler$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Handler.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Handler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/AddTagsDialogController.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/AddTagsDialogController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/LogicSearchController.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/LogicSearchController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MainMenuController$1$1.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MainMenuController$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MainMenuController$1.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MainMenuController$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MainMenuController.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MainMenuController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MoveFileToColDialogController.class" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MoveFileToColDialogController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Organizer.iml" afterPath="$PROJECT_DIR$/Organizer.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/AddTagsDialog.fxml" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/AddTagsDialog.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/LogicSearch.fxml" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/LogicSearch.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MainMenu.fxml" afterPath="$PROJECT_DIR$/out/production/Organizer/IFO/Views/MainMenu.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Handler.java" afterPath="$PROJECT_DIR$/src/IFO/Handler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/AddTagsDialog.fxml" afterPath="$PROJECT_DIR$/src/IFO/Views/AddTagsDialog.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/AddTagsDialogController.java" afterPath="$PROJECT_DIR$/src/IFO/Views/AddTagsDialogController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/FileDialog.fxml" afterPath="$PROJECT_DIR$/src/IFO/Views/FileDialog.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/LogicSearch.fxml" afterPath="$PROJECT_DIR$/src/IFO/Views/LogicSearch.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/LogicSearchController.java" afterPath="$PROJECT_DIR$/src/IFO/Views/LogicSearchController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/MainMenu.fxml" afterPath="$PROJECT_DIR$/src/IFO/Views/MainMenu.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/MainMenuController.java" afterPath="$PROJECT_DIR$/src/IFO/Views/MainMenuController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/IFO/Views/MoveFileToColDialogController.java" afterPath="$PROJECT_DIR$/src/IFO/Views/MoveFileToColDialogController.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -96,17 +74,27 @@
         <entry file="file://$PROJECT_DIR$/src/IFO/Handler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="198" column="32" selection-start-line="198" selection-start-column="32" selection-end-line="198" selection-end-column="32" />
+              <caret line="210" column="24" selection-start-line="210" selection-start-column="24" selection-end-line="210" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainMenuController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/IFO/Views/MainMenuController.java">
+      <file leaf-file-name="Utility.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IFO/Utility.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="252" column="61" selection-start-line="252" selection-start-column="61" selection-end-line="252" selection-end-column="61" />
+              <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainMenuController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/IFO/Views/MainMenuController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.502994">
+              <caret line="675" column="0" selection-start-line="675" selection-start-column="0" selection-end-line="675" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -122,14 +110,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainMenu.fxml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainMenu.fxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/IFO/Views/MainMenu.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9219089">
-              <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
+            <state vertical-scroll-proportion="-2.4727273">
+              <caret line="8" column="82" selection-start-line="8" selection-start-column="82" selection-end-line="8" selection-end-column="82" />
               <folding />
             </state>
           </provider>
@@ -139,8 +127,10 @@
         <entry file="file://$PROJECT_DIR$/src/IFO/Views/LogicSearchController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="89" column="32" selection-start-line="89" selection-start-column="32" selection-end-line="89" selection-end-column="32" />
-              <folding />
+              <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+              <folding>
+                <marker date="1463442367206" expanded="true" signature="2577:2582" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -162,7 +152,7 @@
         <entry file="file://$PROJECT_DIR$/src/IFO/Views/AddTagsDialogController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="44" />
+              <caret line="78" column="8" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -249,7 +239,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1456" />
+    <option name="width" value="1616" />
     <option name="height" value="876" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -282,7 +272,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -301,7 +290,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="nifo" />
+              <option name="myItemId" value="Organizer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -311,21 +300,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="nifo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nifo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nifo" />
+              <option name="myItemId" value="Organizer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -334,35 +309,14 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="IFO" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nifo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nifo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IFO" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -380,7 +334,7 @@
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/gson-2.6.1.jar!/" />
+    <property name="last_opened_file_path" value="D:/Program Files/Downloads/gson-2.4.jar!/" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -867,18 +821,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="filePath" />
-      <option name="vmParameters" />
-      <option name="alternativeJrePath" />
-      <option name="programParameters" />
-      <option name="passParentEnvs" value="true" />
-      <option name="workingDirectory" />
-      <option name="isAlternativeJrePathEnabled" value="false" />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -947,6 +889,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="executeSpecs" factoryName="Gauge Execution">
+      <setting name="environment" value="" />
+      <setting name="specsToExecute" value="" />
+      <setting name="tags" value="" />
+      <setting name="parallelNodes" value="" />
+      <setting name="execInParallel" value="false" />
+      <setting name="programParameters" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="moduleName" value="" />
+      <envMap />
+      <setting name="rowsRange" value="" />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
@@ -1079,6 +1034,8 @@
       <workItem from="1463156040382" duration="8173000" />
       <workItem from="1463239889394" duration="11927000" />
       <workItem from="1463312675788" duration="20788000" />
+      <workItem from="1463472315054" duration="668000" />
+      <workItem from="1463606865637" duration="2562000" />
     </task>
     <servers />
   </component>
@@ -1115,10 +1072,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="428375000" />
+    <option name="totallyTimeSpent" value="431605000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1128,10 +1085,10 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32795697" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32898173" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28981724" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2889785" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16319445" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1625964" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1174,6 +1131,14 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/IFO/Views/AddTagsDialogController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/IFO/Views/FileDialogController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1193,7 +1158,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="78" column="13" selection-start-line="78" selection-start-column="13" selection-end-line="78" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1387,11 +1351,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6284047">
           <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#472#473#0" expanded="true" />
-            <element signature="e#525#526#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1457,15 +1416,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Utility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1473,10 +1423,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
-          <folding>
-            <element signature="e#4169#4170#0" expanded="true" />
-            <element signature="e#4201#4202#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1487,7 +1433,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33188722">
           <caret line="9" column="66" selection-start-line="9" selection-start-column="66" selection-end-line="9" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1495,15 +1440,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="36" column="36" selection-start-line="32" selection-start-column="8" selection-end-line="36" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Views/AddTagsDialogController.java">
+    <entry file="file://$PROJECT_DIR$/src/IFO/Views/FileDialog.fxml">
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IFO/Views/MoveFileToColDialogController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="44" />
-          <folding />
+          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IFO/Views/AddTagsDialog.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0368763">
+          <caret line="31" column="37" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -1515,37 +1478,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Handler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="198" column="32" selection-start-line="198" selection-start-column="32" selection-end-line="198" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Views/FileDialog.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+    <entry file="file://$PROJECT_DIR$/src/IFO/Views/MainMenu.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
       </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_66/javafx-src.zip!/javafx/scene/control/MenuItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="433" column="28" selection-start-line="433" selection-start-column="28" selection-end-line="433" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Views/MoveFileToColDialogController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+        <state vertical-scroll-proportion="-2.4727273">
+          <caret line="8" column="82" selection-start-line="8" selection-start-column="82" selection-end-line="8" selection-end-column="82" />
           <folding />
         </state>
       </provider>
@@ -1553,19 +1492,10 @@
     <entry file="file://$PROJECT_DIR$/src/IFO/Views/LogicSearchController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="89" column="32" selection-start-line="89" selection-start-column="32" selection-end-line="89" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Views/AddTagsDialog.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0368763">
-          <caret line="31" column="37" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="37" />
-          <folding />
+          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+          <folding>
+            <marker date="1463442367206" expanded="true" signature="2577:2582" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1580,21 +1510,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Views/MainMenuController.java">
+    <entry file="file://$PROJECT_DIR$/src/IFO/Views/AddTagsDialogController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="252" column="61" selection-start-line="252" selection-start-column="61" selection-end-line="252" selection-end-column="61" />
+          <caret line="78" column="8" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/IFO/Views/MainMenu.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/IFO/Handler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9219089">
-          <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="210" column="24" selection-start-line="210" selection-start-column="24" selection-end-line="210" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IFO/Utility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="32" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IFO/Views/MainMenuController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.502994">
+          <caret line="675" column="0" selection-start-line="675" selection-start-column="0" selection-end-line="675" selection-end-column="0" />
           <folding />
         </state>
       </provider>
