@@ -73,9 +73,6 @@ public class Utility {
         } else if (result.get() == importJSON) {
             try {
                 handler.deserialize(Utility.fileChooser("Point to the DB file", primaryStage));
-                /*TODO - treba skontrolovat ci vsetky fajly naozaj existuju
-                * presunieme sa do status baru dolu
-                * */
                 nonExistentFiles = handler.checkFilesExistence();
             } catch (Exception e) {
                 e.printStackTrace();

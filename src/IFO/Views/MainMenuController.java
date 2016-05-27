@@ -80,6 +80,15 @@ public class MainMenuController implements Initializable {
     @FXML
     private MenuItem renameSelectedCollectionMenu;
 
+    @FXML
+    private MenuItem addTagsToFileMenu;
+    @FXML
+    private MenuItem addDescriptionToFileMenu;
+    @FXML
+    private MenuItem removeDescriptionMenu;
+    @FXML
+    private MenuItem removeTagsMenu;
+
     private MenuItem addTagsMenuItem;
     private MenuItem addDescriptionMenuItem;
     private MenuItem removeTagsMenuItem;
@@ -145,6 +154,16 @@ public class MainMenuController implements Initializable {
         copyOnlyColMenuItem.setOnAction(e -> setCopyOnlyColButton());
 
         colContextMenu.getItems().addAll(renameColMenuItem, deleteColMenuItem, copyOnlyColMenuItem);
+
+        addColFromSelectionMenu.setDisable(true);
+        copySelectedCollectionMenu.setDisable(true);
+        deleteSelectedCollectionMenu.setDisable(true);
+        renameSelectedCollectionMenu.setDisable(true);
+
+        addTagsToFileMenu.setDisable(true);
+        addDescriptionToFileMenu.setDisable(true);
+        removeDescriptionMenu.setDisable(true);
+        removeTagsMenu.setDisable(true);
     }
 
     private void setupFilesContextMenu() {
@@ -241,8 +260,6 @@ public class MainMenuController implements Initializable {
                         selectedCollection.getFilesInside() == null || selectedCollection.getFilesInside().size() == 0;
                 disableChosenButtons(isEmpty, addColFromSelectionButton, addTagsToFileButton,
                         addDescriptionButton, removeTags, removeDescription);
-
-                disableChosenMenuItems(isEmpty, addColFromSelectionMenu);
             }
         });
 
@@ -277,13 +294,14 @@ public class MainMenuController implements Initializable {
 
         ObservableList<Ifofile> selectedItems = filesView.getSelectionModel().getSelectedItems();
 
-        /*TODO - treba zarucit aby unlinked files ukazovali ine veci ako ukazuju teraz (path dat prec atd)*/
-
         filesView.setOnMouseClicked(e -> {
             selectedFiles = new HashSet<>();
             for (Ifofile selectedItem : selectedItems)
                 selectedFiles.add(selectedItem.getId());
             boolean disable = selectedItems.size()==0;
+            disableChosenMenuItems(disable, addColFromSelectionMenu, copySelectedCollectionMenu,
+                    deleteSelectedCollectionMenu, renameSelectedCollectionMenu, addTagsToFileMenu, addDescriptionToFileMenu,
+                    removeDescriptionMenu, removeTagsMenu);
             disableChosenButtons(disable, addColFromSelectionButton, addTagsToFileButton,
                     addDescriptionButton, removeTags, removeDescription);
             try {
@@ -669,8 +687,10 @@ public class MainMenuController implements Initializable {
     public void setLinkUnlinkedFiles() {
         try {
             String pathToFile = Utility.fileChooser("Choose a file to link", primaryStage);
-            handler.addFile(new File(pathToFile));
-            /*TODO - toto dokoncit*/
+            File f = new File(pathToFile);
+            ArrayList<Integer> nieco = new ArrayList<Integer>(selectedFiles);
+            Ifofile subor = handler.getFiles().get(nieco.get(0));
+            subor.newValues(f);
         } catch (NullPointerException ignored) {}
     }
 

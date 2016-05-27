@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 public class Handler {
 
     private HashMap<Integer, Ifofile> files = new HashMap<>();
-    Integer lastID = 0;
+    public Integer lastID = 0;
     public HashMap<String, Ifocol> collections = new HashMap<>();
     public HashSet<String> allTags = new HashSet<>();
     public HashSet<Integer> logicFound = new HashSet<>();

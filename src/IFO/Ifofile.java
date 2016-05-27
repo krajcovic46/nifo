@@ -28,12 +28,16 @@ public class Ifofile {
         this.id = id;
 
         File workingFile = new File(path);
-        this.absolutePath = workingFile.getAbsolutePath();
-        this.name = workingFile.getName();
-        this.parent = workingFile.getParent();
-        this.isAbsolute = workingFile.isAbsolute();
-        this.isDirectory = workingFile.isDirectory();
-        this.isFile = workingFile.isFile();
+        newValues(workingFile);
+    }
+
+    public void newValues(File f) {
+        this.absolutePath = f.getAbsolutePath();
+        this.name = f.getName();
+        this.parent = f.getParent();
+        this.isAbsolute = f.isAbsolute();
+        this.isDirectory = f.isDirectory();
+        this.isFile = f.isFile();
         this.linked = true;
     }
 
@@ -122,6 +126,10 @@ public class Ifofile {
         while (it.hasNext())
             returnValues.addAll((HashSet<String>) it.next());
         return returnValues;
+    }
+
+    public TreeMap<String, HashSet<String>> getTagStructure() {
+        return this.tags;
     }
 
     public Integer getPopularity() {

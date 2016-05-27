@@ -24,7 +24,15 @@
               <MenuItem fx:id="renameSelectedCollectionMenu" mnemonicParsing="false" onAction="#setRenameColButton" text="Rename the selected collection..." />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Tools">
+            <Menu mnemonicParsing="false" text="Files">
+                <items>
+                    <MenuItem fx:id="addTagsToFileMenu" mnemonicParsing="false" onAction="#setAddTagsToFileButton" text="Add tags to file(s)..." />
+                    <MenuItem fx:id="addDescriptionToFileMenu" mnemonicParsing="false" onAction="#setAddDescriptionButton" text="Add description to file(s)..." />
+                    <MenuItem fx:id="removeDescriptionMenu" mnemonicParsing="false" onAction="#setRemoveDescriptionButton" text="Remove description from file(s)..." />
+                    <MenuItem fx:id="removeTagsMenu" mnemonicParsing="false" onAction="#setRemoveTagsButton" text="Remove description from file(s)..." />
+                </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Search">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#setSearch" text="Fulltext Search" />
               <MenuItem mnemonicParsing="false" onAction="#setLogicSearch" text="Logic Search" />

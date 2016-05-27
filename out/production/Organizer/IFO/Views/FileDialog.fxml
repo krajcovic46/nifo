@@ -26,11 +26,11 @@
             <Label text="Folder" GridPane.rowIndex="2" />
             <Label text="Description" GridPane.rowIndex="3" />
             <Label text="Tags" GridPane.rowIndex="4" />
-            <Label fx:id="nameInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" />
-            <Label fx:id="pathInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="folderInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="descInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="tagsInfo" prefHeight="17.0" prefWidth="390.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="nameInfo" prefHeight="17.0" prefWidth="464.0" text="Label" wrapText="true" GridPane.columnIndex="1" />
+            <Label fx:id="pathInfo" prefHeight="17.0" prefWidth="455.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="folderInfo" prefHeight="17.0" prefWidth="459.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="descInfo" prefHeight="17.0" prefWidth="457.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="tagsInfo" prefHeight="17.0" prefWidth="454.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>
